@@ -5,8 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class TileGeneration : MonoBehaviour
 {
-    public float scale = .1f;
-    public int size = 100;
+    public float scale;
+    public int size;
     public Tilemap tilemap = null;
     public List<Tile> tileList = new List<Tile>();
 
@@ -31,15 +31,18 @@ public class TileGeneration : MonoBehaviour
                 {
                     colorIndex = tileList.Count-1;
                 }
-                float tileHeight = noiseHeight * tileList.Count * 2;
-                int tileHeightIndex = Mathf.FloorToInt(tileHeight);
-                // tileHeightIndex -= 4;
-                // if (tileHeightIndex < 0)
-                // {
-                //     tileHeightIndex = 0;
-                // }
+                if (colorIndex == -1) {
+                    colorIndex = 0;
+                }
+                float tileHeight = noiseHeight * tileList.Count;
+                int tileHeightIndex = Mathf.FloorToInt(tileHeight) * 2;
+                tileHeightIndex -= 4;
+                if (tileHeightIndex < 0)
+                {
+                    tileHeightIndex = 0;
+                }
                 Tile tile = tileList[colorIndex];
-                Vector3Int p = new Vector3Int(x - size / 2, y - size / 2, tileHeightIndex);
+                Vector3Int p = new Vector3Int(x - size / 2 + tileHeightIndex / 2, y - size / 2  + tileHeightIndex / 2, tileHeightIndex);
                 tilemap.SetTile(p, tile);
             }
         }
