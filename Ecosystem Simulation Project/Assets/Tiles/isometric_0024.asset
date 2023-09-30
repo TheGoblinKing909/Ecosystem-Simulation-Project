@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: isometric_0064
+  m_Name: isometric_0024
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: e0fb9e81002611240a4f1268d32f49cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b5294e45e39a4464691e75aaa34e1942, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
