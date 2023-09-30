@@ -42,7 +42,21 @@ Tilemap:
   m_GameObject: {fileID: 1302097275399882782}
   m_Enabled: 1
   m_Tiles:
+<<<<<<< Updated upstream:Ecosystem Simulation Project/Assets/Ecosystem Simulation Palette.prefab
   - first: {x: 0, y: -1, z: 0}
+=======
+  - first: {x: 1, y: -3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -1, y: -1, z: 0}
+>>>>>>> Stashed changes:Ecosystem Simulation Project/Assets/Tiles/Terrain Palette.prefab
     second:
       serializedVersion: 2
       m_TileIndex: 0
@@ -136,7 +150,11 @@ Tilemap:
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+<<<<<<< Updated upstream:Ecosystem Simulation Project/Assets/Ecosystem Simulation Palette.prefab
   m_Origin: {x: 0, y: -1, z: 0}
+=======
+  m_Origin: {x: -1, y: -3, z: 0}
+>>>>>>> Stashed changes:Ecosystem Simulation Project/Assets/Tiles/Terrain Palette.prefab
   m_Size: {x: 3, y: 3, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
@@ -206,6 +224,7 @@ TilemapRenderer:
   m_Mode: 1
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+<<<<<<< Updated upstream:Ecosystem Simulation Project/Assets/Ecosystem Simulation Palette.prefab
 --- !u!1 &5190527270327307599
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +271,9 @@ Grid:
   m_CellLayout: 3
   m_CellSwizzle: 0
 --- !u!114 &774389544000508077
+=======
+--- !u!114 &4364488389870869322
+>>>>>>> Stashed changes:Ecosystem Simulation Project/Assets/Tiles/Terrain Palette.prefab
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
