@@ -261,15 +261,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e7dd96cabd90841afaab9b2327e764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: 0.1
-  size: 100
+  width: 250
+  height: 250
+  seed: 500
+  scale: 200
+  octaves: 3
+  persistence: 0.5
+  lacunarity: 4
+  offset: {x: 0, y: 0}
   tilemap: {fileID: 755051359}
   tileList:
   - {fileID: 11400000, guid: 482b41f2f6687d445b747810630f56c2, type: 2}
   - {fileID: 11400000, guid: 74c940141e34c5a43b4e5e56cb1f0f3b, type: 2}
   - {fileID: 11400000, guid: d90a575ba739a6640ac3f5ea2d2f3763, type: 2}
   - {fileID: 11400000, guid: fd63574f70f933d42a16c9a545d28ea8, type: 2}
+  - {fileID: 11400000, guid: fd63574f70f933d42a16c9a545d28ea8, type: 2}
   - {fileID: 11400000, guid: a1a06e931f22dc74c80cdc0dcfc1b1df, type: 2}
+  - {fileID: 11400000, guid: a1a06e931f22dc74c80cdc0dcfc1b1df, type: 2}
+  - {fileID: 11400000, guid: b1ca44f37a436224db0a195b62a2107f, type: 2}
   - {fileID: 11400000, guid: b1ca44f37a436224db0a195b62a2107f, type: 2}
   - {fileID: 11400000, guid: aaf8ac2be84ae294799a159e0b4b8b28, type: 2}
 --- !u!483693784 &755051358
