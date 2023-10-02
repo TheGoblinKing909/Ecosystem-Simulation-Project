@@ -261,7 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e7dd96cabd90841afaab9b2327e764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
   width: 250
   height: 250
   seed: 500
@@ -270,10 +269,6 @@ MonoBehaviour:
   persistence: 0.5
   lacunarity: 4
   offset: {x: 0, y: 0}
-=======
-  scale: 0.05
-  size: 150
->>>>>>> Stashed changes
   tilemap: {fileID: 755051359}
   tileList:
   - {fileID: 11400000, guid: 482b41f2f6687d445b747810630f56c2, type: 2}
