@@ -263,11 +263,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 250
   height: 250
-  seed: 500
+  seed: 100
   scale: 200
   octaves: 3
-  persistence: 0.5
-  lacunarity: 4
+  persistence: 0.45
+  lacunarity: 4.5
   offset: {x: 0, y: 0}
   tilemap: {fileID: 755051359}
   tileList:
@@ -278,8 +278,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fd63574f70f933d42a16c9a545d28ea8, type: 2}
   - {fileID: 11400000, guid: a1a06e931f22dc74c80cdc0dcfc1b1df, type: 2}
   - {fileID: 11400000, guid: a1a06e931f22dc74c80cdc0dcfc1b1df, type: 2}
-  - {fileID: 11400000, guid: b1ca44f37a436224db0a195b62a2107f, type: 2}
-  - {fileID: 11400000, guid: b1ca44f37a436224db0a195b62a2107f, type: 2}
+  - {fileID: 11400000, guid: 81d7502cca72ca944a6011ba8115a95a, type: 2}
+  - {fileID: 11400000, guid: 81d7502cca72ca944a6011ba8115a95a, type: 2}
+  - {fileID: 11400000, guid: 7c226b09c3a92f74186d7d68bad3ed40, type: 2}
+  - {fileID: 11400000, guid: 7c226b09c3a92f74186d7d68bad3ed40, type: 2}
+  - {fileID: 11400000, guid: b3de3fd9406d6eb4dac1227130ae0a54, type: 2}
+  - {fileID: 11400000, guid: b3de3fd9406d6eb4dac1227130ae0a54, type: 2}
+  - {fileID: 11400000, guid: aaf8ac2be84ae294799a159e0b4b8b28, type: 2}
   - {fileID: 11400000, guid: aaf8ac2be84ae294799a159e0b4b8b28, type: 2}
 --- !u!483693784 &755051358
 TilemapRenderer:
