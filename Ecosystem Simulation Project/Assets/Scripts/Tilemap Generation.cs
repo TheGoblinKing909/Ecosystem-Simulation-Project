@@ -13,12 +13,17 @@ public class TileGeneration : MonoBehaviour
     public float persistence;
     public float lacunarity;
     public Vector2 offset;
-    public Tilemap tilemap = null;
+
+    public Grid grid = null;
+
+    public Tilemap[] tilemaps;
+
     public List<Tile> tileList = new List<Tile>();
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        tilemaps = grid.GetComponentsInChildren<Tilemap>();
+        Debug.Log(tilemaps);
         float[,] noiseMap = new float[width, height];
         System.Random rand = new System.Random(seed);
         Vector2[] octavesOffset = new Vector2[octaves];
@@ -68,29 +73,22 @@ public class TileGeneration : MonoBehaviour
                 int colorIndex = Mathf.FloorToInt(colorHeight);
                 if (colorIndex == tileList.Count)
                 {
-                    colorIndex = tileList.Count-1;
+                    colorIndex = tileList.Count - 1;
                 }
                 if (colorIndex == -1) {
                     colorIndex = 0;
                 }
-                float tileHeight = noiseHeight * tileList.Count;
-                int tileHeightIndex = Mathf.FloorToInt(tileHeight) * 2;
-                tileHeightIndex -= 4;
-                if (tileHeightIndex < 0)
-                {
-                    tileHeightIndex = 0;
-                }
                 Tile tile = tileList[colorIndex];
-                Vector3Int p = new Vector3Int(x - width / 2 + tileHeightIndex / 2, y - height / 2  + tileHeightIndex / 2, tileHeightIndex);
-                tilemap.SetTile(p, tile);
+                //Vector3Int p = new Vector3Int(x - width / 2 + colorIndex, y - height / 2  + colorIndex, 0);
+                Vector3Int p = new Vector3Int(x - width / 2, y - height / 2, 0);
+                tilemaps[colorIndex].SetTile(p, tile);
+                // Tile tile = tileList[colorIndex];
+                // Vector3Int p = new Vector3Int(x - width / 2, y - height / 2, 0);
+                // tilemaps[colorIndex].SetTile(p, tile);
+                // Debug.Log("WHAT?");
             }
         }
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
