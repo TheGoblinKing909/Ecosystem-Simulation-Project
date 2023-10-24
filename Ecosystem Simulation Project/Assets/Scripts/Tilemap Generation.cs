@@ -66,6 +66,7 @@ public class TileGeneration : MonoBehaviour
                 float noiseHeight = noiseMap[x, y];
                 float colorHeight = noiseHeight * tileList.Count;
                 int colorIndex = Mathf.FloorToInt(colorHeight);
+                int tileHeight = colorIndex;
                 if (colorIndex == tileList.Count)
                 {
                     colorIndex = tileList.Count - 1;
@@ -73,8 +74,13 @@ public class TileGeneration : MonoBehaviour
                 if (colorIndex == -1) {
                     colorIndex = 0;
                 }
+                tileHeight -= 2;
+                if (tileHeight < 0 )
+                {
+                    tileHeight = 0;
+                }
                 Tile tile = tileList[colorIndex];
-                Vector3Int p = new Vector3Int(x - width / 2 + colorIndex, y - height / 2 + colorIndex, 0);
+                Vector3Int p = new Vector3Int(x - width / 2 + tileHeight, y - height / 2 + tileHeight, 0);
                 tilemaps[colorIndex].SetTile(p, tile);
             }
         }
