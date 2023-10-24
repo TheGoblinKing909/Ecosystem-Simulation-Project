@@ -15,15 +15,12 @@ public class TileGeneration : MonoBehaviour
     public Vector2 offset;
 
     public Grid grid = null;
-
     public Tilemap[] tilemaps;
-
     public List<Tile> tileList = new List<Tile>();
 
     // Start is called before the first frame update
     void Start() {
         tilemaps = grid.GetComponentsInChildren<Tilemap>();
-        Debug.Log(tilemaps);
         float[,] noiseMap = new float[width, height];
         System.Random rand = new System.Random(seed);
         Vector2[] octavesOffset = new Vector2[octaves];
@@ -42,7 +39,6 @@ public class TileGeneration : MonoBehaviour
         float halfWidth = width / 2f;
         float halfHeight = height / 2f;
 
-        // (float xOffset, float yOffset) = (Random.Range(-10000f, 10000f), Random.Range(-10000f, 10000f));
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
                 float amplitude = 1;
@@ -61,7 +57,6 @@ public class TileGeneration : MonoBehaviour
                     superpositionCompensation = amplitude / 2;
                 }
 
-                // float noiseValue = Mathf.PerlinNoise(x * scale + xOffset, y * scale + yOffset);
                 noiseMap[x, y] = Mathf.Clamp01(noiseHeight);
             }
         }
@@ -71,6 +66,7 @@ public class TileGeneration : MonoBehaviour
                 float noiseHeight = noiseMap[x, y];
                 float colorHeight = noiseHeight * tileList.Count;
                 int colorIndex = Mathf.FloorToInt(colorHeight);
+                int tileHeight = colorIndex;
                 if (colorIndex == tileList.Count)
                 {
                     colorIndex = tileList.Count - 1;
@@ -78,14 +74,14 @@ public class TileGeneration : MonoBehaviour
                 if (colorIndex == -1) {
                     colorIndex = 0;
                 }
+                tileHeight -= 2;
+                if (tileHeight < 0 )
+                {
+                    tileHeight = 0;
+                }
                 Tile tile = tileList[colorIndex];
-                //Vector3Int p = new Vector3Int(x - width / 2 + colorIndex, y - height / 2  + colorIndex, 0);
-                Vector3Int p = new Vector3Int(x - width / 2, y - height / 2, 0);
+                Vector3Int p = new Vector3Int(x - width / 2 + tileHeight, y - height / 2 + tileHeight, 0);
                 tilemaps[colorIndex].SetTile(p, tile);
-                // Tile tile = tileList[colorIndex];
-                // Vector3Int p = new Vector3Int(x - width / 2, y - height / 2, 0);
-                // tilemaps[colorIndex].SetTile(p, tile);
-                // Debug.Log("WHAT?");
             }
         }
         

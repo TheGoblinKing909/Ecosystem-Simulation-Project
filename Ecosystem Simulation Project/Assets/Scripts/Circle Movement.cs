@@ -55,14 +55,18 @@ public class Movement : MonoBehaviour
             if (currentLayer > 0)
             {
                 Vector3Int cellDown = currentCell;
+                if (currentLayer > 2)
+                {
                 cellDown.x--;
                 cellDown.y--;
+                }
                 cellDown += directionInt;
                 if (tilemaps[currentLayer - 1].HasTile(cellDown))
                 {
                     gameObject.layer = tilemaps[currentLayer - 1].gameObject.layer;
                     currentLayer--;
                     Vector3 newPos = grid.CellToWorld(cellDown);
+                    newPos.y += 0.2885f;
                     newPos.z = 25;
                     transform.position = newPos;
                     stillMoving = false;
@@ -72,14 +76,18 @@ public class Movement : MonoBehaviour
             if (stillMoving && currentLayer < tilemaps.Count - 1)
             {
                 Vector3Int cellUp = currentCell;
+                if (currentLayer > 1)
+                {
                 cellUp.x++;
                 cellUp.y++;
+                }
                 cellUp += directionInt;
                 if (tilemaps[currentLayer + 1].HasTile(cellUp))
                 {
                     gameObject.layer = tilemaps[currentLayer + 1].gameObject.layer;
                     currentLayer++;
                     Vector3 newPos = grid.CellToWorld(cellUp);
+                    newPos.y += 0.2885f;
                     newPos.z = 25;
                     transform.position = newPos;
                 }
