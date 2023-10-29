@@ -1,17 +1,54 @@
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Integrations.Match3;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
 
-public class Attributes : MonoBehaviour
+public class Attributes : Agent
 {
     // Player attributes
+    public bool trainingMode = false;
+
     public float maxHealth = 100f;
     public float maxStamina = 100f;
     public float maxHunger = 100f;
 
     public float hungerDecayRate = 2f; // Health decay rate per second
 
-    private float currentHealth;
-    private float currentStamina;
-    private float currentHunger;
+    public float currentHealth;
+    public float currentStamina;
+    public float currentHunger;
+
+    public Rigidbody2D rigidbody2D;
+    public Resource currentResource;
+
+    [SerializeField] private Transform target;
+
+    public override void Initialize()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+
+        if (!trainingMode) MaxStep = 0;
+    }
+
+    public override void OnEpisodeBegin()
+    {
+        if(trainingMode)
+        {
+            // reest world
+        }
+
+        // reet attributes
+        currentHealth = maxHealth;
+        currentHunger = maxHunger;
+        currentStamina = maxStamina;
+
+        //reset movement
+        transform.position = new Vector3(-0.36f, 0.18f, 25f);
+        target.position = new Vector3(1, Random.Range(1,5), 25);
+
+
+    }
 
     private void Start()
     {
@@ -21,6 +58,31 @@ public class Attributes : MonoBehaviour
 
         // Start the health decay process
         InvokeRepeating("DecayHunger", 1f, 1f); // Decay health every 1 second
+    }
+
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        base.OnActionReceived(actions);
+
+        float moveX = actions.ContinuousActions[0];
+        float moveY = actions.ContinuousActions[1];
+
+        float movementSeed = 5f;
+
+        transform.localPosition += new Vector3(moveX, moveY) * Time.deltaTime * 2;
+    }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
+    }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation((Vector2)transform.position);
+        sensor.AddObservation((Vector2)target.position);
     }
 
     // Update is called once per frame
@@ -59,6 +121,8 @@ public class Attributes : MonoBehaviour
             currentHunger = 0;
             currentHealth -= 10;
         }
+
+        AddReward(-.5f);
     }
     public void Eat(float amount)
     {
@@ -67,6 +131,10 @@ public class Attributes : MonoBehaviour
         {
             currentHunger = maxHunger;
         }
+
+        AddReward(10f);
+
+
     }
     public void Heal(float amount)
     {
