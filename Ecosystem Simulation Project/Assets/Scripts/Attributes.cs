@@ -9,9 +9,9 @@ public class Attributes : MonoBehaviour
 
     public float hungerDecayRate = 2f; // Health decay rate per second
 
-    private float currentHealth;
-    private float currentStamina;
-    private float currentHunger;
+    public float currentHealth;
+    public float currentStamina;
+    public float currentHunger;
 
     private void Start()
     {
