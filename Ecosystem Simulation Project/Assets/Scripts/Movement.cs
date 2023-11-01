@@ -49,7 +49,7 @@ public class TestMovement : MonoBehaviour
     {
         collisionCount++;
         Debug.Log("collision count = " + collisionCount);
-        if (collisionCount == 50)
+        if (collisionCount == 25)
         {
             transform.position = transform.position + new Vector3(horizontal / 2, vertical / 2, 0);
         }

@@ -23,6 +23,12 @@ public class Attributes : Agent
     public Resource currentResource;
 
     [SerializeField] private Transform target;
+    [SerializeField] private Transform startingPoint;
+    [SerializeField] private Transform targetStartingPoint;
+
+    private float distanceToTarget;
+
+
 
     public override void Initialize()
     {
@@ -44,9 +50,10 @@ public class Attributes : Agent
         currentStamina = maxStamina;
 
         //reset movement
-        transform.position = new Vector3(-0.36f, 0.18f, 25f);
-        target.position = new Vector3(1, Random.Range(1,5), 25);
+        transform.position = startingPoint.position + new Vector3(Random.Range(1, 5), 0, 0);
+        target.position = targetStartingPoint.position + new Vector3(0, Random.Range(1,5), 0);
 
+        distanceToTarget = Vector3.Distance(transform.position, target.position);
 
     }
 
@@ -64,12 +71,20 @@ public class Attributes : Agent
     {
         base.OnActionReceived(actions);
 
+        float previosDisatnce = distanceToTarget;
+
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
 
-        float movementSeed = 5f;
-
         transform.localPosition += new Vector3(moveX, moveY) * Time.deltaTime * 2;
+
+        distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+        if(distanceToTarget < previosDisatnce)
+        {
+            AddReward(1f);
+        }
+
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
