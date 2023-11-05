@@ -11,8 +11,8 @@ public class Movement : MonoBehaviour
     float horizontal;
     float vertical;
     public float runSpeed = 5.0f;
-    int collisionCount;
-    int currentLayer;
+    public int collisionCount;
+    public int currentLayer;
     public Grid grid = null;
     public List<Tilemap> tilemaps = new List<Tilemap>();
 
