@@ -30,81 +30,87 @@ public class Movement : MonoBehaviour
         
     // }
 
-    private void FixedUpdate()
+    public void SetMovement(float x, float y)
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        horizontal = x;
+        vertical = y;
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        collisionCount = 0;
-        Debug.Log("collision entered");
-
         //colliding with resource
-        GameObject gameObject = collision.gameObject;
-        Debug.Log("Collision enter ", gameObject);
-        if(gameObject.CompareTag("Resource"))
+        GameObject collidedObject = collision.gameObject;
+        Debug.Log("Collision enter ", collidedObject);
+        if(collidedObject.CompareTag("Resource"))
         {
-            HandleResourceCollision(gameObject);
+            HandleResourceCollision(collidedObject);
+        }
+        //colliding with tilemap
+        else if (collidedObject.CompareTag("Tilemap"))
+        {
+            collisionCount = 0;
         }
     }
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        collisionCount++;
-        if (collisionCount == 10)
+        GameObject collidedObject = collision.gameObject;
+        if (collidedObject.CompareTag("Tilemap"))
         {
-            Vector3 currentPos = new Vector3(transform.position.x, transform.position.y, 0);
-            Vector3Int currentCell = grid.WorldToCell(currentPos);
-            Vector3 direction = new Vector3(horizontal, vertical, 0);
-            direction = Quaternion.Euler(0, 0, -45) * direction;
-            Vector3Int directionInt = new Vector3Int(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y), 0);
-            
-            bool stillMoving = true;
-            if (currentLayer > 0)
+            collisionCount++;
+            if (collisionCount == 5)
             {
-                Vector3Int cellDown = currentCell;
-                if (currentLayer > 2)
+                Vector3 currentPos = new Vector3(transform.position.x, transform.position.y, 0);
+                Vector3Int currentCell = grid.WorldToCell(currentPos);
+                Vector3 direction = new Vector3(horizontal, vertical, 0);
+                direction = Quaternion.Euler(0, 0, -45) * direction;
+                Vector3Int directionInt = new Vector3Int(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y), 0);
+                
+                bool stillMoving = true;
+                if (currentLayer > 0)
                 {
-                cellDown.x--;
-                cellDown.y--;
+                    Vector3Int cellDown = currentCell;
+                    if (currentLayer > 2)
+                    {
+                    cellDown.x--;
+                    cellDown.y--;
+                    }
+                    cellDown += directionInt;
+                    if (tilemaps[currentLayer - 1].HasTile(cellDown))
+                    {
+                        gameObject.layer = tilemaps[currentLayer - 1].gameObject.layer;
+                        currentLayer--;
+                        Vector3 newPos = grid.CellToWorld(cellDown);
+                        newPos.y += 0.2885f;
+                        newPos.z = 25;
+                        transform.position = newPos;
+                        stillMoving = false;
+                    }
                 }
-                cellDown += directionInt;
-                if (tilemaps[currentLayer - 1].HasTile(cellDown))
-                {
-                    gameObject.layer = tilemaps[currentLayer - 1].gameObject.layer;
-                    currentLayer--;
-                    Vector3 newPos = grid.CellToWorld(cellDown);
-                    newPos.y += 0.2885f;
-                    newPos.z = 25;
-                    transform.position = newPos;
-                    stillMoving = false;
-                }
-            }
 
-            if (stillMoving && currentLayer < tilemaps.Count - 1)
-            {
-                Vector3Int cellUp = currentCell;
-                if (currentLayer > 1)
+                if (stillMoving && currentLayer < tilemaps.Count - 1)
                 {
-                cellUp.x++;
-                cellUp.y++;
+                    Vector3Int cellUp = currentCell;
+                    if (currentLayer > 1)
+                    {
+                    cellUp.x++;
+                    cellUp.y++;
+                    }
+                    cellUp += directionInt;
+                    if (tilemaps[currentLayer + 1].HasTile(cellUp))
+                    {
+                        gameObject.layer = tilemaps[currentLayer + 1].gameObject.layer;
+                        currentLayer++;
+                        Vector3 newPos = grid.CellToWorld(cellUp);
+                        newPos.y += 0.2885f;
+                        newPos.z = 25;
+                        transform.position = newPos;
+                    }
                 }
-                cellUp += directionInt;
-                if (tilemaps[currentLayer + 1].HasTile(cellUp))
-                {
-                    gameObject.layer = tilemaps[currentLayer + 1].gameObject.layer;
-                    currentLayer++;
-                    Vector3 newPos = grid.CellToWorld(cellUp);
-                    newPos.y += 0.2885f;
-                    newPos.z = 25;
-                    transform.position = newPos;
-                }
-            }
 
-            collisionCount = 0;
+                collisionCount = 0;
+            }
         }
     }
 

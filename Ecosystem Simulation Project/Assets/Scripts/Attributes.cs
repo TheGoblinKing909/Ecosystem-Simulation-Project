@@ -20,6 +20,7 @@ public class Attributes : Agent
     public float currentHunger;
 
     public Rigidbody2D rigidbody2D;
+    public Movement movement;
     public Resource currentResource;
 
     [SerializeField] private Transform target;
@@ -33,6 +34,7 @@ public class Attributes : Agent
     public override void Initialize()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        movement = GetComponent<Movement>();
 
         if (!trainingMode) MaxStep = 0;
     }
@@ -76,7 +78,8 @@ public class Attributes : Agent
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
 
-        transform.localPosition += new Vector3(moveX, moveY) * Time.deltaTime * 2;
+        // transform.localPosition += new Vector3(moveX, moveY) * Time.deltaTime * 2;
+        movement.SetMovement(moveX, moveY);
 
         distanceToTarget = Vector3.Distance(transform.position, target.position);
 
