@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Resource
   - Tilemap
+  - Entity
   layers:
   - Default
   - TransparentFX

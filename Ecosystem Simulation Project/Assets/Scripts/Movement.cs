@@ -10,9 +10,10 @@ public class Movement : MonoBehaviour
 
     float horizontal;
     float vertical;
-    public float runSpeed = 5.0f;
+    float runSpeed;
     int collisionCount;
     int currentLayer;
+    public int waterLevel;
     public Grid grid = null;
     public List<Tilemap> tilemaps = new List<Tilemap>();
 
@@ -22,13 +23,13 @@ public class Movement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         currentLayer = gameObject.layer - 6;
         attributes = GetComponent<Attributes>();
+        runSpeed = attributes.agility;
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+    void FixedUpdate()
+    {
+        HandleWater();
+    }
 
     public void SetMovement(float x, float y)
     {
@@ -45,6 +46,11 @@ public class Movement : MonoBehaviour
         if(collidedObject.CompareTag("Resource"))
         {
             HandleResourceCollision(collidedObject);
+        }
+        //colliding with entity
+        else if (collidedObject.CompareTag("Entity"))
+        {
+            attributes.Attack(collidedObject);
         }
         //colliding with tilemap
         else if (collidedObject.CompareTag("Tilemap"))
@@ -122,15 +128,27 @@ public class Movement : MonoBehaviour
     private void HandleResourceCollision(GameObject resource)
     {
         Debug.Log("Collided with resource", resource);
-
-        Resource harvestItem = resource.GetComponent<Resource>();
-        if(harvestItem == null)
+        if(attributes.currentStamina >= 10)
         {
-            Debug.Log("Resource does not have resource script");
+            attributes.ModifyStamina(-5);
+            Resource harvestItem = resource.GetComponent<Resource>();
+            if(harvestItem == null)
+            {
+                Debug.Log("Resource does not have resource script");
+            }
+            
+            int harvestAmount = harvestItem.Harvest();
+            Debug.Log("harvested " + harvestAmount);
+            attributes.Eat(harvestAmount);
         }
-        
-        int harvestAmount = harvestItem.Harvest();
-        Debug.Log("harvested " + harvestAmount);
-        attributes.Eat(harvestAmount);
+    }
+
+    private void HandleWater()
+    {
+        if (currentLayer <= waterLevel) 
+        {
+            attributes.ModifyStamina(-5 * Time.deltaTime);
+            attributes.Drink(10 * Time.deltaTime);
+        }
     }
 }

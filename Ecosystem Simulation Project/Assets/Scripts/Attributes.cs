@@ -12,16 +12,24 @@ public class Attributes : Agent
     public float maxHealth = 100f;
     public float maxStamina = 100f;
     public float maxHunger = 100f;
+    public float maxThirst = 100f;
 
     public float hungerDecayRate = 2f; // Health decay rate per second
+    public float thirstDecayRate = 2f;
 
     public float currentHealth;
     public float currentStamina;
     public float currentHunger;
+    public float currentThirst;
+
+    public float agility;
+    public float attack;
+    public float size;    
 
     public Rigidbody2D rigidbody2D;
     public Movement movement;
     public Resource currentResource;
+    public GameObject deathResource;
 
     [SerializeField] private Transform target;
     [SerializeField] private Transform startingPoint;
@@ -49,6 +57,7 @@ public class Attributes : Agent
         // reet attributes
         currentHealth = maxHealth;
         currentHunger = maxHunger;
+        currentThirst = maxThirst;
         currentStamina = maxStamina;
 
         //reset movement
@@ -64,6 +73,7 @@ public class Attributes : Agent
         currentHealth = maxHealth;
         currentStamina = maxStamina;
         currentHunger = maxHunger;
+        currentThirst = maxThirst;
 
         // Start the health decay process
         InvokeRepeating("DecayHunger", 1f, 1f); // Decay health every 1 second
@@ -106,13 +116,18 @@ public class Attributes : Agent
     // Update is called once per frame
     private void Update()
     {
+        if(currentHealth <= 0) 
+        {
+            Die();
+        }
         // Handle input for actions that affect health, stamina, and hunger (e.g., sprinting, eating, taking damage).
         HandleInput();
         DecayHealth();
-        if(currentHunger > (maxHunger/2))
+        if(currentHunger > (maxHunger/2) && currentThirst > (maxThirst/2))
         {
-            Heal(5f);
+            Heal(5f * Time.deltaTime);
         }
+        ModifyStamina(2 * Time.deltaTime);
     }
 
     // Function to handle player input and update attributes
@@ -134,10 +149,16 @@ public class Attributes : Agent
     private void DecayHealth()
     {
         currentHunger -= hungerDecayRate * Time.deltaTime;
+        currentThirst -= thirstDecayRate * Time.deltaTime;
         if (currentHunger <= 0)
         {
             currentHunger = 0;
-            currentHealth -= 10;
+            currentHealth -= 10 * Time.deltaTime;
+        }
+        if (currentThirst <=0)
+        {
+            currentThirst = 0;
+            currentHealth -= 10 * Time.deltaTime;
         }
 
         AddReward(-.5f);
@@ -154,6 +175,15 @@ public class Attributes : Agent
 
 
     }
+    public void Drink(float amount)
+    {
+        currentThirst += amount;
+        if(currentThirst > maxThirst)
+        {
+            currentThirst = maxThirst;
+        }
+        AddReward(10f);
+    }
     public void Heal(float amount)
     {
         currentHealth += amount;
@@ -161,5 +191,42 @@ public class Attributes : Agent
         {
             currentHealth = maxHealth;
         }
+    }
+    public void ModifyStamina(float amount)
+    {
+        currentStamina += amount;
+        if(currentStamina > maxStamina)
+        {
+            currentStamina = maxStamina;
+        }
+        else if(currentStamina < 0)
+        {
+            currentStamina = 0;
+        }
+    }
+    public void Attack(GameObject entity)
+    {
+        Attributes targetAttributes = entity.GetComponent<Attributes>();
+        if(currentStamina >= 10)
+        {
+            ModifyStamina(-10f);
+            if(Random.Range(1,10) >= targetAttributes.agility)
+            {
+                targetAttributes.currentHealth -= attack;
+            }
+        }
+        if(currentHealth >= targetAttributes.currentHealth)
+        {
+            AddReward(10f);
+        }
+        else
+        {
+            AddReward(-10f);
+        }
+    }
+    private void Die()
+    {
+        Instantiate(deathResource, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
