@@ -1479,7 +1479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1090453561}
   - component: {fileID: 1090453560}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: ResourceManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3682,6 +3682,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Square
       objectReference: {fileID: 0}
+    - target: {fileID: 133255530437907132, guid: 03bb0b93462c5384c9f2b6398d99cc59, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8856230081975780039, guid: 03bb0b93462c5384c9f2b6398d99cc59, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.25
@@ -3696,11 +3700,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856230081975780039, guid: 03bb0b93462c5384c9f2b6398d99cc59, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.47
+      value: -23.28
       objectReference: {fileID: 0}
     - target: {fileID: 8856230081975780039, guid: 03bb0b93462c5384c9f2b6398d99cc59, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.38
+      value: 11.09
       objectReference: {fileID: 0}
     - target: {fileID: 8856230081975780039, guid: 03bb0b93462c5384c9f2b6398d99cc59, type: 3}
       propertyPath: m_LocalPosition.z

@@ -5,16 +5,38 @@ using UnityEngine.Tilemaps;
 
 public class ObjectSpawner : MonoBehaviour {
 
-    public void PlaceResources (Grid grid, GameObject resourcePrefab) {
+    public void PlaceResources (int width, int height, Grid grid, List<Tilemap> tilemaps, GameObject resourcePrefab, List<Tile> tileList) {
 
-        for (int y = 0; y < 5; ++y) {
-            for (int x = 0; x < 10; ++x) {
-                Vector3Int xyz_pos = new Vector3Int(x, y, 25);
-                Vector3 grid_xyz_pos = grid.CellToWorld(xyz_pos);
-                Instantiate(resourcePrefab, grid_xyz_pos, Quaternion.identity, transform);
+        int grid_z;
+        Vector3Int grid_xyz_pos;
+        Vector3 world_xyz_pos;
+
+        for( int step = 0; step < tilemaps.Count; step++) {
+
+            if (step < 3)
+                grid_z = 0;
+            else
+                grid_z = 2 * (step - 2);
+
+            for ( int y = (- height / 2) - 1; y < (height / 2) + tilemaps.Count - 3; y++) {
+                for ( int x = (- width / 2) - 1; x < (width / 2) + tilemaps.Count - 3; x++) {
+
+                    grid_xyz_pos = new Vector3Int(x, y, 0);
+                    if ( tilemaps[step].HasTile(grid_xyz_pos) ) {
+                        grid_xyz_pos.z += grid_z + 1;
+                        if ( step >= 3 ) {
+                            grid_xyz_pos.y -= step - 2;
+                            grid_xyz_pos.x -= step - 2;
+                        }
+                        world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
+                        Instantiate(resourcePrefab, world_xyz_pos, Quaternion.identity, transform);
+                    }
+
+                }
+
             }
+
         }
 
     }
-
 }

@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
         WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
-        objSpawner.PlaceResources(grid, resourcePrefab);
+        objSpawner.PlaceResources(width, height, grid, tilemaps, resourcePrefab, tileList);
 
     }
 
