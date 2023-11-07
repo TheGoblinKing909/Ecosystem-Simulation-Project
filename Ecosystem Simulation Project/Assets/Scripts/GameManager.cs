@@ -20,9 +20,15 @@ public class GameManager : MonoBehaviour
     public Grid grid = null;
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<Tile> tileList = new List<Tile>();
-    
-    // Reference to the Prefab. Drag a Prefab into this field in the Inspector.
-    public GameObject resourcePrefab;
+
+    // Reference to ObjectSpawner gameobject
+    public ObjectSpawner objSpawner;
+
+    // SEQUENTIAL ORDER MUST MATCH 'resourcePrefabs'
+    public bool[,] resourceAllowedTilemaps;
+
+    // SEQUENTIAL ORDER MUST MATCH 'resourceAllowedTilemaps'
+    public List<GameObject> resourcePrefabs;
 
     // variables for ML agents
     public bool isTrainingMode;
@@ -31,9 +37,8 @@ public class GameManager : MonoBehaviour
     {
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
         WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
-        ObjectSpawner objSpawner = new ObjectSpawner();
-        objSpawner.PlaceResources(grid, resourcePrefab);
-
+        resourceAllowedTilemaps = objSpawner.InitializeResourceAllowedTilemaps();
+        objSpawner.PlaceResources(width, height, grid, tilemaps, resourcePrefabs, resourceAllowedTilemaps);
     }
 
     void Update()

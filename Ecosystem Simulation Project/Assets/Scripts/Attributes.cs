@@ -51,10 +51,10 @@ public class Attributes : Agent
     {
         if(trainingMode)
         {
-            // reest world
+            // reset world
         }
 
-        // reet attributes
+        // reset attributes
         currentHealth = maxHealth;
         currentHunger = maxHunger;
         currentThirst = maxThirst;
