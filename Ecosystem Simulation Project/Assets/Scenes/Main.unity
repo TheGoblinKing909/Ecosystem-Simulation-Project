@@ -2885,6 +2885,8 @@ MonoBehaviour:
   rigidbody2D: {fileID: 0}
   currentResource: {fileID: 0}
   target: {fileID: 1169236465}
+  startingPoint: {fileID: 0}
+  targetStartingPoint: {fileID: 0}
 --- !u!114 &1337154246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3173,6 +3175,7 @@ GameObject:
   - component: {fileID: 1586322437}
   - component: {fileID: 1586322440}
   - component: {fileID: 1586322441}
+  - component: {fileID: 1586322442}
   m_Layer: 13
   m_Name: Mover
   m_TagString: Untagged
@@ -3267,10 +3270,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1586322435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a88792d0859b0d94a943bd220e0fa735, type: 3}
+  m_Script: {fileID: 11500000, guid: 8905492a9c20a6c49b6053ca3dd489be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 2
+  runSpeed: 5
   grid: {fileID: 1204330454}
   tilemaps:
   - {fileID: 755051359}
@@ -3296,6 +3299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95045146853aa4642bb2ad2b19aa6798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  trainingMode: 0
   maxHealth: 100
   maxStamina: 100
   maxHunger: 100
@@ -3303,6 +3311,41 @@ MonoBehaviour:
   currentHealth: 0
   currentStamina: 0
   currentHunger: 0
+  rigidbody2D: {fileID: 0}
+  currentResource: {fileID: 0}
+  target: {fileID: 0}
+  startingPoint: {fileID: 0}
+  targetStartingPoint: {fileID: 0}
+--- !u!114 &1586322442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586322435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 1
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 01000000
+    VectorActionSize: 01000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: My Behavior
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
 --- !u!1 &2012260448
 GameObject:
   m_ObjectHideFlags: 0
@@ -3774,3 +3817,4 @@ SceneRoots:
   - {fileID: 1204330455}
   - {fileID: 1586322439}
   - {fileID: 1231703201}
+  - {fileID: 141921429}
