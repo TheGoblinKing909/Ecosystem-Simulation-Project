@@ -4,29 +4,23 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class ObjectSpawner : MonoBehaviour {
+ 
+    public bool[,] InitializeResourceAllowedTilemaps() {
+        /*
+            Order:
+                (1) Grass
+                (2) Wheat
+        */
+        bool[,] resourceAllowedTilemaps = new bool[,] {
+            { false, false, false, true, true, true, true, false, false, false, false },
+            { false, false, false, true, true, true, true, false, false, false, false }
+        };
 
-    /* 
-    public void InitializePrefabs( List<List<GameObject>> resourcePrefabs, int maxLayers, int maxResources ) {
-        resourcePrefabs.Clear();
+        return resourceAllowedTilemaps;
 
-        for (int i = 0; i < maxLayers; i++) {
-            List<GameObject> layer_i = new List<GameObject>();
-            for (int j = 0; j < maxResources; j++) {
-                
-                // Add your logic here to determine which prefab should go in each cell.
-                // For example, you can use random selection or some other logic.
-
-                
-
-                GameObject prefabToAdd = SelectRandomPrefab();
-                layer_i.Add(prefabToAdd);
-            }
-            resourcePrefabs.Add(layer_i);
-        }
     }
-    */
 
-    public void PlaceResources (int width, int height, Grid grid, List<Tilemap> tilemaps, GameObject resourcePrefab) {
+    public void PlaceResources (int width, int height, Grid grid, List<Tilemap> tilemaps, List<GameObject> resourcePrefabs, bool[,] resourceAllowedTilemaps) {
 
         bool found;
         int layerNumber;
@@ -53,18 +47,32 @@ public class ObjectSpawner : MonoBehaviour {
 
                 if ( layerNumber > -1 ) {
 
-                    if ( layerNumber < 3 )
-                        grid_z = 0;
-                    else
-                        grid_z = 2 * (layerNumber - 2);
-    
-                    grid_xyz_pos.z += grid_z + 1;
-                    if ( layerNumber >= 3 ) {
-                        grid_xyz_pos.y -= layerNumber - 2;
-                        grid_xyz_pos.x -= layerNumber - 2;
+                    for ( int i = 0; i < resourcePrefabs.Count; i++ ) {
+
+                    if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
+
+                        float randomValue = Random.Range(0f, 1f);
+
+                        if (randomValue <= 0.1f) {
+
+                            if ( layerNumber < 3 )
+                                grid_z = 0;
+                            else
+                                grid_z = 2 * (layerNumber - 2);
+
+                            grid_xyz_pos.z += grid_z + 1;
+                            if ( layerNumber >= 3 ) {
+                                grid_xyz_pos.y -= layerNumber - 2;
+                                grid_xyz_pos.x -= layerNumber - 2;
+                            }
+                            world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
+                            Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+
+                        }
+
                     }
-                    world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
-                    Instantiate(resourcePrefab, world_xyz_pos, Quaternion.identity, transform);
+
+                    }
 
                 }
 
