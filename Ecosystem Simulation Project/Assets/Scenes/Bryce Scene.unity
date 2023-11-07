@@ -1544,10 +1544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f6662ed858c604994645dccbd1c960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemaps: 
-  AmountPerHarvest: 10
-  HarvestRemaing: 100
-  Health: 100
 --- !u!61 &1169236463
 BoxCollider2D:
   m_ObjectHideFlags: 0
