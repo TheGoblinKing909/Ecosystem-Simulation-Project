@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
     // Reference to ObjectSpawner gameobject
     public ObjectSpawner objSpawner;
     
-    // Reference to the Prefab. Drag a Prefab into this field in the Inspector.
-    public GameObject resourcePrefab;
+    // Reference to the resource Prefabs
+    // public List<List<GameObject>> resourcePrefabs;
 
     // variables for ML agents
     public bool isTrainingMode;
@@ -34,8 +34,7 @@ public class GameManager : MonoBehaviour
     {
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
         WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
-        objSpawner.PlaceResources(width, height, grid, tilemaps, resourcePrefab, tileList);
-
+        // objSpawner.PlaceResources(width, height, grid, tilemaps, resourcePrefabs);
     }
 
     void Update()
