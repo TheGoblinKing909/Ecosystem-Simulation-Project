@@ -53,7 +53,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                         float randomValue = Random.Range(0f, 1f);
 
-                        if (randomValue <= 0.1f) {
+                        if (randomValue <= 0.025f) {
 
                             if ( layerNumber < 3 )
                                 grid_z = 0;
