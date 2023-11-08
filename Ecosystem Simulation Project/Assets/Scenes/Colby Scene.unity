@@ -402,8 +402,8 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 
-    VectorActionSize: 02000000
+      BranchSizes: 0300000002000000
+    VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8905492a9c20a6c49b6053ca3dd489be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLayer: 0
   waterLevel: 1
   grid: {fileID: 276763543}
   tilemaps:
@@ -478,6 +479,7 @@ MonoBehaviour:
   - {fileID: 276763534}
   - {fileID: 276763533}
   - {fileID: 276763532}
+  collisions: []
 --- !u!70 &783320595
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -897,6 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8905492a9c20a6c49b6053ca3dd489be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLayer: 0
   waterLevel: 1
   grid: {fileID: 276763543}
   tilemaps:
@@ -911,6 +914,7 @@ MonoBehaviour:
   - {fileID: 276763534}
   - {fileID: 276763533}
   - {fileID: 276763532}
+  collisions: []
 --- !u!114 &1586322441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -965,8 +969,8 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 
-    VectorActionSize: 02000000
+      BranchSizes: 0300000002000000
+    VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
@@ -1000,9 +1004,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 23218969959206510, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1509622692996425187, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538251680622076798, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013259836126369625, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2937172757021698831, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: m_Name
       value: Env (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937172757021698831, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519383774398139853, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3953146476516194573, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862743027755565227, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5754555620172212034, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1042,6 +1078,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5754555620172212034, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806774218111876836, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6299341815498763752, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7206303106808835125, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477967671851007013, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

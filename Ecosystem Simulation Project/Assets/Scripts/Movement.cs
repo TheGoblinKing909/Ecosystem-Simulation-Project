@@ -12,10 +12,11 @@ public class Movement : MonoBehaviour
     float vertical;
     float runSpeed;
     int collisionCount;
-    int currentLayer;
+    public int currentLayer;
     public int waterLevel;
     public Grid grid = null;
     public List<Tilemap> tilemaps = new List<Tilemap>();
+    public List<GameObject> collisions = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +27,10 @@ public class Movement : MonoBehaviour
         runSpeed = attributes.agility;
     }
 
-    void FixedUpdate()
-    {
-        HandleWater();
-    }
+    // void FixedUpdate()
+    // {
+    //     HandleWater();
+    // }
 
     public void SetMovement(float x, float y)
     {
@@ -40,29 +41,35 @@ public class Movement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //colliding with resource
-        GameObject collidedObject = collision.gameObject;
-        Debug.Log("Collision enter ", collidedObject);
-        if(collidedObject.CompareTag("Resource"))
-        {
-            HandleResourceCollision(collidedObject);
-        }
-        //colliding with entity
-        else if (collidedObject.CompareTag("Entity"))
-        {
-            attributes.Attack(collidedObject);
-        }
-        //colliding with tilemap
-        else if (collidedObject.CompareTag("Tilemap"))
+        Debug.Log("Collision enter ", collision.gameObject);
+        collisions.Add(collision.gameObject);
+        if (collision.gameObject.CompareTag("Tilemap"))
         {
             collisionCount = 0;
         }
+
+        // //colliding with resource
+        // GameObject collidedObject = collision.gameObject;
+        // Debug.Log("Collision enter ", collidedObject);
+        // if(collidedObject.CompareTag("Resource"))
+        // {
+        //     HandleResourceCollision(collidedObject);
+        // }
+        // //colliding with entity
+        // else if (collidedObject.CompareTag("Entity"))
+        // {
+        //     attributes.Attack(collidedObject);
+        // }
+        // //colliding with tilemap
+        // else if (collidedObject.CompareTag("Tilemap"))
+        // {
+        //     collisionCount = 0;
+        // }
     }
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        GameObject collidedObject = collision.gameObject;
-        if (collidedObject.CompareTag("Tilemap"))
+        if (collision.gameObject.CompareTag("Tilemap"))
         {
             collisionCount++;
             if (collisionCount == 5)
@@ -123,32 +130,33 @@ public class Movement : MonoBehaviour
     void OnCollisionExit2D(Collision2D collision)
     {
         Debug.Log("collision exited");
+        collisions.Remove(collision.gameObject);
     }
 
-    private void HandleResourceCollision(GameObject resource)
-    {
-        Debug.Log("Collided with resource", resource);
-        if(attributes.currentStamina >= 10)
-        {
-            attributes.ModifyStamina(-5);
-            Resource harvestItem = resource.GetComponent<Resource>();
-            if(harvestItem == null)
-            {
-                Debug.Log("Resource does not have resource script");
-            }
+    // private void HandleResourceCollision(GameObject resource)
+    // {
+    //     Debug.Log("Collided with resource", resource);
+    //     if(attributes.currentStamina >= 10)
+    //     {
+    //         attributes.ModifyStamina(-5);
+    //         Resource harvestItem = resource.GetComponent<Resource>();
+    //         if(harvestItem == null)
+    //         {
+    //             Debug.Log("Resource does not have resource script");
+    //         }
             
-            int harvestAmount = harvestItem.Harvest();
-            Debug.Log("harvested " + harvestAmount);
-            attributes.Eat(harvestAmount);
-        }
-    }
+    //         int harvestAmount = harvestItem.Harvest();
+    //         Debug.Log("harvested " + harvestAmount);
+    //         attributes.Eat(harvestAmount);
+    //     }
+    // }
 
-    private void HandleWater()
-    {
-        if (currentLayer <= waterLevel) 
-        {
-            attributes.ModifyStamina(-5 * Time.deltaTime);
-            attributes.Drink(10 * Time.deltaTime);
-        }
-    }
+    // private void HandleWater()
+    // {
+    //     if (currentLayer <= waterLevel) 
+    //     {
+    //         attributes.ModifyStamina(-5 * Time.deltaTime);
+    //         attributes.Drink(10 * Time.deltaTime);
+    //     }
+    // }
 }

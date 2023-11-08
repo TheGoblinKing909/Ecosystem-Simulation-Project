@@ -26,7 +26,7 @@ public class Attributes : Agent
     public float attack;
     public float size;    
 
-    public Rigidbody2D rigidbody2D;
+    // public Rigidbody2D rigidbody2D;
     public Movement movement;
     public Resource currentResource;
     public GameObject deathResource;
@@ -37,11 +37,12 @@ public class Attributes : Agent
 
     private float distanceToTarget;
 
-
+    private int actionDelay;
+    private int actionDelayMax = 25;
 
     public override void Initialize()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        // rigidbody2D = GetComponent<Rigidbody2D>();
         movement = GetComponent<Movement>();
 
         if (!trainingMode) MaxStep = 0;
@@ -74,9 +75,10 @@ public class Attributes : Agent
         currentStamina = maxStamina;
         currentHunger = maxHunger;
         currentThirst = maxThirst;
+        actionDelay = actionDelayMax;
 
         // Start the health decay process
-        InvokeRepeating("DecayHunger", 1f, 1f); // Decay health every 1 second
+        // InvokeRepeating("DecayHunger", 1f, 1f); // Decay health every 1 second
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -98,13 +100,70 @@ public class Attributes : Agent
             AddReward(1f);
         }
 
+        if (actionDelay == actionDelayMax)
+        {
+            int harvest = actions.DiscreteActions[0];
+            if (harvest == 1)
+            {
+                for (int i = 0; i < movement.collisions.Count; i++)
+                {
+                    if (movement.collisions[i].CompareTag("Resource"))
+                    {
+                        HarvestResource(movement.collisions[i]);
+                    }
+                }
+                actionDelay = 0;
+            }
+            else if (harvest == 2)
+            {
+                if (movement.currentLayer <= movement.waterLevel)
+                {
+                    HarvestWater();
+                }
+                actionDelay = 0;
+            }
+
+            int attack = actions.DiscreteActions[1];
+            if (attack == 1)
+            {
+                for (int i = 0; i < movement.collisions.Count; i++)
+                {
+                    if (movement.collisions[i].CompareTag("Entity"))
+                    {
+                        AttackEntity(movement.collisions[i]);
+                    }
+                }
+                actionDelay = 0;
+            }
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
         continuousActions[0] = Input.GetAxisRaw("Horizontal");
         continuousActions[1] = Input.GetAxisRaw("Vertical");
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            discreteActions[0] = 1;
+        }
+        else if (Input.GetKey(KeyCode.Alpha2))
+        {
+            discreteActions[0] = 2;
+        }
+        else
+        {
+            discreteActions[0] = 0;
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            discreteActions[1] = 1;
+        }
+        else
+        {
+            discreteActions[1] = 0;
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -113,8 +172,8 @@ public class Attributes : Agent
         sensor.AddObservation((Vector2)target.position);
     }
 
-    // Update is called once per frame
-    private void Update()
+    // FixedUpdate is called once every 0.02 seconds
+    private void FixedUpdate()
     {
         if(currentHealth <= 0) 
         {
@@ -128,6 +187,10 @@ public class Attributes : Agent
             Heal(5f * Time.deltaTime);
         }
         ModifyStamina(2 * Time.deltaTime);
+        if (actionDelay < actionDelayMax)
+        {
+            actionDelay++;
+        }
     }
 
     // Function to handle player input and update attributes
@@ -204,8 +267,31 @@ public class Attributes : Agent
             currentStamina = 0;
         }
     }
-    public void Attack(GameObject entity)
+    private void HarvestResource(GameObject resource)
     {
+        Debug.Log(gameObject.name + " harvested resource " + resource.name);
+        if (currentStamina >= 10)
+        {
+            ModifyStamina(-10);
+            Resource harvestItem = resource.GetComponent<Resource>();
+            int harvestAmount = harvestItem.Harvest();
+            Eat(harvestAmount);
+            AddReward(10f);
+        }
+    }
+    private void HarvestWater()
+    {
+        Debug.Log(gameObject.name + " harvested water");
+        if (currentStamina >= 10)
+        {
+            ModifyStamina(-10);
+            Drink(10);
+            AddReward(10f);
+        }
+    }
+    private void AttackEntity(GameObject entity)
+    {
+        Debug.Log(gameObject.name + " attacked entity " + entity.name);
         Attributes targetAttributes = entity.GetComponent<Attributes>();
         if(currentStamina >= 10)
         {
