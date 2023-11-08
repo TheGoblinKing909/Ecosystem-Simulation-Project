@@ -20,6 +20,8 @@ public class ObjectSpawner : MonoBehaviour {
 
     }
 
+    public float testP = 0.05f; 
+
     public void PlaceResources (int width, int height, Grid grid, List<Tilemap> tilemaps, List<GameObject> resourcePrefabs, bool[,] resourceAllowedTilemaps) {
 
         int layerNumber;
@@ -60,12 +62,12 @@ public class ObjectSpawner : MonoBehaviour {
 
                                 randomValue = Random.Range(0f, 1f);
 
-                                if ( guarenteed == true || randomValue <= 0.25f ) {
+                                if ( guarenteed == true || randomValue <= testP ) {
 
-                                    if ( alreadyPlaced == true && guarenteed == true && randomValue > 0.25f ) {
+                                    if ( alreadyPlaced == true && guarenteed == true && randomValue > testP ) {
                                         // nothing
                                     }
-                                    else if ( alreadyPlaced == true && randomValue <= 0.25f ) {
+                                    else if ( alreadyPlaced == true && randomValue <= testP ) {
                                         resourceQueue[i]++;
                                     }
                                     else {
