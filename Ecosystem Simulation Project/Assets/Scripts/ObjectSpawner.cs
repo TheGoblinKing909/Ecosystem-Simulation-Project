@@ -20,7 +20,7 @@ public class ObjectSpawner : MonoBehaviour {
 
     }
 
-    public void PlaceResources (int width, int height, Grid grid, List<Tilemap> tilemaps, List<GameObject> resourcePrefabs, bool[,] resourceAllowedTilemaps) {
+    public void PlaceResources (int width, int height, Grid grid, List<Tilemap> tilemaps, List<GameObject> resourcePrefabs, bool[,] resourceAllowedTilemaps, float density) {
 
         int layerNumber;
         TileBase tile;
@@ -28,10 +28,14 @@ public class ObjectSpawner : MonoBehaviour {
         bool guarenteed = false;
         bool alreadyPlaced = false;
         float randomValue;
+        float effectiveDensity = density / resourcePrefabs.Count;
         int grid_z;
         Vector3Int grid_xyz_pos;
         Vector3Int Adj_grid_xyz_pos;
         Vector3 world_xyz_pos;
+
+        int count1 = 0;
+        int count2 = 0;
 
         for ( int y = (- height / 2) - 1; y < (height / 2) + tilemaps.Count - 3; y++ ) {
             for ( int x = (- width / 2) - 1; x < (width / 2) + tilemaps.Count - 3; x++ ) {
@@ -53,22 +57,14 @@ public class ObjectSpawner : MonoBehaviour {
 
                             if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
 
-                                guarenteed = false;
-
-                                if ( resourceQueue[i] > 0 )
-                                    guarenteed = true;
-
                                 randomValue = Random.Range(0f, 1f);
 
-                                if ( guarenteed == true || randomValue <= 0.25f ) {
+                                if ( resourceQueue[i] > 0 || randomValue <= effectiveDensity ) {
 
-                                    if ( alreadyPlaced == true && guarenteed == true && randomValue > 0.25f ) {
-                                        // nothing
-                                    }
-                                    else if ( alreadyPlaced == true && randomValue <= 0.25f ) {
+                                    if ( alreadyPlaced == true && randomValue <= effectiveDensity ) {
                                         resourceQueue[i]++;
                                     }
-                                    else {
+                                    if ( alreadyPlaced == false ) {
 
                                         if ( layerNumber < 3 )
                                             grid_z = 0;
@@ -83,7 +79,12 @@ public class ObjectSpawner : MonoBehaviour {
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
                                         Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
 
-                                        if ( guarenteed == true && alreadyPlaced == false )
+                                        if ( i == 0 )
+                                            count1++;
+                                        else
+                                            count2++;
+
+                                        if ( resourceQueue[i] > 0 && randomValue > effectiveDensity )
                                             resourceQueue[i]--;
 
                                         alreadyPlaced = true;
@@ -105,8 +106,12 @@ public class ObjectSpawner : MonoBehaviour {
                 }
 
             }
-
+    
         }
+
+        Debug.Log("Grass = " + count1);
+        Debug.Log("Wheat = " + count2);
+    
     }
 
     public void PlaceResource (  ) {

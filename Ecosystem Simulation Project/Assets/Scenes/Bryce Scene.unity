@@ -1906,6 +1906,7 @@ MonoBehaviour:
   resourcePrefabs:
   - {fileID: 4380840106439738494, guid: 67de891b47ec9a547b1236d33dee47eb, type: 3}
   - {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
+  resourceDensity: 1
   isTrainingMode: 0
 --- !u!4 &1322341853
 Transform:

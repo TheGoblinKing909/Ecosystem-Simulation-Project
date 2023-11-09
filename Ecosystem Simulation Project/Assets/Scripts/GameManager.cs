@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     // SEQUENTIAL ORDER MUST MATCH 'resourceAllowedTilemaps'
     public List<GameObject> resourcePrefabs;
 
+    // suggested default value 0.025
+    public float resourceDensity;
+
     // variables for ML agents
     public bool isTrainingMode;
     
@@ -38,7 +41,7 @@ public class GameManager : MonoBehaviour
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
         WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
         resourceAllowedTilemaps = objSpawner.InitializeResourceAllowedTilemaps();
-        objSpawner.PlaceResources(width, height, grid, tilemaps, resourcePrefabs, resourceAllowedTilemaps);
+        objSpawner.PlaceResources(width, height, grid, tilemaps, resourcePrefabs, resourceAllowedTilemaps, resourceDensity);
     }
 
     void Update()
