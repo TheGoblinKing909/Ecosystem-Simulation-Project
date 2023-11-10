@@ -107,7 +107,7 @@ public class Attributes : Agent
             {
                 for (int i = 0; i < movement.collisions.Count; i++)
                 {
-                    if (movement.collisions[i].CompareTag("Resource"))
+                    if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
                     {
                         HarvestResource(movement.collisions[i]);
                     }
@@ -128,7 +128,7 @@ public class Attributes : Agent
             {
                 for (int i = 0; i < movement.collisions.Count; i++)
                 {
-                    if (movement.collisions[i].CompareTag("Entity"))
+                    if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Entity"))
                     {
                         AttackEntity(movement.collisions[i]);
                     }
@@ -139,7 +139,7 @@ public class Attributes : Agent
             {
                 for (int i = 0; i < movement.collisions.Count; i++)
                 {
-                    if (movement.collisions[i].CompareTag("Resource"))
+                    if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
                     {
                         AttackResource(movement.collisions[i]);
                     }
