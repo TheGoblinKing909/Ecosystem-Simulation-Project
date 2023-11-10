@@ -135,6 +135,17 @@ public class Attributes : Agent
                 }
                 actionDelay = 0;
             }
+            else if (attack == 2)
+            {
+                for (int i = 0; i < movement.collisions.Count; i++)
+                {
+                    if (movement.collisions[i].CompareTag("Resource"))
+                    {
+                        AttackResource(movement.collisions[i]);
+                    }
+                }
+                actionDelay = 0;
+            }
         }
     }
 
@@ -159,6 +170,10 @@ public class Attributes : Agent
         if (Input.GetKey(KeyCode.Alpha3))
         {
             discreteActions[1] = 1;
+        }
+        else if (Input.GetKey(KeyCode.Alpha4))
+        {
+            discreteActions[1] = 2;
         }
         else
         {
@@ -274,7 +289,7 @@ public class Attributes : Agent
         {
             ModifyStamina(-10);
             Resource harvestItem = resource.GetComponent<Resource>();
-            int harvestAmount = harvestItem.Harvest();
+            float harvestAmount = harvestItem.Harvest();
             Eat(harvestAmount);
             AddReward(10f);
         }
@@ -308,6 +323,16 @@ public class Attributes : Agent
         else
         {
             AddReward(-10f);
+        }
+    }
+    private void AttackResource(GameObject resource)
+    {
+        Debug.Log(gameObject.name + " attacked resource " + resource.name);
+        if(currentStamina >= 10)
+        {
+            ModifyStamina(-10f);
+            Resource targetResource = resource.GetComponent<Resource>();
+            targetResource.HealthRemaining -= attack;
         }
     }
     private void Die()

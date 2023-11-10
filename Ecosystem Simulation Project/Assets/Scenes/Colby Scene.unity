@@ -402,7 +402,7 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 0300000002000000
+      BranchSizes: 0300000003000000
     VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
@@ -445,7 +445,6 @@ MonoBehaviour:
   agility: 0
   attack: 10
   size: 5
-  rigidbody2D: {fileID: 0}
   movement: {fileID: 0}
   currentResource: {fileID: 0}
   deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
@@ -673,8 +672,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638a75da7ac8b344bb44f38f88a672c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HarvestRemaing: 100
-  Health: 100
+  HarvestMax: 100
+  HealthMax: 100
+  HarvestRemaining: 0
+  HealthRemaining: 0
+  HarvestRecovery: 2
+  HealthRecovery: 2
 --- !u!61 &1231703199
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -945,7 +948,6 @@ MonoBehaviour:
   agility: 2
   attack: 10
   size: 5
-  rigidbody2D: {fileID: 0}
   movement: {fileID: 0}
   currentResource: {fileID: 0}
   deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
@@ -969,7 +971,7 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 0300000002000000
+      BranchSizes: 0300000003000000
     VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
