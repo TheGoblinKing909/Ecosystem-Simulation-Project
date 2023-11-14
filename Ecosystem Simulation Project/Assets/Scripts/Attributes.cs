@@ -26,7 +26,6 @@ public class Attributes : Agent
     public float attack;
     public float size;    
 
-    public Rigidbody2D rigidbody2D;
     public Movement movement;
     public Resource currentResource;
     public GameObject deathResource;
@@ -37,11 +36,8 @@ public class Attributes : Agent
 
     private float distanceToTarget;
 
-
-
     public override void Initialize()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
         movement = GetComponent<Movement>();
 
         if (!trainingMode) MaxStep = 0;
@@ -59,12 +55,6 @@ public class Attributes : Agent
         currentHunger = maxHunger;
         currentThirst = maxThirst;
         currentStamina = maxStamina;
-
-        //reset movement
-        transform.position = startingPoint.position + new Vector3(Random.Range(1, 5), 0, 0);
-        target.position = targetStartingPoint.position + new Vector3(0, Random.Range(1,5), 0);
-
-        distanceToTarget = Vector3.Distance(transform.position, target.position);
 
     }
 

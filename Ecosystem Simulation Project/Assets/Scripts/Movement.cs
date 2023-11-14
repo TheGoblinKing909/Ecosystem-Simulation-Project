@@ -6,11 +6,11 @@ using UnityEngine.Tilemaps;
 public class Movement : MonoBehaviour
 {
     public Rigidbody2D body;
-    Attributes attributes;
+    public Attributes attributes;
 
     float horizontal;
     float vertical;
-    float runSpeed;
+    public float runSpeed;
     public int collisionCount;
     public int currentLayer;
     public int waterLevel;
@@ -18,12 +18,23 @@ public class Movement : MonoBehaviour
     public List<Tilemap> tilemaps = new List<Tilemap>();
 
     // Start is called before the first frame update
-    void Start()
+    public void OnInstantiate()
     {
-        body = GetComponent<Rigidbody2D>();
-        currentLayer = gameObject.layer - 6;
-        attributes = GetComponent<Attributes>();
-        runSpeed = attributes.agility;
+
+        ObjectSpawner entityManager = transform.parent.GetComponent<ObjectSpawner>();
+
+        if ( entityManager != null ) {
+            grid = entityManager.grid;
+            tilemaps = entityManager.tilemaps;
+            body = GetComponent<Rigidbody2D>();
+            currentLayer = gameObject.layer - 6;
+            attributes = GetComponent<Attributes>();
+            runSpeed = attributes.agility;
+        }
+        else {
+            Debug.LogError("EntityManager not found!");
+        }
+
     }
 
     void FixedUpdate()

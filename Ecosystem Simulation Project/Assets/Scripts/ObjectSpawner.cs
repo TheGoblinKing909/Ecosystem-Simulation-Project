@@ -5,14 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class ObjectSpawner : MonoBehaviour {
 
-    private GameManager gameManager; // Reference to the GameManager
-    private int width;
-    private int height;
-    private Grid grid;
-    private List<Tilemap> tilemaps;
+    public GameManager gameManager; // Reference to the GameManager
+    public int width;
+    public int height;
+    public Grid grid;
+    public List<Tilemap> tilemaps;
 
     // SEQUENTIAL ORDER MUST MATCH 'resourceAllowedTilemaps'
-    private List<GameObject> resourcePrefabs;
+    public List<GameObject> resourcePrefabs;
 
     /*
     Order:
@@ -27,7 +27,7 @@ public class ObjectSpawner : MonoBehaviour {
     public float resourceDensity;
 
     // SEQUENTIAL ORDER MUST MATCH 'entityAllowedTilemaps'
-    private List<GameObject> entityPrefabs;
+    public List<GameObject> entityPrefabs;
 
     /*
     Order:
@@ -35,8 +35,8 @@ public class ObjectSpawner : MonoBehaviour {
         (2) Bear
     */
     public bool[,] entityAllowedTilemaps = new bool[,] {
-        { false, false, false, true, true, true, true, false, false, false, false },
-        { false, false, false, true, true, true, true, false, false, false, false }
+        { true, false, false, false, false, false, false, false, false, false, false },
+        { true, false, false, false, false, false, false, false, false, false, false }
     };
 
     public float entityDensity;
@@ -211,37 +211,24 @@ public class ObjectSpawner : MonoBehaviour {
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
 
                                         GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
-                                        Attributes attributesScript = instantiatedEntity.GetComponent<Attributes>();
                                         Movement movementScript = instantiatedEntity.GetComponent<Movement>();
+                                        instantiatedEntity.layer = layerNumber + 6;
+                                        movementScript.OnInstantiate();
 
-                                        if ( attributesScript != null ) {
+                                        // if ( attributesScript != null ) {
 
                                             // Assuming Main Camera has a tag "MainCamera"
-                                            GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+                                            // GameObject mainCamera = GameObject.FindWithTag("MainCamera");
 
-                                            if (mainCamera != null) {
-                                                attributesScript.startingPoint = instantiatedEntity.transform;
-                                                attributesScript.target = mainCamera.transform;
-                                                attributesScript.targetStartingPoint = mainCamera.transform;
-                                            }
-                                            else {
-                                                Debug.LogWarning("Main Camera not found or it's not tagged as MainCamera.");
-                                            }
-
-                                        }
-
-                                        if ( movementScript != null ) {
-
-                                            Rigidbody2D rigidBody = instantiatedEntity.GetComponent<Rigidbody2D>();
-    
-                                            if ( rigidBody != null ) {
-                                                movementScript.body = rigidBody;
-                                            }
-                                            else {
-                                                Debug.LogWarning("Rigidbody2D component not found on an instantiated prefab entity.");
-                                            }
-
-                                        }   
+                                            // if (mainCamera != null) {
+                                                // attributesScript.startingPoint = instantiatedEntity.transform;
+                                                // attributesScript.target = mainCamera.transform;
+                                                // attributesScript.targetStartingPoint = mainCamera.transform;
+                                            // }
+                                            // else {
+                                                // Debug.LogWarning("Main Camera not found or it's not tagged as MainCamera.");
+                                            // }
+                                        // }
 
                                         if ( i == 0 )
                                             count1++;

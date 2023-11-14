@@ -1951,7 +1951,7 @@ MonoBehaviour:
   entityPrefabs:
   - {fileID: 7404917140349088052, guid: b67891208f278354f8f7b7cbc4d064c8, type: 3}
   - {fileID: 7404917140349088052, guid: 2c339d4938d1ee14ea65978bf9438488, type: 3}
-  entityDensity: 0.015
+  entityDensity: 0.1
   isTrainingMode: 0
 --- !u!4 &1322341853
 Transform:

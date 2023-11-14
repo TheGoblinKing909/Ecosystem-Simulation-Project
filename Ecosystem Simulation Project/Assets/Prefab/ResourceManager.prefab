@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7566210351117824447}
   - component: {fileID: 7832060254903555743}
-  m_Layer: 16
+  m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,3 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7031583770a99ab469d11ad610a6e17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  width: 0
+  height: 0
+  grid: {fileID: 0}
+  tilemaps: []
+  resourcePrefabs: []
+  resourceDensity: 0
+  entityPrefabs: []
+  entityDensity: 0

@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7835650255254209710}
   - component: {fileID: 8982891888849782807}
   - component: {fileID: 6381002353954940254}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Human
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8905492a9c20a6c49b6053ca3dd489be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 0}
   collisionCount: 0
   currentLayer: 0
   waterLevel: 1
