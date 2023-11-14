@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    Rigidbody2D body;
+    public Rigidbody2D body;
     Attributes attributes;
 
     float horizontal;

@@ -31,9 +31,9 @@ public class Attributes : Agent
     public Resource currentResource;
     public GameObject deathResource;
 
-    [SerializeField] private Transform target;
-    [SerializeField] private Transform startingPoint;
-    [SerializeField] private Transform targetStartingPoint;
+    public Transform target;
+    public Transform startingPoint;
+    public Transform targetStartingPoint;
 
     private float distanceToTarget;
 
