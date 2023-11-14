@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 0}
-  collisionCount: 0
+  attributes: {fileID: 0}
   currentLayer: 0
   waterLevel: 1
   grid: {fileID: 0}
@@ -213,6 +213,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  collisions: []
 --- !u!114 &7835650255254209710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,8 +231,8 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 
-    VectorActionSize: 02000000
+      BranchSizes: 0300000003000000
+    VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
@@ -273,13 +274,9 @@ MonoBehaviour:
   agility: 2
   attack: 10
   size: 5
-  rigidbody2D: {fileID: 0}
   movement: {fileID: 0}
   currentResource: {fileID: 0}
   deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
-  target: {fileID: 0}
-  startingPoint: {fileID: 8043627742187060463}
-  targetStartingPoint: {fileID: 0}
 --- !u!114 &6381002353954940254
 MonoBehaviour:
   m_ObjectHideFlags: 0

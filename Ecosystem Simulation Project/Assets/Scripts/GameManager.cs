@@ -47,8 +47,7 @@ public class GameManager : MonoBehaviour
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
         WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
         resourceSpawner.PlaceResources();
-        resourceSpawner.PlaceEntities();
-        //entitySpawner.PlaceEntities();
+        entitySpawner.PlaceEntities();
     }
 
     void Update()

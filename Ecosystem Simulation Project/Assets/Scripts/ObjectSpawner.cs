@@ -35,13 +35,15 @@ public class ObjectSpawner : MonoBehaviour {
         (2) Bear
     */
     public bool[,] entityAllowedTilemaps = new bool[,] {
-        { true, false, false, false, false, false, false, false, false, false, false },
-        { true, false, false, false, false, false, false, false, false, false, false }
+        { false, false, false, true, true, false, false, false, false, false, false },
+        { false, false, false, false, false, true, true, false, false, false, false }
     };
 
     public float entityDensity;
 
-    public void Start() {
+    public void Awake() {
+
+        Debug.Log("Print Statement");
 
         gameManager = transform.parent.GetComponent<GameManager>();
 
@@ -211,8 +213,8 @@ public class ObjectSpawner : MonoBehaviour {
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
 
                                         GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
-                                        Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         instantiatedEntity.layer = layerNumber + 6;
+                                        Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         movementScript.OnInstantiate();
 
                                         // if ( attributesScript != null ) {

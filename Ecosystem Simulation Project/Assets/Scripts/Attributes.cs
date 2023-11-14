@@ -30,13 +30,6 @@ public class Attributes : Agent
     public Movement movement;
     public Resource currentResource;
     public GameObject deathResource;
-
-    public Transform target;
-    public Transform startingPoint;
-    public Transform targetStartingPoint;
-
-    private float distanceToTarget;
-
     private int actionDelay;
     private int actionDelayMax = 25;
 
@@ -79,7 +72,7 @@ public class Attributes : Agent
     {
         base.OnActionReceived(actions);
 
-        float previosDisatnce = distanceToTarget;
+        // float previosDisatnce = distanceToTarget;
 
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
@@ -87,12 +80,12 @@ public class Attributes : Agent
         // transform.localPosition += new Vector3(moveX, moveY) * Time.deltaTime * 2;
         movement.SetMovement(moveX, moveY);
 
-        distanceToTarget = Vector3.Distance(transform.position, target.position);
+        // distanceToTarget = Vector3.Distance(transform.position, target.position);
 
-        if(distanceToTarget < previosDisatnce)
-        {
-            AddReward(1f);
-        }
+        // if(distanceToTarget < previosDisatnce)
+        // {
+        //     AddReward(1f);
+        // }
 
         if (actionDelay == actionDelayMax)
         {
@@ -178,7 +171,7 @@ public class Attributes : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation((Vector2)transform.position);
-        sensor.AddObservation((Vector2)target.position);
+        // sensor.AddObservation((Vector2)target.position);
     }
 
     // FixedUpdate is called once every 0.02 seconds
