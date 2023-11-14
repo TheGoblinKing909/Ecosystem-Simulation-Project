@@ -4,13 +4,43 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour {
 
-    private int AmountPerHarvest = 10; 
-    public int HarvestRemaing = 100;
-    public int Health = 100;
+    private float AmountPerHarvest = 10;
 
-    public int Harvest() {
-        int amountHarvested = Mathf.Clamp(HarvestRemaing, 0, AmountPerHarvest);
-        HarvestRemaing -= amountHarvested;
+    public float HarvestMax = 100f;
+    public float HealthMax = 100f;
+
+    public float HarvestRemaining;
+    public float HealthRemaining;
+
+    public float HarvestRecovery = 2f;
+    public float HealthRecovery = 2f;
+
+    private void Start() {
+        HarvestRemaining = HarvestMax;
+        HealthRemaining = HealthMax;
+    }
+
+    private void FixedUpdate() {
+        if (HealthRemaining <= 0) {
+            Destroy(gameObject);
+        }
+        if (HarvestRemaining < HarvestMax) {
+            HarvestRemaining += HarvestRecovery * Time.deltaTime;
+            if (HarvestRemaining > HarvestMax) {
+                HarvestRemaining = HarvestMax;
+            }
+        }
+        if (HealthRemaining < HealthMax) {
+            HealthRemaining += HealthRecovery * Time.deltaTime;
+            if (HealthRemaining > HealthMax) {
+                HealthRemaining = HealthMax;
+            }
+        }
+    }
+
+    public float Harvest() {
+        float amountHarvested = Mathf.Clamp(HarvestRemaining, 0f, AmountPerHarvest);
+        HarvestRemaining -= amountHarvested;
         return amountHarvested;
     }
 
