@@ -145,3 +145,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HarvestRemaing: 100
   Health: 100
+  spriteRenderer: {fileID: 411178171154377570}
+  defaultColor: {r: 0, g: 1, b: 0, a: 1}

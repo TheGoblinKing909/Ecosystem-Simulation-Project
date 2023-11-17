@@ -19,10 +19,16 @@ public class ObjectSpawner : MonoBehaviour {
         return resourceAllowedTilemaps;
 
     }
+    public Grid grid;
 
-    public float testP = 0.05f; 
+    public float testP = 0.05f;
+
+    [SerializeField]private GameManager gameManager;
+
 
     public void PlaceResources (int width, int height, Grid grid, List<Tilemap> tilemaps, List<GameObject> resourcePrefabs, bool[,] resourceAllowedTilemaps) {
+
+        int w = gameManager.width;
 
         int layerNumber;
         TileBase tile;

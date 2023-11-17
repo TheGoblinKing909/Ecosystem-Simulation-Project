@@ -76,7 +76,7 @@ public class Attributes : Agent
         currentThirst = maxThirst;
 
         // Start the health decay process
-        InvokeRepeating("DecayHunger", 1f, 1f); // Decay health every 1 second
+        //InvokeRepeating("DecayHunger", 1f, 1f); // Decay health every 1 second
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -118,7 +118,7 @@ public class Attributes : Agent
     {
         if(currentHealth <= 0) 
         {
-            Die();
+            //Die();
         }
         // Handle input for actions that affect health, stamina, and hunger (e.g., sprinting, eating, taking damage).
         HandleInput();
@@ -172,8 +172,6 @@ public class Attributes : Agent
         }
 
         AddReward(10f);
-
-
     }
     public void Drink(float amount)
     {
@@ -228,5 +226,7 @@ public class Attributes : Agent
     {
         Instantiate(deathResource, transform.position, Quaternion.identity);
         Destroy(gameObject);
+
+        AddReward(-50f);
     }
 }
