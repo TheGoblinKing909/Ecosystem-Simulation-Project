@@ -15,11 +15,6 @@ public class Resource : MonoBehaviour {
     public float HarvestRecovery = 2f;
     public float HealthRecovery = 2f;
 
-    private void Start() {
-        HarvestRemaining = HarvestMax;
-        HealthRemaining = HealthMax;
-    }
-
     private void FixedUpdate() {
         if (HealthRemaining <= 0) {
             Destroy(gameObject);
@@ -45,6 +40,8 @@ public class Resource : MonoBehaviour {
 
     void Start()
     {
+        HarvestRemaining = HarvestMax;
+        HealthRemaining = HealthMax;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if(spriteRenderer == null)
         {
@@ -53,21 +50,21 @@ public class Resource : MonoBehaviour {
 
         spriteRenderer.color = defaultColor;
 
-        HarvestRemaing = 20;
+        HarvestRemaining = 20;
 
     }
 
-    public int Harvest() 
+    public float Harvest() 
     {
-        if(HarvestRemaing <= 0)
+        if(HarvestRemaining <= 0)
         {
             return 0;
         }
 
-        int amountHarvested = Mathf.Clamp(HarvestRemaing, 0, AmountPerHarvest);
-        HarvestRemaing -= amountHarvested;
+        float amountHarvested = Mathf.Clamp(HarvestRemaining, 0, AmountPerHarvest);
+        HarvestRemaining -= amountHarvested;
 
-        if(HarvestRemaing <= 0 )
+        if(HarvestRemaining <= 0 )
         {
             spriteRenderer.color = deadColor;
         }

@@ -8,7 +8,6 @@ public class ObjectSpawner : MonoBehaviour {
     public GameManager gameManager; // Reference to the GameManager
     public int width;
     public int height;
-    public Grid grid;
     public List<Tilemap> tilemaps;
 
     // SEQUENTIAL ORDER MUST MATCH 'resourceAllowedTilemaps'
