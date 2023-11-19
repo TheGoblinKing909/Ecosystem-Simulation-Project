@@ -52,7 +52,6 @@ public class Movement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision enter ", collision.gameObject);
         collisions.Add(collision.gameObject);
         if (collision.gameObject.CompareTag("Tilemap"))
         {
@@ -140,7 +139,6 @@ public class Movement : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        Debug.Log("collision exited");
         collisions.Remove(collision.gameObject);
     }
 
