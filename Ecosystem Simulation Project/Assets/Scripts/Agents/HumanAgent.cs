@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Integrations.Match3;
@@ -10,6 +11,15 @@ public class HumanAgent : Agent
     private Attributes attributes;
     private HumanActions humanActions;
     [SerializeField] private AIManager manager;
+
+    //[SerializeField] private static Dictionary<string,float> observationTypes = new Dictionary<string, float>()
+    //{
+    //    {"grass", 1.01f},
+    //    {"wheat", 1.02f},
+
+    //    {"human", 2.01f},
+    //    {"bear", 2.02f},
+    //};
 
     private void Awake()
     {
@@ -34,18 +44,20 @@ public class HumanAgent : Agent
 
         foreach(Transform resource in manager.resources)
         {
-            var direction = (resource.position - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, resource.position);
-            sensor.AddObservation(direction);
-            sensor.AddObservation(distance);
+            //sensor.AddObservation(observationTypes.TryGetValue("grass",out var result) ? result : 0.0f);
+            Vector2 direction = (resource.position - transform.position);
+            float distance = Vector2.Distance(transform.position, resource.position);
+            Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);
+            sensor.AddObservation(resourceObservation);
         }
         
         foreach(Transform entites in manager.entites)
         {
-            var direction = (entites.position - transform.position).normalized;
+            //sensor.AddObservation(observationTypes.TryGetValue("human", out var result) ? result : 0.0f);
+            Vector2 direction = (entites.position - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, entites.position);
-            sensor.AddObservation(direction);
-            sensor.AddObservation(distance);
+            Vector3 entityObservation = new Vector3(distance, direction.x, direction.y);
+            sensor.AddObservation(entityObservation);
         }
 
     }

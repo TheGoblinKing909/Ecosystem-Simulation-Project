@@ -162,7 +162,6 @@ public class Attributes : MonoBehaviour
     }
     public void AttackEntity(GameObject entity)
     {
-        Debug.Log(gameObject.name + " attacked entity " + entity.name);
         Attributes targetAttributes = entity.GetComponent<Attributes>();
         if(currentStamina >= 10)
         {
@@ -174,11 +173,11 @@ public class Attributes : MonoBehaviour
         }
         if(currentHealth >= targetAttributes.currentHealth)
         {
-            humanAgent.AddReward(10f);
+            humanAgent.AddReward(1.0f);
         }
         else
         {
-            humanAgent.AddReward(-10f);
+            humanAgent.AddReward(-1.0f);
         }
     }
     public void AttackResource(GameObject resource)
