@@ -6,11 +6,12 @@ using UnityEngine.Tilemaps;
 public class ObjectSpawner : MonoBehaviour {
 
     public GameManager gameManager; // Reference to the GameManager
+    public Grid grid;
     public int width;
     public int height;
     public List<Tilemap> tilemaps;
 
-    // SEQUENTIAL ORDER MUST MATCH 'resourceAllowedTilemaps'
+    // sequential order MUST match 'resourceAllowedTilemaps' from below
     public List<GameObject> resourcePrefabs;
 
     /*
@@ -25,7 +26,7 @@ public class ObjectSpawner : MonoBehaviour {
 
     public float resourceDensity;
 
-    // SEQUENTIAL ORDER MUST MATCH 'entityAllowedTilemaps'
+    // sequential order MUST match 'entityAllowedTilemaps' from below
     public List<GameObject> entityPrefabs;
 
     /*
@@ -61,13 +62,12 @@ public class ObjectSpawner : MonoBehaviour {
         }
 
     }
-    public Grid grid;
 
-    public float testP = 0.05f;
+    public int GetChildCount () {
+        return transform.childCount;
+    }
 
     public void PlaceResources () {
-
-        int w = gameManager.width;
 
         int layerNumber;
         TileBase tile;
@@ -78,9 +78,6 @@ public class ObjectSpawner : MonoBehaviour {
         int grid_z;
         Vector3Int grid_xyz_pos;
         Vector3 world_xyz_pos;
-
-        int count1 = 0;
-        int count2 = 0;
 
         for ( int y = (- height / 2) - 1; y < (height / 2) + tilemaps.Count - 3; y++ ) {
             for ( int x = (- width / 2) - 1; x < (width / 2) + tilemaps.Count - 3; x++ ) {
@@ -123,11 +120,7 @@ public class ObjectSpawner : MonoBehaviour {
                                         }
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
                                         Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
-
-                                        if ( i == 0 )
-                                            count1++;
-                                        else
-                                            count2++;
+                                        // totalResourceCount++;
 
                                         if ( resourceQueue[i] > 0 && randomValue > effectiveDensity )
                                             resourceQueue[i]--;
@@ -153,10 +146,69 @@ public class ObjectSpawner : MonoBehaviour {
             }
     
         }
-
-        Debug.Log("Grass = " + count1);
-        Debug.Log("Wheat = " + count2);
     
+    }
+
+    public void SpawnResources ( int spawnAmount ) {
+
+        int layerNumber;
+        TileBase tile;
+        int grid_z;
+        Vector3Int grid_xyz_pos;
+        Vector3 world_xyz_pos;
+
+        int y, x;
+        while ( spawnAmount > 0 ) {
+
+            y = Random.Range( (- height / 2) - 1 , (height / 2) + tilemaps.Count - 3 + 1 );
+            x = Random.Range( (- width / 2) - 1 , (width / 2) + tilemaps.Count - 3 + 1 );
+
+            grid_xyz_pos = new Vector3Int(x, y, 0);
+
+            layerNumber = tilemaps.Count - 1;
+            tile = null;
+
+            while ( layerNumber > -1 && spawnAmount > 0 ) {
+
+                tile = tilemaps[layerNumber].GetTile(grid_xyz_pos);
+
+                if (tile == null) {
+                    layerNumber--;
+                }
+
+                else {
+
+                    for ( int i = 0; i < resourcePrefabs.Count; i++ ) {
+
+                        if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
+
+                            if ( layerNumber < 3 )
+                                grid_z = 0;
+                            else
+                                grid_z = 2 * (layerNumber - 2);
+
+                            grid_xyz_pos.z += grid_z + 1;
+                            if ( layerNumber >= 3 ) {
+                                grid_xyz_pos.y -= layerNumber - 2;
+                                grid_xyz_pos.x -= layerNumber - 2;
+                            }
+                            world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
+                            Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            // totalResourceCount++;
+                            spawnAmount--;
+                            break;
+
+                        }
+                    }
+                }
+
+                layerNumber--;
+                grid_xyz_pos = new Vector3Int(x, y, 0);
+
+            }
+
+        }
+
     }
 
     public void PlaceEntities () {
@@ -170,9 +222,6 @@ public class ObjectSpawner : MonoBehaviour {
         int grid_z;
         Vector3Int grid_xyz_pos;
         Vector3 world_xyz_pos;
-
-        int count1 = 0;
-        int count2 = 0;
 
         for ( int y = (- height / 2) - 1; y < (height / 2) + tilemaps.Count - 3; y++ ) {
             for ( int x = (- width / 2) - 1; x < (width / 2) + tilemaps.Count - 3; x++ ) {
@@ -220,26 +269,8 @@ public class ObjectSpawner : MonoBehaviour {
                                         instantiatedEntity.layer = layerNumber + 6;
                                         Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         movementScript.OnInstantiate();
-
-                                        // if ( attributesScript != null ) {
-
-                                            // Assuming Main Camera has a tag "MainCamera"
-                                            // GameObject mainCamera = GameObject.FindWithTag("MainCamera");
-
-                                            // if (mainCamera != null) {
-                                                // attributesScript.startingPoint = instantiatedEntity.transform;
-                                                // attributesScript.target = mainCamera.transform;
-                                                // attributesScript.targetStartingPoint = mainCamera.transform;
-                                            // }
-                                            // else {
-                                                // Debug.LogWarning("Main Camera not found or it's not tagged as MainCamera.");
-                                            // }
-                                        // }
-
-                                        if ( i == 0 )
-                                            count1++;
-                                        else
-                                            count2++;
+        
+                                        //totalEntityCount++;
 
                                         if ( entityQueue[i] > 0 && randomValue > effectiveDensity )
                                             entityQueue[i]--;
@@ -263,12 +294,76 @@ public class ObjectSpawner : MonoBehaviour {
                 }
 
             }
+
+        }
+
+    }
+
+    public void SpawnEntities ( int spawnAmount ) {
+
+        int layerNumber;
+        TileBase tile;
+        int grid_z;
+        Vector3Int grid_xyz_pos;
+        Vector3 world_xyz_pos;
+
+        int y, x;
+        while ( spawnAmount > 0 ) {
+
+            y = Random.Range( (- height / 2) - 1 , (height / 2) + tilemaps.Count - 3 + 1 );
+            x = Random.Range( (- width / 2) - 1 , (width / 2) + tilemaps.Count - 3 + 1 );
+
+            grid_xyz_pos = new Vector3Int(x, y, 0);
+
+            layerNumber = tilemaps.Count - 1;
+            tile = null;
+
+            while ( layerNumber > -1 && spawnAmount > 0 ) {
+
+                tile = tilemaps[layerNumber].GetTile(grid_xyz_pos);
+
+                if (tile == null) {
+                    layerNumber--;
+                }
+
+                else {
+
+                    for ( int i = 0; i < entityPrefabs.Count; i++ ) {
+
+                        if ( entityAllowedTilemaps[i, layerNumber] == true ) {
+
+                            if ( layerNumber < 3 )
+                                grid_z = 0;
+                            else
+                                grid_z = 2 * (layerNumber - 2);
+
+                            grid_xyz_pos.z += grid_z + 1;
+                            if ( layerNumber >= 3 ) {
+                                grid_xyz_pos.y -= layerNumber - 2;
+                                grid_xyz_pos.x -= layerNumber - 2;
+                            }
+                            world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
+
+                            GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            instantiatedEntity.layer = layerNumber + 6;
+                            Movement movementScript = instantiatedEntity.GetComponent<Movement>();
+                            movementScript.OnInstantiate();
+
+                            // totalEntityCount++;
+                            spawnAmount--;
+                            break;
+
+                        }
+                    }
+                }
+
+                layerNumber--;
+                grid_xyz_pos = new Vector3Int(x, y, 0);
+
+            }
     
         }
 
-        Debug.Log("Human = " + count1);
-        Debug.Log("Bear = " + count2);
-    
     }
 
 }
