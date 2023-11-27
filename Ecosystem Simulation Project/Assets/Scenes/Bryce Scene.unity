@@ -1946,13 +1946,18 @@ MonoBehaviour:
   resourcePrefabs:
   - {fileID: 4380840106439738494, guid: 67de891b47ec9a547b1236d33dee47eb, type: 3}
   - {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
-  resourceDensity: 0.025
+  resourceDensity: 0.02
+  totalResourceCount: 0
   entitySpawner: {fileID: 1413481906}
   entityPrefabs:
   - {fileID: 7404917140349088052, guid: b67891208f278354f8f7b7cbc4d064c8, type: 3}
   - {fileID: 7404917140349088052, guid: 2c339d4938d1ee14ea65978bf9438488, type: 3}
-  entityDensity: 0.015
+  entityDensity: 0.01
+  totalEntityCount: 0
   isTrainingMode: 0
+  frameCount: 0
+  resourceRatio: 0
+  entityRatio: 0
 --- !u!4 &1322341853
 Transform:
   m_ObjectHideFlags: 0
