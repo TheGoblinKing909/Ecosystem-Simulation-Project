@@ -10,8 +10,8 @@ public class Movement : MonoBehaviour
 
     float horizontal;
     float vertical;
-    float runSpeed;
     int collisionCount;
+    public float runSpeed;
     public int currentLayer;
     public int waterLevel;
     public Grid grid = null;

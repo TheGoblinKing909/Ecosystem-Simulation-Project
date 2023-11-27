@@ -37,55 +37,81 @@ public class HumanActions : MonoBehaviour
 
     public void ActionsRecieved(ActionBuffers actions)
     {
-        float moveX = actions.ContinuousActions[0];
-        float moveY = actions.ContinuousActions[1];
-
-        movement.SetMovement(moveX, moveY);
-
-        if (actionDelay == actionDelayMax)
+        if (attributes.shelter == null)
         {
-            int harvest = actions.DiscreteActions[0];
-            if (harvest == 1)
-            {
-                for (int i = 0; i < movement.collisions.Count; i++)
-                {
-                    if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
-                    {
-                        attributes.HarvestResource(movement.collisions[i]);
-                    }
-                }
-                actionDelay = 0;
-            }
-            else if (harvest == 2)
-            {
-                if (movement.currentLayer <= movement.waterLevel)
-                {
-                    attributes.HarvestWater();
-                }
-                actionDelay = 0;
-            }
+            float moveX = actions.ContinuousActions[0];
+            float moveY = actions.ContinuousActions[1];
 
-            int attack = actions.DiscreteActions[1];
-            if (attack == 1)
+            movement.SetMovement(moveX, moveY);
+
+            if (actionDelay == actionDelayMax)
             {
-                for (int i = 0; i < movement.collisions.Count; i++)
+                int harvest = actions.DiscreteActions[0];
+                if (harvest == 1)
                 {
-                    if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Entity"))
+                    for (int i = 0; i < movement.collisions.Count; i++)
                     {
-                        attributes.AttackEntity(movement.collisions[i]);
+                        if (movement.collisions[i] != null && (movement.collisions[i].CompareTag("Resource") || movement.collisions[i].CompareTag("Shelter")))
+                        {
+                            attributes.HarvestResource(movement.collisions[i]);
+                        }
                     }
+                    actionDelay = 0;
                 }
-                actionDelay = 0;
+                else if (harvest == 2)
+                {
+                    if (movement.currentLayer <= movement.waterLevel)
+                    {
+                        attributes.HarvestWater();
+                    }
+                    actionDelay = 0;
+                }
+
+                int attack = actions.DiscreteActions[1];
+                if (attack == 1)
+                {
+                    for (int i = 0; i < movement.collisions.Count; i++)
+                    {
+                        if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Entity"))
+                        {
+                            attributes.AttackEntity(movement.collisions[i]);
+                        }
+                    }
+                    actionDelay = 0;
+                }
+                else if (attack == 2)
+                {
+                    for (int i = 0; i < movement.collisions.Count; i++)
+                    {
+                        if (movement.collisions[i] != null && (movement.collisions[i].CompareTag("Resource") || movement.collisions[i].CompareTag("Shelter")))
+                        {
+                            attributes.AttackResource(movement.collisions[i]);
+                        }
+                    }
+                    actionDelay = 0;
+                }
+
+                int useShelter = actions.DiscreteActions[2];
+                if (useShelter == 1)
+                {
+                    for (int i = 0; i < movement.collisions.Count; i++)
+                    {
+                        if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Shelter"))
+                        {
+                            Shelter shelter = movement.collisions[i].GetComponent<Shelter>();
+                            shelter.EnterShelter(gameObject);
+                        }
+                    }
+                    actionDelay = 0;
+                }
             }
-            else if (attack == 2)
+        }
+        else if (actionDelay == actionDelayMax)
+        {
+            int useShelter = actions.DiscreteActions[2];
+            if (useShelter == 2)
             {
-                for (int i = 0; i < movement.collisions.Count; i++)
-                {
-                    if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
-                    {
-                        attributes.AttackResource(movement.collisions[i]);
-                    }
-                }
+                attributes.shelter.ExitShelter(gameObject);
                 actionDelay = 0;
             }
         }
@@ -120,6 +146,18 @@ public class HumanActions : MonoBehaviour
         else
         {
             discreteActions[1] = 0;
+        }
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            discreteActions[2] = 1;
+        }
+        else if (Input.GetKey(KeyCode.Alpha6))
+        {
+            discreteActions[2] = 2;
+        }
+        else
+        {
+            discreteActions[2] = 0;
         }
     }
 }
