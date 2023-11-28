@@ -211,11 +211,11 @@ public class Attributes : MonoBehaviour
         }
         if(currentHealth >= targetAttributes.currentHealth)
         {
-            humanAgent.AddReward(1.0f);
+            humanAgent.AddReward(humanRewards.GetAttackReward());
         }
         else
         {
-            humanAgent.AddReward(-1.0f);
+            humanAgent.AddReward(humanRewards.GetAttackPunishment());
         }
     }
     public void AttackResource(GameObject resource)
