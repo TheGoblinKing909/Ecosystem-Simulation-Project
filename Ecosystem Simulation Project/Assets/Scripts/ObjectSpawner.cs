@@ -18,6 +18,7 @@ public class ObjectSpawner : MonoBehaviour {
     Order:
         (1) Grass
         (2) Wheat
+        (3) Cave
     */
     public bool[,] resourceAllowedTilemaps = new bool[,] {
         { false, false, false, true, true, true, true, false, false, false, false },

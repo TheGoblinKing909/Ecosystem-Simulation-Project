@@ -64,10 +64,10 @@ public class Resource : MonoBehaviour {
         float amountHarvested = Mathf.Clamp(HarvestRemaining, 0, AmountPerHarvest);
         HarvestRemaining -= amountHarvested;
 
-        if(HarvestRemaining <= 0 )
-        {
-            spriteRenderer.color = deadColor;
-        }
+        // if(HarvestRemaining <= 0 )
+        // {
+        //     spriteRenderer.color = deadColor;
+        // }
 
         return amountHarvested;
     }

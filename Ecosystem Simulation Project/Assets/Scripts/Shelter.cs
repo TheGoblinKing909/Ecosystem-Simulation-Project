@@ -31,10 +31,10 @@ public class Shelter : MonoBehaviour
             SpriteRenderer[] entityRenderer = entity.GetComponentsInChildren<SpriteRenderer>();
             entityRenderer[0].enabled = false;
 
-            Debug.Log(entity + " entered " + gameObject);
+            Debug.Log(entity.name + " entered " + gameObject.name);
         }
         else {
-            Debug.Log(entity + " could not enter " + gameObject + ": remaining size is " + GetSizeRemaining());
+            Debug.Log(entity.name + " could not enter " + gameObject.name + ": remaining size is " + GetSizeRemaining());
         }
     }
 
@@ -50,6 +50,6 @@ public class Shelter : MonoBehaviour
         SpriteRenderer[] entityRenderer = entity.GetComponentsInChildren<SpriteRenderer>();
         entityRenderer[0].enabled = true;
 
-        Debug.Log(entity + " exited " + gameObject);
+        Debug.Log(entity.name + " exited " + gameObject.name);
     }
 }

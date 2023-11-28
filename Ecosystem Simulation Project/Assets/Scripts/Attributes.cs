@@ -193,6 +193,7 @@ public class Attributes : MonoBehaviour
     {
         if (currentStamina >= 10)
         {
+            Debug.Log(gameObject.name + " harvested resource " + resource.name);
             ModifyStamina(-10);
             Resource harvestItem = resource.GetComponent<Resource>();
             float harvestAmount = harvestItem.Harvest();
@@ -203,6 +204,7 @@ public class Attributes : MonoBehaviour
     {
         if (currentStamina >= 10)
         {
+            Debug.Log(gameObject.name + " harvested water");
             ModifyStamina(-10);
             Drink(10);
         }
@@ -212,6 +214,7 @@ public class Attributes : MonoBehaviour
         Attributes targetAttributes = entity.GetComponent<Attributes>();
         if(currentStamina >= 10)
         {
+            Debug.Log(gameObject.name + " attacked entity " + entity.name);
             ModifyStamina(-10f);
             if(Random.Range(1,10) >= targetAttributes.agility)
             {
@@ -229,9 +232,9 @@ public class Attributes : MonoBehaviour
     }
     public void AttackResource(GameObject resource)
     {
-        Debug.Log(gameObject.name + " attacked resource " + resource.name);
         if(currentStamina >= 10)
         {
+            Debug.Log(gameObject.name + " attacked resource " + resource.name);
             ModifyStamina(-10f);
             Resource targetResource = resource.GetComponent<Resource>();
             targetResource.HealthRemaining -= attack;

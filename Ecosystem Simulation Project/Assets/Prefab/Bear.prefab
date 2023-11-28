@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 0}
   attributes: {fileID: 0}
+  runSpeed: 0
   currentLayer: 0
   waterLevel: 1
   grid: {fileID: 0}
@@ -230,11 +231,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 4
+    VectorObservationSize: 1000
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 0300000003000000
+      BranchSizes: 030000000300000003000000
     VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
@@ -259,19 +260,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95045146853aa4642bb2ad2b19aa6798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialHealth: 100
+  initialStamina: 100
+  initialHunger: 100
+  initialThirst: 100
+  initialAgility: 2
+  initialAttack: 10
+  initialSize: 5
+  maxAge: 100
+  primeAge: 50
+  ageDelay: 10
+  hungerDecayRate: 2
+  thirstDecayRate: 2
   maxHealth: 100
   maxStamina: 100
   maxHunger: 100
   maxThirst: 100
-  hungerDecayRate: 2
-  thirstDecayRate: 2
   currentHealth: 0
   currentStamina: 0
   currentHunger: 0
   currentThirst: 0
+  currentAge: 0
   agility: 2
   attack: 10
   size: 5
+  shelter: {fileID: 0}
   movement: {fileID: 0}
   currentResource: {fileID: 0}
   deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}

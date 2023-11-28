@@ -42,23 +42,23 @@ public class HumanAgent : Agent
     {
         sensor.AddObservation((Vector2)transform.position);
 
-        // foreach(Transform resource in manager.resources)
-        // {
-        //     //sensor.AddObservation(observationTypes.TryGetValue("grass",out var result) ? result : 0.0f);
-        //     Vector2 direction = (resource.position - transform.position);
-        //     float distance = Vector2.Distance(transform.position, resource.position);
-        //     Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);
-        //     sensor.AddObservation(resourceObservation);
-        // }
+        foreach(Transform resource in manager.resources)
+        {
+            //sensor.AddObservation(observationTypes.TryGetValue("grass",out var result) ? result : 0.0f);
+            Vector2 direction = (resource.position - transform.position);
+            float distance = Vector2.Distance(transform.position, resource.position);
+            Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);
+            sensor.AddObservation(resourceObservation);
+        }
         
-        // foreach(Transform entites in manager.entites)
-        // {
-        //     //sensor.AddObservation(observationTypes.TryGetValue("human", out var result) ? result : 0.0f);
-        //     Vector2 direction = (entites.position - transform.position).normalized;
-        //     float distance = Vector3.Distance(transform.position, entites.position);
-        //     Vector3 entityObservation = new Vector3(distance, direction.x, direction.y);
-        //     sensor.AddObservation(entityObservation);
-        // }
+        foreach(Transform entites in manager.entites)
+        {
+            //sensor.AddObservation(observationTypes.TryGetValue("human", out var result) ? result : 0.0f);
+            Vector2 direction = (entites.position - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, entites.position);
+            Vector3 entityObservation = new Vector3(distance, direction.x, direction.y);
+            sensor.AddObservation(entityObservation);
+        }
 
     }
 

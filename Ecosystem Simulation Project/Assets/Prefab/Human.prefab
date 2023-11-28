@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 4
+    VectorObservationSize: 1000
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -183,23 +183,23 @@ MonoBehaviour:
   initialAgility: 2
   initialAttack: 10
   initialSize: 5
-  maxAge: 50
-  primeAge: 20
+  maxAge: 100
+  primeAge: 50
   ageDelay: 10
   hungerDecayRate: 2
   thirstDecayRate: 2
-  maxHealth: 0
-  maxStamina: 0
-  maxHunger: 0
-  maxThirst: 0
+  maxHealth: 100
+  maxStamina: 100
+  maxHunger: 100
+  maxThirst: 100
   currentHealth: 0
   currentStamina: 0
   currentHunger: 0
   currentThirst: 0
   currentAge: 0
-  agility: 0
-  attack: 0
-  size: 0
+  agility: 2
+  attack: 10
+  size: 5
   shelter: {fileID: 0}
   movement: {fileID: 0}
   currentResource: {fileID: 0}
