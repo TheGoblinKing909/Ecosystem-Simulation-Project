@@ -104,7 +104,7 @@ public class Attributes : MonoBehaviour
             ageTime = 0;
         }
 
-        if (shelter != null) {
+        if (shelter != null && currentHunger > 0 && currentThirst > 0) {
             float recoveryAmount = shelter.recoveryRate * Time.deltaTime;
             Heal(recoveryAmount);
             ModifyStamina(recoveryAmount);
@@ -274,7 +274,7 @@ public class Attributes : MonoBehaviour
     }
     private void Die()
     {
-        //Instantiate(deathResource, transform.position, Quaternion.identity);
+        Instantiate(deathResource, transform.position, Quaternion.identity, transform.parent);
         Destroy(gameObject);
         humanAgent.AddReward(-10000f);
     }
