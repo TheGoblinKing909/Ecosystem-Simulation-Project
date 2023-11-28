@@ -30,19 +30,28 @@ public class Attributes : MonoBehaviour
     public Resource currentResource;
     public GameObject deathResource;
     private HumanRewards humanRewards;
-
     private HumanAgent humanAgent;
 
     public void Awake()
     {
         movement = GetComponent<Movement>();
-        if (movement == null) throw new System.Exception("movement not set in attributes");
+        var test = movement;
+        if (movement == null)
+        {
+            throw new System.Exception("movement not set in attributes");
+        }
 
         humanRewards = GetComponent<HumanRewards>();
-        if (humanRewards == null) throw new System.Exception("HumanRewards not set in attributes");
+        if (humanRewards == null)
+        {
+            throw new System.Exception("HumanRewards not set in attributes");
+        }
 
         humanAgent = GetComponent<HumanAgent>();
-        if (humanAgent == null) throw new System.Exception("Human Agent not set in attributes");
+        if (humanAgent == null)
+        {
+            throw new System.Exception("Human Agent not set in attributes");
+        }
     }
 
     public void EpisodeBegin()
