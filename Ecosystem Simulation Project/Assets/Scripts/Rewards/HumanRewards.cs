@@ -9,11 +9,14 @@ public class HumanRewards : MonoBehaviour
     [SerializeField] private Attributes attributes;
 
     [SerializeField] private float maxHealthGainReward = 1.0f;
-    [SerializeField] private float maxHealthLossPunisment = 1.0f;
+    [SerializeField] private float maxHealthLossPunisment = -1.0f;
     [SerializeField] private float maxHungerGainReward = 1.0f;
-    [SerializeField] private float maxHungerLossPunishment = 1.0f;
+    [SerializeField] private float maxHungerLossPunishment = -1.0f;
     [SerializeField] private float maxThirstGainReward = 1.0f;
-    [SerializeField] private float maxThirstLossPunishment = 1.0f;
+    [SerializeField] private float maxThirstLossPunishment = -1.0f;
+    [SerializeField] private float maxAttackReward = 1.0f;
+    [SerializeField] private float maxAttackPunishment = -1.0f;
+
 
     void Start()
     {
@@ -102,7 +105,14 @@ public class HumanRewards : MonoBehaviour
         return (percentDamage * maxThirstLossPunishment);
     }
 
-
+    public float GetAttackReward()
+    {
+        return maxAttackReward;
+    }
+    public float GetAttackPunishment()
+    {
+        return maxAttackPunishment;
+    }
     
     
 }
