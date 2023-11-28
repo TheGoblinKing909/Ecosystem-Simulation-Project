@@ -99,7 +99,6 @@ GameObject:
   - component: {fileID: 7835650255254209710}
   - component: {fileID: 8982891888849782807}
   - component: {fileID: 6381002353954940254}
-  - component: {fileID: 8485999866232291483}
   - component: {fileID: 7360307003531797025}
   - component: {fileID: 5424941460548871130}
   - component: {fileID: 6676144196585733719}
@@ -241,7 +240,7 @@ MonoBehaviour:
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 0
+  m_InferenceDevice: 1
   m_BehaviorType: 0
   m_BehaviorName: bear
   TeamId: 0
@@ -290,22 +289,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
---- !u!114 &8485999866232291483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7404917140349088052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
 --- !u!114 &7360307003531797025
 MonoBehaviour:
   m_ObjectHideFlags: 0
