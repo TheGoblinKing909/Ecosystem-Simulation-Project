@@ -69,7 +69,7 @@ public class ObjectSpawner : MonoBehaviour {
         return transform.childCount;
     }
 
-    public void PlaceResources () {
+    public int PlaceResources () {
 
         int layerNumber;
         TileBase tile;
@@ -80,6 +80,8 @@ public class ObjectSpawner : MonoBehaviour {
         int grid_z;
         Vector3Int grid_xyz_pos;
         Vector3 world_xyz_pos;
+
+        int totalResourceCount = 0;
 
         for ( int y = (- height / 2) - 1; y < (height / 2) + tilemaps.Count - 3; y++ ) {
             for ( int x = (- width / 2) - 1; x < (width / 2) + tilemaps.Count - 3; x++ ) {
@@ -120,9 +122,10 @@ public class ObjectSpawner : MonoBehaviour {
                                             grid_xyz_pos.y -= layerNumber - 2;
                                             grid_xyz_pos.x -= layerNumber - 2;
                                         }
+
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
                                         Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
-                                        // totalResourceCount++;
+                                        totalResourceCount++;
 
                                         if ( resourceQueue[i] > 0 && randomValue > effectiveDensity )
                                             resourceQueue[i]--;
@@ -148,6 +151,8 @@ public class ObjectSpawner : MonoBehaviour {
             }
     
         }
+
+        return totalResourceCount;
     
     }
 
@@ -180,7 +185,11 @@ public class ObjectSpawner : MonoBehaviour {
 
                 else {
 
-                    for ( int i = 0; i < resourcePrefabs.Count; i++ ) {
+                    int i = Random.Range( 0 , resourcePrefabs.Count );
+                    bool spawned = false;
+                    int attempts = 0;
+
+                    while ( !spawned && attempts < 10 ) {
 
                         if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
 
@@ -194,18 +203,22 @@ public class ObjectSpawner : MonoBehaviour {
                                 grid_xyz_pos.y -= layerNumber - 2;
                                 grid_xyz_pos.x -= layerNumber - 2;
                             }
+
                             world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
                             Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
-                            // totalResourceCount++;
+                            spawned = true;
                             spawnAmount--;
-                            break;
 
                         }
+
+                        attempts++;
+
                     }
-                }
 
                 layerNumber--;
                 grid_xyz_pos = new Vector3Int(x, y, 0);
+
+                }
 
             }
 
@@ -213,7 +226,7 @@ public class ObjectSpawner : MonoBehaviour {
 
     }
 
-    public void PlaceEntities () {
+    public int PlaceEntities () {
 
         int layerNumber;
         TileBase tile;
@@ -224,6 +237,8 @@ public class ObjectSpawner : MonoBehaviour {
         int grid_z;
         Vector3Int grid_xyz_pos;
         Vector3 world_xyz_pos;
+
+        int totalEntityCount = 0;
 
         for ( int y = (- height / 2) - 1; y < (height / 2) + tilemaps.Count - 3; y++ ) {
             for ( int x = (- width / 2) - 1; x < (width / 2) + tilemaps.Count - 3; x++ ) {
@@ -265,6 +280,7 @@ public class ObjectSpawner : MonoBehaviour {
                                             grid_xyz_pos.y -= layerNumber - 2;
                                             grid_xyz_pos.x -= layerNumber - 2;
                                         }
+
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
 
                                         GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
@@ -272,7 +288,7 @@ public class ObjectSpawner : MonoBehaviour {
                                         Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         movementScript.OnInstantiate();
         
-                                        //totalEntityCount++;
+                                        totalEntityCount++;
 
                                         if ( entityQueue[i] > 0 && randomValue > effectiveDensity )
                                             entityQueue[i]--;
@@ -298,6 +314,8 @@ public class ObjectSpawner : MonoBehaviour {
             }
 
         }
+
+        return totalEntityCount;
 
     }
 
@@ -330,7 +348,11 @@ public class ObjectSpawner : MonoBehaviour {
 
                 else {
 
-                    for ( int i = 0; i < entityPrefabs.Count; i++ ) {
+                    int i = Random.Range( 0 , entityPrefabs.Count );
+                    bool spawned = false;
+                    int attempts = 0;
+
+                    while ( !spawned && attempts < 10 ) {
 
                         if ( entityAllowedTilemaps[i, layerNumber] == true ) {
 
@@ -351,16 +373,19 @@ public class ObjectSpawner : MonoBehaviour {
                             Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                             movementScript.OnInstantiate();
 
-                            // totalEntityCount++;
+                            spawned = true;
                             spawnAmount--;
-                            break;
 
                         }
-                    }
-                }
 
-                layerNumber--;
-                grid_xyz_pos = new Vector3Int(x, y, 0);
+                        attempts++;
+
+                    }
+
+                    layerNumber--;
+                    grid_xyz_pos = new Vector3Int(x, y, 0);
+
+                }
 
             }
     

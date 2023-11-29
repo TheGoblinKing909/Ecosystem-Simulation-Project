@@ -50,34 +50,30 @@ public class GameManager : MonoBehaviour
 
     public int frameCount = 0;
 
-    public float resourceRatio;
+    public float resourceMax;
 
-    public float entityRatio;
+    public float entityMax;
 
     void Start()
     {
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
         WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
-        resourceSpawner.PlaceResources();
-        entitySpawner.PlaceEntities();
-        resourceRatio = (width * height) * resourceDensity;
-        entityRatio = (width * height) * entityDensity;
+        resourceMax = resourceSpawner.PlaceResources();
+        entityMax = entitySpawner.PlaceEntities();
     }
 
     void Update()
     {
-        if ( ++frameCount > 99 ) {
+        if ( ++frameCount > 49 ) {
             frameCount = 0;
             int spawnAmount;
             totalResourceCount = resourceSpawner.GetChildCount();
             totalEntityCount = entitySpawner.GetChildCount();
-            if ( totalResourceCount < resourceRatio ) {
-                // spawnAmount = resourceRatio - totalResourceCount;
+            if ( totalResourceCount < resourceMax ) {
                 spawnAmount = 1;
                 resourceSpawner.SpawnResources(spawnAmount);
             }
-            if ( totalEntityCount < entityRatio ) {
-                // spawnAmount = entityRatio - totalEntityCount;
+            if ( totalEntityCount < entityMax ) {
                 spawnAmount = 1;
                 entitySpawner.SpawnEntities(spawnAmount);
             }
