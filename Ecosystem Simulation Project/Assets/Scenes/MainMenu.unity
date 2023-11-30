@@ -370,13 +370,6 @@ MonoBehaviour:
   userScale: {fileID: 1426357317}
   userPersistence: {fileID: 2015378362}
   userLacunarity: {fileID: 1176571853}
-  inputWidth: 0
-  inputHeight: 0
-  inputSeed: 0
-  inputOctaves: 0
-  inputScale: 0
-  inputPersistence: 0
-  inputLacunarity: 0
 --- !u!4 &69277086
 Transform:
   m_ObjectHideFlags: 0
@@ -2224,7 +2217,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

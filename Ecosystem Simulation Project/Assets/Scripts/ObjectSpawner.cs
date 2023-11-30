@@ -50,14 +50,16 @@ public class ObjectSpawner : MonoBehaviour {
         gameManager = transform.parent.GetComponent<GameManager>();
 
         if ( gameManager != null ) {
-            width = gameManager.width;
-            height = gameManager.height;
+            width = MainMenuController.inputWidth;
+            height = MainMenuController.inputHeight;
             grid = gameManager.grid;
             tilemaps = gameManager.tilemaps;
             resourcePrefabs = gameManager.resourcePrefabs;
-            resourceDensity = gameManager.resourceDensity;
+            // resourceDensity = gameManager.resourceDensity;
+            resourceDensity = MainMenuController.inputResDensity;
             entityPrefabs = gameManager.entityPrefabs;
-            entityDensity = gameManager.entityDensity;
+            //entityDensity = gameManager.entityDensity;
+            entityDensity = MainMenuController.inputEntDensity;
         }
         else {
             Debug.LogError("GameManager not found!");

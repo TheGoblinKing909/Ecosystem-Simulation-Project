@@ -45,15 +45,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
-        WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
-        resourceMax = resourceSpawner.PlaceResources();
-        entityMax = entitySpawner.PlaceEntities();
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(MainMenuController.inputWidth, MainMenuController.inputHeight, MainMenuController.inputSeed, MainMenuController.inputScale, MainMenuController.inputOctaves, MainMenuController.inputPersistence, MainMenuController.inputLacunarity, offset);
         WorldGenerator.PlaceTiles(MainMenuController.inputWidth, MainMenuController.inputHeight, noiseMap, grid, tilemaps, tileList);
-        ObjectSpawner objSpawner = new ObjectSpawner();
-        objSpawner.PlaceResources(grid, resourcePrefab);
-
+        resourceMax = resourceSpawner.PlaceResources();
+        entityMax = entitySpawner.PlaceEntities();
     }
 
     void Update()
