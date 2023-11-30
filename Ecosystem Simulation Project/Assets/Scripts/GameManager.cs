@@ -5,15 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
-
-    // variables for noise map generation
-    public int width;
-    public int height;
-    public int seed;
-    public float scale;
-    public int octaves;
-    public float persistence;
-    public float lacunarity;
     public Vector2 offset;
 
     // variables for tile placement
@@ -29,8 +20,8 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
-        WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
+        float[,] noiseMap = WorldGenerator.GenerateNoiseMap(MainMenuController.inputWidth, MainMenuController.inputHeight, MainMenuController.inputSeed, MainMenuController.inputScale, MainMenuController.inputOctaves, MainMenuController.inputPersistence, MainMenuController.inputLacunarity, offset);
+        WorldGenerator.PlaceTiles(MainMenuController.inputWidth, MainMenuController.inputHeight, noiseMap, grid, tilemaps, tileList);
         ObjectSpawner objSpawner = new ObjectSpawner();
         objSpawner.PlaceResources(grid, resourcePrefab);
 

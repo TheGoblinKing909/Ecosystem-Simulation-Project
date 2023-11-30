@@ -2388,13 +2388,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21015d9acd697ed48b66a32318fe436f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 100
-  height: 100
-  seed: 200
-  scale: 150
-  octaves: 3
-  persistence: 0.5
-  lacunarity: 4
+  width: 0
+  height: 0
+  seed: 0
+  scale: 0
+  octaves: 0
+  persistence: 0
+  lacunarity: 0
   offset: {x: 0, y: 0}
   grid: {fileID: 1204330454}
   tilemaps:
