@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
     // suggested default value 0.01 - 0.03
     public float resourceDensity;
 
-    // used for continual respawning
+    // both used for continual respawning
+    public float resourceMax;
     public int totalResourceCount;
 
     // reference to ObjectSpawner script
@@ -42,17 +43,14 @@ public class GameManager : MonoBehaviour
     // suggested default value 0.01 - 0.02
     public float entityDensity;
 
-    // used for continual respawning
+    // both used for continual respawning
+    public float entityMax;
     public int totalEntityCount;
 
     // variables for ML agents
     public bool isTrainingMode;
 
     public int frameCount = 0;
-
-    public float resourceMax;
-
-    public float entityMax;
 
     void Start()
     {
@@ -64,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if ( ++frameCount > 49 ) {
+        if ( ++frameCount > 2 ) {
             frameCount = 0;
             int spawnAmount;
             totalResourceCount = resourceSpawner.GetChildCount();
