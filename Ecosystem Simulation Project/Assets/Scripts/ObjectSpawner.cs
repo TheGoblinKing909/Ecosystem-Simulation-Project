@@ -42,8 +42,6 @@ public class ObjectSpawner : MonoBehaviour {
 
     public void Awake() {
 
-        Debug.Log("Print Statement");
-
         gameManager = transform.parent.GetComponent<GameManager>();
 
         if ( gameManager != null ) {
@@ -154,8 +152,8 @@ public class ObjectSpawner : MonoBehaviour {
     
         }
 
-        Debug.Log("Grass = " + count1);
-        Debug.Log("Wheat = " + count2);
+        //Debug.Log("Grass = " + count1);
+        //Debug.Log("Wheat = " + count2);
     
     }
 
@@ -266,8 +264,8 @@ public class ObjectSpawner : MonoBehaviour {
     
         }
 
-        Debug.Log("Human = " + count1);
-        Debug.Log("Bear = " + count2);
+        //Debug.Log("Human = " + count1);
+        //Debug.Log("Bear = " + count2);
     
     }
 

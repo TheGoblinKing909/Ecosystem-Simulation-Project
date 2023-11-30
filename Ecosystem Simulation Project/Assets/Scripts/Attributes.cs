@@ -191,7 +191,6 @@ public class Attributes : MonoBehaviour
     }
     public void AttackResource(GameObject resource)
     {
-        Debug.Log(gameObject.name + " attacked resource " + resource.name);
         if(currentStamina >= 10)
         {
             ModifyStamina(-10f);
