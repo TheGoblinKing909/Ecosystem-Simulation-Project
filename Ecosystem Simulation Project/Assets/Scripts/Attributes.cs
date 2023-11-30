@@ -286,10 +286,6 @@ public class Attributes : MonoBehaviour
     }
     private void Die()
     {
-        /*
-        Instantiate(deathResource, transform.position, Quaternion.identity, transform.parent);
-        Destroy(gameObject);
-        */
         GameObject deathInstance = Instantiate(deathResource, transform.position, Quaternion.identity);
         GameManager gameManager = FindObjectOfType<GameManager>();
 
