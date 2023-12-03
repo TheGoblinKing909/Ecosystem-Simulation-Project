@@ -570,8 +570,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: seed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: width
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: height
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: persistence
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: entityDensity
-      value: 0.015
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourceDensity
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: entityPrefabs.Array.size
@@ -667,7 +687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5996926454013209364, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: maxTimeBeforeReset
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6299341815498763752, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: m_ColliderPaths.Array.size

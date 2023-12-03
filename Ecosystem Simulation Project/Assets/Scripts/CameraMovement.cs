@@ -29,11 +29,11 @@ public class CameraMovement : MonoBehaviour
             dragPosition = Input.mousePosition;
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && view.orthographicSize < zoomMax)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && view.orthographicSize < zoomMax)
         {
             view.orthographicSize += zoomSpeed;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && view.orthographicSize > zoomMin)
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0 && view.orthographicSize > zoomMin)
         {
             view.orthographicSize -= zoomSpeed;
         }

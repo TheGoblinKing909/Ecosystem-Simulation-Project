@@ -17,6 +17,11 @@ public class Resource : MonoBehaviour {
 
     private void FixedUpdate() {
         if (HealthRemaining <= 0) {
+            if (TryGetComponent<Shelter>(out Shelter shelter)) {
+                for (int i = 0; i < shelter.shelteredEntities.Count; i++) {
+                    shelter.ExitShelter(shelter.shelteredEntities[i]);
+                }
+            }
             Destroy(gameObject);
         }
         if (HarvestRemaining < HarvestMax) {
@@ -50,7 +55,7 @@ public class Resource : MonoBehaviour {
 
         spriteRenderer.color = defaultColor;
 
-        HarvestRemaining = 20;
+        // HarvestRemaining = 20;
 
     }
 

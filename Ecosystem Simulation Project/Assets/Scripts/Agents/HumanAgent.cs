@@ -12,15 +12,6 @@ public class HumanAgent : Agent
     private HumanActions humanActions;
     [SerializeField] private AIManager manager;
 
-    //[SerializeField] private static Dictionary<string,float> observationTypes = new Dictionary<string, float>()
-    //{
-    //    {"grass", 1.01f},
-    //    {"wheat", 1.02f},
-
-    //    {"human", 2.01f},
-    //    {"bear", 2.02f},
-    //};
-
     private void Awake()
     {
         Initialize();
@@ -44,7 +35,7 @@ public class HumanAgent : Agent
 
         foreach(Transform resource in manager.resources)
         {
-            //sensor.AddObservation(observationTypes.TryGetValue("grass",out var result) ? result : 0.0f);
+            sensor.AddObservation(1);
             Vector2 direction = (resource.position - transform.position);
             float distance = Vector2.Distance(transform.position, resource.position);
             Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);
@@ -53,15 +44,13 @@ public class HumanAgent : Agent
         
         foreach(Transform entites in manager.entites)
         {
-            //sensor.AddObservation(observationTypes.TryGetValue("human", out var result) ? result : 0.0f);
+            sensor.AddObservation(2);
             Vector2 direction = (entites.position - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, entites.position);
             Vector3 entityObservation = new Vector3(distance, direction.x, direction.y);
             sensor.AddObservation(entityObservation);
         }
-
     }
-
     public override void OnEpisodeBegin()
     {
         //reset episodes
@@ -77,11 +66,4 @@ public class HumanAgent : Agent
     {
         humanActions.Heuristic(actionsOut);
     }
-
-    public void AwardAgent(float reward)
-    {
-        AddReward(reward);
-    }
-
-
 }

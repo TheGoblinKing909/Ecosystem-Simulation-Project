@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +8,22 @@ using UnityEngine;
 public class AIManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
-    [SerializeField] private bool isTrainingmode = true;
-    [SerializeField] private float maxTimeBeforeReset = 10f;
     [SerializeField] private ObjectSpawner resourceManager;
+
+    [SerializeField] private float maxTimeBeforeReset = 10f;
+    [SerializeField] private float TimeScale = 1.0f;
+    public float _TimeScale
+    {
+        set
+        {
+            TimeScale = value;
+            UpdateTimeScale();
+        }
+        get => TimeScale;
+    }
+
+    private float FixedDeltaTime = 0.02f;
+
     private Transform resourceManagerTransform { get
         {
             return resourceManager.transform;
@@ -29,6 +43,10 @@ public class AIManager : MonoBehaviour
 
     private float currentTime;
 
+    private void Awake()
+    {
+        Time.timeScale = _TimeScale;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -50,12 +68,14 @@ public class AIManager : MonoBehaviour
         {
             ResetEpisodes();
         }
+
+        Debug.Log("ts" + TimeScale);
+        Debug.Log("tts" + Time.timeScale);
+
     }
 
     void ResetEpisodes()
     {
-        Debug.Log("ResetEpisodeCalled");
-
         //Delete Everything
         RemoveChildren(resourceManagerTransform);
         RemoveChildren(entityManagerTransform);
@@ -81,5 +101,15 @@ public class AIManager : MonoBehaviour
         }
 
         parent.DetachChildren();
+    }
+
+    void UpdateTimeScale()
+    {
+        Time.timeScale = _TimeScale;
+    }
+
+    private void OnValidate()
+    {
+        _TimeScale = TimeScale;
     }
 }

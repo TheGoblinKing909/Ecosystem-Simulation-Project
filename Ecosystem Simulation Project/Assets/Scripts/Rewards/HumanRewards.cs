@@ -9,13 +9,29 @@ public class HumanRewards : MonoBehaviour
     [SerializeField] private Attributes attributes;
 
     [SerializeField] private float maxHealthGainReward = 1.0f;
-    [SerializeField] private float maxHealthLossPunisment = -1.0f;
+    [SerializeField] private float minHealthGainReward = 0.01f;
+
+    [SerializeField] private float maxHealthLossPunishment = -1.0f;
+    [SerializeField] private float minHealthLossPunishment = -0.01f;
+
     [SerializeField] private float maxHungerGainReward = 1.0f;
+    [SerializeField] private float minHungerGainReward = 0.01f;
+
     [SerializeField] private float maxHungerLossPunishment = -1.0f;
-    [SerializeField] private float maxThirstGainReward = 1.0f;
+    [SerializeField] private float minHungerLossPunishment = -0.01f;
+
+    [SerializeField] private float maxThirstGainReward = 0.7f;
+    [SerializeField] private float minThirstGainReward = 0.01f;
+
     [SerializeField] private float maxThirstLossPunishment = -1.0f;
+    [SerializeField] private float minThirstLossPunishment = -0.01f;
+
     [SerializeField] private float maxAttackReward = 1.0f;
-    [SerializeField] private float maxAttackPunishment = -1.0f;
+    [SerializeField] private float minAttackReward = 0.01f;
+
+    [SerializeField] private float maxAttackPunishment = -0.01f;
+    [SerializeField] private float minAttackPunishment = -0.01f;
+
 
 
     void Start()
@@ -34,7 +50,7 @@ public class HumanRewards : MonoBehaviour
         }
 
         float percentHealthRestored = 1 - (newHealth / attributes.maxHealth);
-        return percentHealthRestored * maxHealthGainReward;
+        return Mathf.Clamp((percentHealthRestored * maxHealthGainReward), minHealthGainReward, maxHealthGainReward);
     }
     public float GetHealthLossReward(float damageTaken)
     {
@@ -43,11 +59,11 @@ public class HumanRewards : MonoBehaviour
         //Death
         if(damageTaken > currentHealth)
         {
-            return (maxHealthLossPunisment);
+            return (maxHealthLossPunishment);
         }
 
         float percentDamage = (damageTaken / currentHealth);
-        return (percentDamage * maxHealthLossPunisment);
+        return Mathf.Clamp((percentDamage * maxHealthLossPunishment), minHealthLossPunishment, maxHealthLossPunishment);
     }
     
     public float GetHungerGainedReward(float hungerGained)
@@ -61,7 +77,7 @@ public class HumanRewards : MonoBehaviour
         }
 
         float percentHungerRestored = 1 - (newHunger / attributes.maxHunger);
-        return percentHungerRestored * maxHungerGainReward;
+        return Mathf.Clamp((percentHungerRestored * maxHungerGainReward), minHungerGainReward, maxHungerGainReward);
     }
     public float GetHungerLossReward(float hungerLost)
     {
@@ -74,7 +90,7 @@ public class HumanRewards : MonoBehaviour
         }
 
         float percentDamage = (hungerLost / currentHunger);
-        return (percentDamage * maxHungerLossPunishment);
+        return Mathf.Clamp((percentDamage * maxHungerLossPunishment), minHungerLossPunishment, maxHungerLossPunishment);
     }
     
 
@@ -89,7 +105,7 @@ public class HumanRewards : MonoBehaviour
         }
 
         float percentThirstRestored = 1 - (newThirst / attributes.maxThirst);
-        return percentThirstRestored * maxThirstGainReward;
+        return Mathf.Clamp((percentThirstRestored * maxThirstGainReward), minThirstGainReward, maxThirstGainReward);
     }
     public float GetThirstLossReward(float thirstLost)
     {
@@ -102,7 +118,7 @@ public class HumanRewards : MonoBehaviour
         }
 
         float percentDamage = (thirstLost / currentThirst);
-        return (percentDamage * maxThirstLossPunishment);
+        return Mathf.Clamp((percentDamage * maxThirstLossPunishment), minThirstLossPunishment, maxThirstLossPunishment);
     }
 
     public float GetAttackReward()
