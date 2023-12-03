@@ -5,15 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
-
-    // variables for noise map generation
-    public int width;
-    public int height;
-    public int seed;
-    public float scale;
-    public int octaves;
-    public float persistence;
-    public float lacunarity;
     public Vector2 offset;
 
     // variables for tile placement
@@ -30,7 +21,8 @@ public class GameManager : MonoBehaviour
     // suggested default value 0.01 - 0.03
     public float resourceDensity;
 
-    // used for continual respawning
+    // both used for continual respawning
+    public float resourceMax;
     public int totalResourceCount;
 
     // reference to ObjectSpawner script
@@ -42,7 +34,8 @@ public class GameManager : MonoBehaviour
     // suggested default value 0.01 - 0.02
     public float entityDensity;
 
-    // used for continual respawning
+    // both used for continual respawning
+    public float entityMax;
     public int totalEntityCount;
 
     // variables for ML agents
@@ -50,34 +43,26 @@ public class GameManager : MonoBehaviour
 
     public int frameCount = 0;
 
-    public float resourceRatio;
-
-    public float entityRatio;
-
     void Start()
     {
-        float[,] noiseMap = WorldGenerator.GenerateNoiseMap(width, height, seed, scale, octaves, persistence, lacunarity, offset);
-        WorldGenerator.PlaceTiles(width, height, noiseMap, grid, tilemaps, tileList);
-        resourceSpawner.PlaceResources();
-        entitySpawner.PlaceEntities();
-        resourceRatio = (width * height) * resourceDensity;
-        entityRatio = (width * height) * entityDensity;
+        float[,] noiseMap = WorldGenerator.GenerateNoiseMap(MainMenuController.inputWidth, MainMenuController.inputHeight, MainMenuController.inputSeed, MainMenuController.inputScale, MainMenuController.inputOctaves, MainMenuController.inputPersistence, MainMenuController.inputLacunarity, offset);
+        WorldGenerator.PlaceTiles(MainMenuController.inputWidth, MainMenuController.inputHeight, noiseMap, grid, tilemaps, tileList);
+        resourceMax = resourceSpawner.PlaceResources();
+        entityMax = entitySpawner.PlaceEntities();
     }
 
     void Update()
     {
-        if ( ++frameCount > 99 ) {
+        if ( ++frameCount > 2 ) {
             frameCount = 0;
             int spawnAmount;
             totalResourceCount = resourceSpawner.GetChildCount();
             totalEntityCount = entitySpawner.GetChildCount();
-            if ( totalResourceCount < resourceRatio ) {
-                // spawnAmount = resourceRatio - totalResourceCount;
+            if ( totalResourceCount < resourceMax ) {
                 spawnAmount = 1;
                 resourceSpawner.SpawnResources(spawnAmount);
             }
-            if ( totalEntityCount < entityRatio ) {
-                // spawnAmount = entityRatio - totalEntityCount;
+            if ( totalEntityCount < entityMax ) {
                 spawnAmount = 1;
                 entitySpawner.SpawnEntities(spawnAmount);
             }

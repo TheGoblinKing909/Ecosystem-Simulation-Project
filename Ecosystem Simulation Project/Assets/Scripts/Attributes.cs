@@ -286,7 +286,18 @@ public class Attributes : MonoBehaviour
     }
     private void Die()
     {
-        Instantiate(deathResource, transform.position, Quaternion.identity, transform.parent);
+        GameObject deathInstance = Instantiate(deathResource, transform.position, Quaternion.identity);
+        GameManager gameManager = FindObjectOfType<GameManager>();
+
+        if (gameManager != null) {
+
+            Transform resourceManagerTransform = gameManager.transform.Find("ResourceManager");
+
+            if (resourceManagerTransform != null) {
+                deathInstance.transform.parent = resourceManagerTransform;
+            }
+        }
+
         Destroy(gameObject);
         humanAgent.AddReward(-10000f);
     }

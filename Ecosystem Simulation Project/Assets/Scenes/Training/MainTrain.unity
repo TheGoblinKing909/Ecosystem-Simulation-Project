@@ -1753,7 +1753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 100
   height: 100
-  seed: 200
+  seed: 77
   scale: 150
   octaves: 3
   persistence: 0.5
@@ -1788,13 +1788,19 @@ MonoBehaviour:
   resourcePrefabs:
   - {fileID: 4380840106439738494, guid: 67de891b47ec9a547b1236d33dee47eb, type: 3}
   - {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
-  resourceDensity: 0.025
+  - {fileID: 4380840106439738494, guid: c057f986df25ee14ea80b4c7354f9d19, type: 3}
+  resourceDensity: 0.015
+  resourceMax: 0
+  totalResourceCount: 0
   entitySpawner: {fileID: 869567987}
   entityPrefabs:
   - {fileID: 1640055438649528310, guid: f0b371a42575ef4428c577d8434836ce, type: 3}
   - {fileID: 7404917140349088052, guid: 2c339d4938d1ee14ea65978bf9438488, type: 3}
-  entityDensity: 0.015
+  entityDensity: 0.01
+  entityMax: 0
+  totalEntityCount: 0
   isTrainingMode: 0
+  frameCount: 0
 --- !u!4 &1036352335
 Transform:
   m_ObjectHideFlags: 0
@@ -2936,7 +2942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1036352334}
   isTrainingmode: 1
-  maxTimeBeforeReset: 10
+  maxTimeBeforeReset: 100000000
   resourceManager: {fileID: 1161770222}
   entityManager: {fileID: 869567987}
 --- !u!1 &1631512767
