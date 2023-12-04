@@ -18,11 +18,11 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             dragPosition = Input.mousePosition;
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(1))
         {
             Vector3 move = dragPosition - Input.mousePosition;
             transform.position += new Vector3(move.x * dragSpeed, move.y * dragSpeed, 0);

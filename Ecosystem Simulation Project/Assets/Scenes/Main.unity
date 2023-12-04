@@ -231,7 +231,7 @@ MonoBehaviour:
   dragSpeed: 0.025
   zoomSpeed: 1
   zoomMin: 1
-  zoomMax: 10
+  zoomMax: 20
 --- !u!1001 &2037697364
 PrefabInstance:
   m_ObjectHideFlags: 0

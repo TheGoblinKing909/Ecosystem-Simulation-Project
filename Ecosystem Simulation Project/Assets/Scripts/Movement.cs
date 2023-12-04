@@ -47,18 +47,18 @@ public class Movement : MonoBehaviour
         vertical = y;
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
 
-        Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
-        float deltaTime = Time.deltaTime; // Get the time since the last frame update
-        Vector2 newPosition = currentPosition + body.velocity * deltaTime;
+        // Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
+        // float deltaTime = Time.deltaTime; // Get the time since the last frame update
+        // Vector2 newPosition = currentPosition + body.velocity * deltaTime;
 
-        if(newPosition.x > 50 || newPosition.x < -50)
-        {
-            agent.AddReward(-10000000);
-        }
-        if (newPosition.y > 50 || newPosition.y < -50)
-        {
-            agent.AddReward(-10000000);
-        }
+        // if(newPosition.x > 50 || newPosition.x < -50)
+        // {
+        //     agent.AddReward(-10000000);
+        // }
+        // if (newPosition.y > 50 || newPosition.y < -50)
+        // {
+        //     agent.AddReward(-10000000);
+        // }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
