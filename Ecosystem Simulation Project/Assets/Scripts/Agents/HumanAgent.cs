@@ -57,7 +57,6 @@ public class HumanAgent : Agent
         attributes.EpisodeBegin();
         humanActions.EpisodeBegin();
     }
-
     public override void OnActionReceived(ActionBuffers actions)
     {
         humanActions.ActionsRecieved(actions);

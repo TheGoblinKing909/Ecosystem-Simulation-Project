@@ -68,10 +68,6 @@ public class AIManager : MonoBehaviour
         {
             ResetEpisodes();
         }
-
-        Debug.Log("ts" + TimeScale);
-        Debug.Log("tts" + Time.timeScale);
-
     }
 
     void ResetEpisodes()

@@ -14,7 +14,7 @@ public class HumanRewards : MonoBehaviour
     [SerializeField] private float maxHealthLossPunishment = -1.0f;
     [SerializeField] private float minHealthLossPunishment = -0.01f;
 
-    [SerializeField] private float maxHungerGainReward = 1.0f;
+    [SerializeField] private float maxHungerGainReward = 2.0f;
     [SerializeField] private float minHungerGainReward = 0.01f;
 
     [SerializeField] private float maxHungerLossPunishment = -1.0f;
@@ -26,7 +26,7 @@ public class HumanRewards : MonoBehaviour
     [SerializeField] private float maxThirstLossPunishment = -1.0f;
     [SerializeField] private float minThirstLossPunishment = -0.01f;
 
-    [SerializeField] private float maxAttackReward = 1.0f;
+    [SerializeField] private float maxAttackReward = 0.01f;
     [SerializeField] private float minAttackReward = 0.01f;
 
     [SerializeField] private float maxAttackPunishment = -0.01f;
