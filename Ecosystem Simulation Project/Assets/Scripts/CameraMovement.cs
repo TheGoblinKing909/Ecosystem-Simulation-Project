@@ -18,22 +18,22 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             dragPosition = Input.mousePosition;
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(1))
         {
             Vector3 move = dragPosition - Input.mousePosition;
             transform.position += new Vector3(move.x * dragSpeed, move.y * dragSpeed, 0);
             dragPosition = Input.mousePosition;
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && view.orthographicSize < zoomMax)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && view.orthographicSize < zoomMax)
         {
             view.orthographicSize += zoomSpeed;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && view.orthographicSize > zoomMin)
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0 && view.orthographicSize > zoomMin)
         {
             view.orthographicSize -= zoomSpeed;
         }

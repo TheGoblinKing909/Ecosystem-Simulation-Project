@@ -5,30 +5,40 @@ using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    Rigidbody2D body;
-    Attributes attributes;
+    public Rigidbody2D body;
+    public Attributes attributes;
 
     float horizontal;
     float vertical;
-    float runSpeed;
     int collisionCount;
-    int currentLayer;
+    public float runSpeed;
+    public int currentLayer;
     public int waterLevel;
     public Grid grid = null;
     public List<Tilemap> tilemaps = new List<Tilemap>();
+    public List<GameObject> collisions = new List<GameObject>();
+
+    public HumanAgent agent = null;
 
     // Start is called before the first frame update
-    void Start()
+    public void OnInstantiate()
     {
-        body = GetComponent<Rigidbody2D>();
-        currentLayer = gameObject.layer - 6;
-        attributes = GetComponent<Attributes>();
-        runSpeed = attributes.agility;
-    }
 
-    void FixedUpdate()
-    {
-        HandleWater();
+        ObjectSpawner entityManager = transform.parent.GetComponent<ObjectSpawner>();
+        agent = GetComponent<HumanAgent>();
+
+        if ( entityManager != null ) {
+            grid = entityManager.grid;
+            tilemaps = entityManager.tilemaps;
+            body = GetComponent<Rigidbody2D>();
+            currentLayer = gameObject.layer - 6;
+            attributes = GetComponent<Attributes>();
+            runSpeed = attributes.agility;
+        }
+        else {
+            Debug.LogError("EntityManager not found!");
+        }
+
     }
 
     public void SetMovement(float x, float y)
@@ -36,24 +46,25 @@ public class Movement : MonoBehaviour
         horizontal = x;
         vertical = y;
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+
+        // Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
+        // float deltaTime = Time.deltaTime; // Get the time since the last frame update
+        // Vector2 newPosition = currentPosition + body.velocity * deltaTime;
+
+        // if(newPosition.x > 50 || newPosition.x < -50)
+        // {
+        //     agent.AddReward(-10000000);
+        // }
+        // if (newPosition.y > 50 || newPosition.y < -50)
+        // {
+        //     agent.AddReward(-10000000);
+        // }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //colliding with resource
-        GameObject collidedObject = collision.gameObject;
-        Debug.Log("Collision enter ", collidedObject);
-        if(collidedObject.CompareTag("Resource"))
-        {
-            HandleResourceCollision(collidedObject);
-        }
-        //colliding with entity
-        else if (collidedObject.CompareTag("Entity"))
-        {
-            attributes.Attack(collidedObject);
-        }
-        //colliding with tilemap
-        else if (collidedObject.CompareTag("Tilemap"))
+        collisions.Add(collision.gameObject);
+        if (collision.gameObject.CompareTag("Tilemap"))
         {
             collisionCount = 0;
         }
@@ -61,8 +72,7 @@ public class Movement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        GameObject collidedObject = collision.gameObject;
-        if (collidedObject.CompareTag("Tilemap"))
+        if (collision.gameObject.CompareTag("Tilemap"))
         {
             collisionCount++;
             if (collisionCount == 5)
@@ -122,33 +132,6 @@ public class Movement : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        Debug.Log("collision exited");
-    }
-
-    private void HandleResourceCollision(GameObject resource)
-    {
-        Debug.Log("Collided with resource", resource);
-        if(attributes.currentStamina >= 10)
-        {
-            attributes.ModifyStamina(-5);
-            Resource harvestItem = resource.GetComponent<Resource>();
-            if(harvestItem == null)
-            {
-                Debug.Log("Resource does not have resource script");
-            }
-            
-            int harvestAmount = harvestItem.Harvest();
-            Debug.Log("harvested " + harvestAmount);
-            attributes.Eat(harvestAmount);
-        }
-    }
-
-    private void HandleWater()
-    {
-        if (currentLayer <= waterLevel) 
-        {
-            attributes.ModifyStamina(-5 * Time.deltaTime);
-            attributes.Drink(10 * Time.deltaTime);
-        }
+        collisions.Remove(collision.gameObject);
     }
 }

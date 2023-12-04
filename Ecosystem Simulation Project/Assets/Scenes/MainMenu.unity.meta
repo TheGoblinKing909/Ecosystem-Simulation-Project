@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Ecosystem Simulation Project/Assets/Scenes/Colby Scene.unity.meta
+guid: d4c7f4f776c77f043b516740924be8d1
+========
 guid: 9e4db7014f7c26b439d5c2b38caa7049
+>>>>>>>> origin/Kegan:Ecosystem Simulation Project/Assets/Scenes/MainMenu.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
