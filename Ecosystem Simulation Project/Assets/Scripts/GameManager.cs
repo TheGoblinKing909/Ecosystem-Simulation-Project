@@ -43,11 +43,43 @@ public class GameManager : MonoBehaviour
 
     public int frameCount = 0;
 
+    // world generation parameters
+    public int inputWidth, inputHeight, inputSeed, inputOctaves;
+    public float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
+
     void Start()
     {
-        float[,] noiseMap = WorldGenerator.GenerateNoiseMap(MainMenuController.inputWidth, MainMenuController.inputHeight, MainMenuController.inputSeed, MainMenuController.inputScale, MainMenuController.inputOctaves, MainMenuController.inputPersistence, MainMenuController.inputLacunarity, offset);
-        WorldGenerator.PlaceTiles(MainMenuController.inputWidth, MainMenuController.inputHeight, noiseMap, grid, tilemaps, tileList);
+        if (Application.isEditor)
+        {
+            inputWidth = MainMenuController.inputWidth;
+            inputHeight = MainMenuController.inputHeight;
+            inputSeed = MainMenuController.inputSeed;
+            inputOctaves = MainMenuController.inputOctaves;
+            inputScale = MainMenuController.inputScale;
+            inputPersistence = MainMenuController.inputPersistence;
+            inputLacunarity = MainMenuController.inputLacunarity;
+            inputResDensity = MainMenuController.inputResDensity;
+            inputEntDensity = MainMenuController.inputEntDensity;
+        }
+        else
+        {
+            string[] args = System.Environment.GetCommandLineArgs();
+            int argLen = args.Length;
+            inputWidth = int.Parse(args[argLen-9]);
+            inputHeight = int.Parse(args[argLen-8]);
+            inputSeed = int.Parse(args[argLen-7]);
+            inputOctaves = int.Parse(args[argLen-6]);
+            inputScale = float.Parse(args[argLen-5]);
+            inputPersistence = float.Parse(args[argLen-4]);
+            inputLacunarity = float.Parse(args[argLen-3]);
+            inputResDensity = float.Parse(args[argLen-2]);
+            inputEntDensity = float.Parse(args[argLen-1]);
+        }
+        float[,] noiseMap = WorldGenerator.GenerateNoiseMap(inputWidth, inputHeight, inputSeed, inputScale, inputOctaves, inputPersistence, inputLacunarity, offset);
+        WorldGenerator.PlaceTiles(inputWidth, inputHeight, noiseMap, grid, tilemaps, tileList);
+        resourceSpawner.OnInstantiate();
         resourceMax = resourceSpawner.PlaceResources();
+        entitySpawner.OnInstantiate();
         entityMax = entitySpawner.PlaceEntities();
     }
 
