@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     // sequential order MUST match 'resourceAllowedTilemaps' in ObjectSpawner script
     public List<GameObject> resourcePrefabs;
 
-    // suggested default value 0.01 - 0.03
+    // suggested default value 0.01 - 0.001
     public float resourceDensity;
 
     // both used for continual respawning
@@ -31,12 +31,18 @@ public class GameManager : MonoBehaviour
     // sequential order MUST match 'entityAllowedTilemaps' in ObjectSpawner script
     public List<GameObject> entityPrefabs;
 
-    // suggested default value 0.01 - 0.02
+    // suggested default value 0.01 - 0.001
     public float entityDensity;
 
     // both used for continual respawning
     public float entityMax;
     public int totalEntityCount;
+
+    public TimeManager timeManager;
+
+    public WeatherManager weatherManager;
+
+    public ClockManager clockManager;
 
     // variables for ML agents
     public bool isTrainingMode;
@@ -54,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if ( ++frameCount > 2 ) {
+        if ( ++frameCount > 20 ) {
             frameCount = 0;
             int spawnAmount;
             totalResourceCount = resourceSpawner.GetChildCount();

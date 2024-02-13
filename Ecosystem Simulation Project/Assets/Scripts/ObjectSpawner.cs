@@ -155,7 +155,7 @@ public class ObjectSpawner : MonoBehaviour {
         //Debug.Log("Grass = " + count1);
         //Debug.Log("Wheat = " + count2);
         return totalResourceCount;
-    
+
     }
 
     public void SpawnResources ( int spawnAmount ) {
