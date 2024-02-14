@@ -4,6 +4,10 @@ using TMPro;
 
 public class ClockManager : MonoBehaviour
 {
+
+    [Header("Lighting Settings")]
+    public Gradient lightingGradient;
+
     public RectTransform ClockFace;
     public TextMeshProUGUI Date, Time, Season, Week;
 
@@ -35,10 +39,19 @@ public class ClockManager : MonoBehaviour
 
     private void UpdateDateTime(DateTime dateTime)
     {
-        Date.text = dateTime.DateToString();
-        Time.text = dateTime.TimeToString();
-        Season.text = dateTime.Season.ToString();
-        Week.text = $"WK: {dateTime.CurrentWeek}";
+
+        if (Date != null)
+            Date.text = dateTime.DateToString();
+
+        if (Time != null)
+            Time.text = dateTime.TimeToString();
+
+        if (Season != null)
+            Season.text = dateTime.Season.ToString();
+
+        if (Week != null)
+            Week.text = $"WK: {dateTime.CurrentWeek}";
+
         weatherSprite.sprite = weatherSprites[(int)WeatherManager.currentWeather];
 
         float t = (float)dateTime.Hour / 24f;

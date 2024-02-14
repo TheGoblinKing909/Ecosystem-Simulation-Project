@@ -28,11 +28,10 @@ public class TimeManager : MonoBehaviour
     {
         DateTime = new DateTime(dateInMonth, season - 1, year, hour, minutes * 10);
 
-        Debug.Log($"New Years Day: {DateTime.NewYearsDay(2)}");
-        Debug.Log($"Summer Solstice: {DateTime.SummerSolstice(4)}");
-        Debug.Log($"Pumpkin Harvest: {DateTime.PumpkinHarvest(10)}");
-        Debug.Log($"Start of a Season: {DateTime.StartOfSeason(1, 3)}");
-        Debug.Log($"Starting of Winter: {DateTime.StartOfWinter(3)}");
+        //Debug.Log($"New Years Day: {DateTime.NewYearsDay(2)}");
+        //Debug.Log($"Summer Solstice: {DateTime.SummerSolstice(4)}");
+        //Debug.Log($"Start of a Season: {DateTime.StartOfSeason(1, 3)}");
+        //Debug.Log($"Starting of Winter: {DateTime.StartOfWinter(3)}");
     }
 
     private void Start()
@@ -62,8 +61,15 @@ public class TimeManager : MonoBehaviour
 
         OnDateTimeChanged?.Invoke(DateTime);
     }
+
+    public DateTime GetCurrentDateTime()
+    {
+        return DateTime;
+    }
+
 }
 
+/*
 [System.Serializable]
 public struct DateTime
 {
@@ -90,11 +96,10 @@ public struct DateTime
     public int Year => year;
     public int TotalNumDays => totalNumDays;
     public int TotalNumWeeks => totalNumWeeks;
-    public int CurrentWeek => totalNumWeeks % 16 == 0 ? 16 : totalNumWeeks % 16;
+    public int CurrentWeek => totalNumWeeks % 48 == 0 ? 48 : totalNumWeeks % 48;
     #endregion
 
     #region Constructors
-
     public DateTime(int date, int season, int year, int hour, int minutes)
     {
         this.day = (Days)(date % 7);
@@ -106,16 +111,13 @@ public struct DateTime
         this.hour = hour;
         this.minutes = minutes;
 
-
-        totalNumDays = date + (28 * (int)this.season) + (112 * (year - 1));
+        totalNumDays = date + (28 * (int)this.season) + (336 * (year - 1));
 
         totalNumWeeks = 1 + totalNumDays / 7;
     }
-
     #endregion
 
     #region Time Advancement
-
     public void AdvanceMinutes(int SecondsToAdvanceBy)
     {
         if (minutes + SecondsToAdvanceBy >= 60)
@@ -154,9 +156,13 @@ public struct DateTime
 
         date++;
 
-        if (date % 29 == 0)
+        if (date % 29 == 0 && totalNumWeeks % 12 == 0)
         {
             AdvanceSeason();
+            date = 1;
+        }
+        else if (date % 29 ==0)
+        {
             date = 1;
         }
 
@@ -179,7 +185,6 @@ public struct DateTime
         date = 1;
         year++;
     }
-
     #endregion
 
     #region Bool Checks
@@ -210,28 +215,19 @@ public struct DateTime
     #endregion
 
     #region Key Dates
-
     public DateTime NewYearsDay(int year)
     {
         if (year == 0) year = 1;
         return new DateTime(1, 0, year, 6, 0);
     }
-
     public DateTime SummerSolstice(int year)
     {
         if (year == 0) year = 1;
         return new DateTime(28, 1, year, 6, 0);
     }
-    public DateTime PumpkinHarvest(int year)
-    {
-        if (year == 0) year = 1;
-        return new DateTime(28, 2, year, 6, 0);
-    }
-
     #endregion
 
     #region Start Of Season
-
     public DateTime StartOfSeason(int season, int year)
     {
         season = Mathf.Clamp(season, 0, 3);
@@ -259,11 +255,9 @@ public struct DateTime
     {
         return StartOfSeason(3, year);
     }
-
     #endregion
 
     #region To Strings
-
     public override string ToString()
     {
         return $"Date: {DateToString()} Season: {season} Time: {TimeToString()} " +
@@ -295,9 +289,9 @@ public struct DateTime
 
         return $"{adjustedHour.ToString("D2")}:{minutes.ToString("D2")} {AmPm}";
     }
-
     #endregion
 }
+*/
 
 [System.Serializable]
 public enum Days
@@ -321,7 +315,7 @@ public enum Season
     Winter = 3
 }
 
-/*[System.Serializable]
+[System.Serializable]
 public enum Months
 {
     NULL = 0,
@@ -337,10 +331,9 @@ public enum Months
     Oct = 10,
     Nov = 11,
     Dec = 12
-}*/
+}
 
-
-/*public struct DateTime
+public struct DateTime
 {
     public Days Day;
     public Months Month;
@@ -360,6 +353,8 @@ public enum Months
 
     private int weeksPerSeason => weeksInYear / 4;
 
+    public int CurrentWeek => Week;
+
     public DateTime(int day, int month, int year)
     {
         Day = (Days)day;
@@ -373,8 +368,8 @@ public enum Months
 
         Season = (Season)0;
 
-        weeksInYear = 16;
-        weeksInMonth = 1;
+        weeksInYear = 48;
+        weeksInMonth = 4;
     }
 
     //
@@ -393,8 +388,8 @@ public enum Months
 
         Season = (Season)0;
 
-        weeksInYear = 16;
-        weeksInMonth = 1;
+        weeksInYear = 48;
+        weeksInMonth = 4;
     }
 
     public DateTime(int day, int month, int year, int hour, int minutes, int week, int season, int _weeksInYear, int _weeksInMonth)
@@ -519,4 +514,5 @@ public enum Months
         Year++;
         Week = 0;
     }
-}*/
+
+}
