@@ -26,7 +26,8 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
-        DateTime = new DateTime(dateInMonth, season - 1, year, hour, minutes * 10);
+        // DateTime = new DateTime(dateInMonth, season - 1, year, hour, minutes * 10);
+        DateTime = new DateTime(1, 1, 1);
 
         //Debug.Log($"New Years Day: {DateTime.NewYearsDay(2)}");
         //Debug.Log($"Summer Solstice: {DateTime.SummerSolstice(4)}");
@@ -483,14 +484,14 @@ public struct DateTime
     {
         Week++;
 
-        if (Week % weeksPerSeason == 0)
+        if ( (Week - 1) % weeksPerSeason == 0 && Week != 1)
         {
             if (Season == Season.Winter)
                 Season = Season.Spring;
             else Season++;
         }
 
-        if (Week % weeksInMonth == 0)
+        if ( (Week - 1) % weeksInMonth == 0 && Week != 1)
         {
             AdvanceMonth();
         }
@@ -512,7 +513,7 @@ public struct DateTime
     private void AdvanceYear()
     {
         Year++;
-        Week = 0;
+        Week = 1;
     }
 
 }

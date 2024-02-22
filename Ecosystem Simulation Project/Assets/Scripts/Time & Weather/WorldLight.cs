@@ -3,7 +3,6 @@ using UnityEngine;
 public class WorldLight : MonoBehaviour
 {
     public TimeManager timeManager; // Reference to the TimeManager script
-    public Light light; // Reference to the Light component
 
     public Gradient lightingGradient; // Gradient for light color changes
 
@@ -13,12 +12,6 @@ public class WorldLight : MonoBehaviour
         if (timeManager == null)
         {
             Debug.LogError("TimeManager reference not set in WorldLight script.");
-            return;
-        }
-
-        if (light == null)
-        {
-            Debug.LogError("Light reference not set in WorldLight script.");
             return;
         }
 
@@ -43,7 +36,6 @@ public class WorldLight : MonoBehaviour
         // Sample the gradient using normalized time
         Color lightColor = lightingGradient.Evaluate(normalizedTime);
 
-        // Set the light color
-        light.color = lightColor;
     }
+
 }
