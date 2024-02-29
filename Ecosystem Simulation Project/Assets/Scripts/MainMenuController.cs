@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -33,14 +34,17 @@ public class MainMenuController : MonoBehaviour
             Process p = new Process();
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.WorkingDirectory = @"C:\Users\colby";
+            p.StartInfo.WorkingDirectory = "..";
             p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Arguments = @"/K C:\Users\colby\anaconda3\Scripts\activate.bat C:\Users\colby\anaconda3";
+            p.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
             p.Start();
 
-            p.StandardInput.WriteLine("conda activate python3.9");
-            p.StandardInput.WriteLine(@"venv\Scripts\activate");
-            p.StandardInput.WriteLine("cd Ecosystem-Simulation-Project-Build");
+            if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\")) 
+            {
+                p.StandardInput.WriteLine("conda env create -f environment.yml");
+            }
+
+            p.StandardInput.WriteLine("conda activate build-env");
             p.StandardInput.WriteLine(@"mlagents-learn trainer_config.yaml --run-id=build --force --env=""Simulation\Ecosystem Simulation Project.exe"" --env-args " +
                 inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " + 
                 inputScale.ToString() + " " + inputPersistence.ToString() + " " + inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " + 
