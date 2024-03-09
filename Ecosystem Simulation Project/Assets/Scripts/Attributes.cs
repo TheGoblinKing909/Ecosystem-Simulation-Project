@@ -129,14 +129,12 @@ public class Attributes : MonoBehaviour
         {
             currentHunger = 0;
             float hungerDamageTaken = 10 * Time.deltaTime;
-            humanAgent.AddReward(humanRewards.GetHealthLossReward(hungerDamageTaken));
             currentHealth -= hungerDamageTaken;
         }
         if (currentThirst <=0)
         {
             currentThirst = 0;
             float thirstDamageTaken = 10 * Time.deltaTime;
-            humanAgent.AddReward(humanRewards.GetHealthLossReward(thirstDamageTaken));
             currentHealth -= thirstDamageTaken;
         }
 
@@ -223,11 +221,11 @@ public class Attributes : MonoBehaviour
         }
         if(currentHealth >= targetAttributes.currentHealth)
         {
-            humanAgent.AddReward(humanRewards.GetAttackReward());
+            //humanAgent.AddReward(humanRewards.GetAttackReward());
         }
         else
         {
-            humanAgent.AddReward(humanRewards.GetAttackPunishment());
+            //humanAgent.AddReward(humanRewards.GetAttackPunishment());
         }
     }
     public void AttackResource(GameObject resource)
