@@ -4,7 +4,7 @@ using Unity.MLAgents.Integrations.Match3;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
-public class Attributes : MonoBehaviour
+public class BirdAttributes : MonoBehaviour
 {
     // Player attributes
 
@@ -23,14 +23,14 @@ public class Attributes : MonoBehaviour
 
     public float agility;
     public float attack;
-    public float size;    
+    public float size;
 
     // public Rigidbody2D rigidbody2D;
     public Movement movement;
     public Resource currentResource;
     public GameObject deathResource;
-    private HumanRewards humanRewards;
-    private HumanAgent humanAgent;
+    private BirdRewards birdRewards;
+    private BirdAgent birdAgent;
 
     public void Awake()
     {
@@ -41,14 +41,14 @@ public class Attributes : MonoBehaviour
             throw new System.Exception("movement not set in attributes");
         }
 
-        humanRewards = GetComponent<HumanRewards>();
-        if (humanRewards == null)
+        birdRewards = GetComponent<BirdRewards>();
+        if (birdRewards == null)
         {
-            throw new System.Exception("HumanRewards not set in attributes");
+            throw new System.Exception("BirdRewards not set in attributes");
         }
 
-        humanAgent = GetComponent<HumanAgent>();
-        if (humanAgent == null)
+        birdRewards = GetComponent<BirdRewards>();
+        if (birdAgent == null)
         {
             throw new System.Exception("Human Agent not set in attributes");
         }
@@ -70,13 +70,13 @@ public class Attributes : MonoBehaviour
     // FixedUpdate is called once every 0.02 seconds
     private void FixedUpdate()
     {
-        if(currentHealth <= 0) 
+        if (currentHealth <= 0)
         {
             Die();
         }
         DecayHealth();
 
-        if(currentHunger > (maxHunger/2) && currentThirst > (maxThirst/2))
+        if (currentHunger > (maxHunger / 2) && currentThirst > (maxThirst / 2))
         {
             Heal(5f * Time.deltaTime);
         }
@@ -91,12 +91,14 @@ public class Attributes : MonoBehaviour
         {
             currentHunger = 0;
             float hungerDamageTaken = 10 * Time.deltaTime;
+            birdAgent.AddReward(birdRewards.GetHealthLossReward(hungerDamageTaken));
             currentHealth -= hungerDamageTaken;
         }
-        if (currentThirst <=0)
+        if (currentThirst <= 0)
         {
             currentThirst = 0;
             float thirstDamageTaken = 10 * Time.deltaTime;
+            birdAgent.AddReward(birdRewards.GetHealthLossReward(thirstDamageTaken));
             currentHealth -= thirstDamageTaken;
         }
 
@@ -104,47 +106,47 @@ public class Attributes : MonoBehaviour
     public void Eat(float amount)
     {
         currentHunger += amount;
-        if(currentHunger > maxHunger)
+        if (currentHunger > maxHunger)
         {
             float hungerGained = currentHunger - maxHunger;
-            humanAgent.AddReward(humanRewards.GetHungerGainedReward(hungerGained));
+            birdAgent.AddReward(birdRewards.GetHungerGainedReward(hungerGained));
             currentHunger = maxHunger;
             return;
         }
-        humanAgent.AddReward(humanRewards.GetHungerGainedReward(amount));
+        birdAgent.AddReward(birdRewards.GetHungerGainedReward(amount));
     }
     public void Drink(float amount)
     {
         currentThirst += amount;
-        if(currentThirst > maxThirst)
+        if (currentThirst > maxThirst)
         {
             float thirstGained = currentThirst - maxThirst;
-            humanAgent.AddReward(humanRewards.GetThirstGainedReward(thirstGained));
+            birdAgent.AddReward(birdRewards.GetThirstGainedReward(thirstGained));
             currentThirst = maxThirst;
             return;
         }
-        humanAgent.AddReward(humanRewards.GetThirstGainedReward(amount));
+        birdAgent.AddReward(birdRewards.GetThirstGainedReward(amount));
     }
     public void Heal(float amount)
     {
         currentHealth += amount;
-        if(currentHealth > maxHealth)
+        if (currentHealth > maxHealth)
         {
             float healthGained = currentHealth - maxHealth;
-            humanAgent.AddReward(humanRewards.GetHealthGainedReward(healthGained));
+            birdAgent.AddReward(birdRewards.GetHealthGainedReward(healthGained));
             currentHealth = maxHealth;
         }
-        humanAgent.AddReward(humanRewards.GetThirstGainedReward(amount));
+        birdAgent.AddReward(birdRewards.GetThirstGainedReward(amount));
     }
 
     public void ModifyStamina(float amount)
     {
         currentStamina += amount;
-        if(currentStamina > maxStamina)
+        if (currentStamina > maxStamina)
         {
             currentStamina = maxStamina;
         }
-        else if(currentStamina < 0)
+        else if (currentStamina < 0)
         {
             currentStamina = 0;
         }
@@ -170,26 +172,26 @@ public class Attributes : MonoBehaviour
     public void AttackEntity(GameObject entity)
     {
         Attributes targetAttributes = entity.GetComponent<Attributes>();
-        if(currentStamina >= 10)
+        if (currentStamina >= 10)
         {
             ModifyStamina(-10f);
-            if(Random.Range(1,10) >= targetAttributes.agility)
+            if (Random.Range(1, 10) >= targetAttributes.agility)
             {
                 targetAttributes.currentHealth -= attack;
             }
         }
-        if(currentHealth >= targetAttributes.currentHealth)
+        if (currentHealth >= targetAttributes.currentHealth)
         {
-            //humanAgent.AddReward(humanRewards.GetAttackReward());
+            birdAgent.AddReward(birdRewards.GetAttackReward());
         }
         else
         {
-            //humanAgent.AddReward(humanRewards.GetAttackPunishment());
+            birdAgent.AddReward(birdRewards.GetAttackPunishment());
         }
     }
     public void AttackResource(GameObject resource)
     {
-        if(currentStamina >= 10)
+        if (currentStamina >= 10)
         {
             ModifyStamina(-10f);
             Resource targetResource = resource.GetComponent<Resource>();
@@ -200,6 +202,6 @@ public class Attributes : MonoBehaviour
     {
         //Instantiate(deathResource, transform.position, Quaternion.identity);
         Destroy(gameObject);
-        humanAgent.AddReward(-10000f);
+        birdAgent.AddReward(-10000f);
     }
 }

@@ -10,22 +10,19 @@ public class Movement : MonoBehaviour
 
     float horizontal;
     float vertical;
-    float runSpeed;
     int collisionCount;
+    public float runSpeed;
     public int currentLayer;
     public int waterLevel;
     public Grid grid = null;
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<GameObject> collisions = new List<GameObject>();
 
-    public HumanAgent agent = null;
-
     // Start is called before the first frame update
     public void OnInstantiate()
     {
 
         ObjectSpawner entityManager = transform.parent.GetComponent<ObjectSpawner>();
-        agent = GetComponent<HumanAgent>();
 
         if ( entityManager != null ) {
             grid = entityManager.grid;
@@ -41,7 +38,7 @@ public class Movement : MonoBehaviour
 
     }
 
-    public void SetMovement(float x, float y)
+    public void SetMovement(float x, float y, float newSpeed = -1)
     {
         horizontal = x;
         vertical = y;
@@ -49,16 +46,7 @@ public class Movement : MonoBehaviour
 
         Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
         float deltaTime = Time.deltaTime; // Get the time since the last frame update
-        Vector2 newPosition = currentPosition + body.velocity * deltaTime;
-
-        if(newPosition.x > 50 || newPosition.x < -50)
-        {
-            agent.AddReward(-10000000);
-        }
-        if (newPosition.y > 50 || newPosition.y < -50)
-        {
-            agent.AddReward(-10000000);
-        }
+        Vector2 newPosition = currentPosition + (body.velocity * deltaTime);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

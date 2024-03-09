@@ -1791,7 +1791,7 @@ MonoBehaviour:
   resourceDensity: 0.025
   entitySpawner: {fileID: 869567987}
   entityPrefabs:
-  - {fileID: 1640055438649528310, guid: f0b371a42575ef4428c577d8434836ce, type: 3}
+  - {fileID: 3513417172050916003, guid: 603755a60b862fa409e5150efbe801ab, type: 3}
   - {fileID: 7404917140349088052, guid: 2c339d4938d1ee14ea65978bf9438488, type: 3}
   entityDensity: 0.015
   isTrainingMode: 0
@@ -2935,9 +2935,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1036352334}
-  isTrainingmode: 1
-  maxTimeBeforeReset: 10
   resourceManager: {fileID: 1161770222}
+  maxTimeBeforeReset: 10
+  TimeScale: 1
   entityManager: {fileID: 869567987}
 --- !u!1 &1631512767
 GameObject:
