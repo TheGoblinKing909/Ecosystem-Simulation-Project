@@ -1,10 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    public float viewRadius;
+    public int x = 0;
+    public float viewRadius 
+    { set
+        {
+            Debug.Log(x + " " + viewRadius);
+            x = 10;
+            Debug.Log(x + " " + viewRadius);
+            viewRadius = value;
+        } 
+        get { return viewRadius;  }  
+    } 
     [Range(0,360)]
     public float viewAngle;
 
