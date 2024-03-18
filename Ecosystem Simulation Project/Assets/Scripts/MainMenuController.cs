@@ -31,21 +31,21 @@ public class MainMenuController : MonoBehaviour
         }
         else
         {
-            Process p = new Process();
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.WorkingDirectory = "..";
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
-            p.Start();
+            Process mlagentsProcess = new Process();
+            mlagentsProcess.StartInfo.UseShellExecute = false;
+            mlagentsProcess.StartInfo.RedirectStandardInput = true;
+            mlagentsProcess.StartInfo.WorkingDirectory = "..";
+            mlagentsProcess.StartInfo.FileName = "cmd.exe";
+            mlagentsProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
+            mlagentsProcess.Start();
 
             if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\")) 
             {
-                p.StandardInput.WriteLine("conda env create -f environment.yml");
+                mlagentsProcess.StandardInput.WriteLine("conda env create -f environment.yml");
             }
 
-            p.StandardInput.WriteLine("conda activate build-env");
-            p.StandardInput.WriteLine(@"mlagents-learn trainer_config.yaml --run-id=build --force --env=""Simulation\Ecosystem Simulation Project.exe"" --env-args " +
+            mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
+            mlagentsProcess.StandardInput.WriteLine(@"mlagents-learn trainer_config.yaml --run-id=build --force --env=""Simulation\Ecosystem Simulation Project.exe"" --env-args " +
                 inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " + 
                 inputScale.ToString() + " " + inputPersistence.ToString() + " " + inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " + 
                 inputEntDensity.ToString());

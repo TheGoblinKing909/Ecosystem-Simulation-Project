@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -81,6 +82,18 @@ public class GameManager : MonoBehaviour
         resourceMax = resourceSpawner.PlaceResources();
         entitySpawner.OnInstantiate();
         entityMax = entitySpawner.PlaceEntities();
+
+        Process tensorboardProcess = new Process();
+        tensorboardProcess.StartInfo.UseShellExecute = false;
+        tensorboardProcess.StartInfo.RedirectStandardInput = true;
+        tensorboardProcess.StartInfo.FileName = "cmd.exe";
+        tensorboardProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
+        tensorboardProcess.Start();
+
+        tensorboardProcess.StandardInput.WriteLine("conda activate build-env");
+        tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
+
+        Application.OpenURL("http://localhost:6006/");
     }
 
     void Update()
