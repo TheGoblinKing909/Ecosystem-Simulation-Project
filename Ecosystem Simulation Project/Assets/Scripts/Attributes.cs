@@ -26,32 +26,27 @@ public class Attributes : MonoBehaviour
     public float size;    
 
     // public Rigidbody2D rigidbody2D;
-    public Movement movement;
-    public Resource currentResource;
-    public GameObject deathResource;
-    private HumanRewards humanRewards;
-    private HumanAgent humanAgent;
+    private Movement movement;
+    private Resource currentResource;
+    [SerializeField] private GameObject deathResource;
+    private Rewards rewards;
+    private Entity agent;
 
-    public void Awake()
+    protected void OnAwake()
     {
         movement = GetComponent<Movement>();
-        var test = movement;
-        if (movement == null)
-        {
-            throw new System.Exception("movement not set in attributes");
-        }
+        if (movement == null) { throw new System.Exception("movement not set in attributes"); }
 
-        humanRewards = GetComponent<HumanRewards>();
-        if (humanRewards == null)
-        {
-            throw new System.Exception("HumanRewards not set in attributes");
-        }
+        rewards = GetComponent<Rewards>();
+        if (rewards == null){ throw new System.Exception("Rewards not set in attributes"); }
 
-        humanAgent = GetComponent<HumanAgent>();
-        if (humanAgent == null)
-        {
-            throw new System.Exception("Human Agent not set in attributes");
-        }
+        agent = GetComponent<Entity>(); 
+        if (agent == null) { throw new System.Exception("Human Agent not set in attributes"); }
+    }
+
+    void Awake()
+    {
+        OnAwake();
     }
 
     public void EpisodeBegin()
@@ -67,76 +62,90 @@ public class Attributes : MonoBehaviour
         EpisodeBegin();
     }
 
-    // FixedUpdate is called once every 0.02 seconds
+    // FixedUpdate is called once every 0.02 secondsm
     private void FixedUpdate()
     {
         if(currentHealth <= 0) 
         {
             Die();
         }
-        DecayHealth();
+        Decay();
 
         if(currentHunger > (maxHunger/2) && currentThirst > (maxThirst/2))
         {
-            Heal(5f * Time.deltaTime);
+            ModifyHealth(5f * Time.deltaTime);
         }
         ModifyStamina(2 * Time.deltaTime);
     }
 
-    private void DecayHealth()
+    private void Decay()
     {
         currentHunger -= hungerDecayRate * Time.deltaTime;
         currentThirst -= thirstDecayRate * Time.deltaTime;
         if (currentHunger <= 0)
         {
             currentHunger = 0;
-            float hungerDamageTaken = 10 * Time.deltaTime;
-            currentHealth -= hungerDamageTaken;
+            float hungerDamageTaken = -10;
+            ModifyHealth(hungerDamageTaken);
         }
         if (currentThirst <=0)
         {
             currentThirst = 0;
-            float thirstDamageTaken = 10 * Time.deltaTime;
-            currentHealth -= thirstDamageTaken;
+            float thirstDamageTaken = -10;
+            ModifyHealth(thirstDamageTaken);
         }
 
     }
-    public void Eat(float amount)
+
+    public void ModifyHunger(float amount)
     {
         currentHunger += amount;
-        if(currentHunger > maxHunger)
+        if (currentHunger > maxHunger)
         {
             float hungerGained = currentHunger - maxHunger;
-            humanAgent.AddReward(humanRewards.GetHungerGainedReward(hungerGained));
+            agent.AddReward(rewards.GetHungerGainedReward(hungerGained));
             currentHunger = maxHunger;
             return;
         }
-        humanAgent.AddReward(humanRewards.GetHungerGainedReward(amount));
+        else if (currentHunger < 0)
+        {
+            ModifyHealth(-10);
+        }
+        agent.AddReward(rewards.GetHungerGainedReward(amount));
     }
-    public void Drink(float amount)
+    public void ModifyThirst(float amount)
     {
         currentThirst += amount;
         if(currentThirst > maxThirst)
         {
             float thirstGained = currentThirst - maxThirst;
-            humanAgent.AddReward(humanRewards.GetThirstGainedReward(thirstGained));
+            agent.AddReward(rewards.GetThirstGainedReward(thirstGained));
             currentThirst = maxThirst;
             return;
         }
-        humanAgent.AddReward(humanRewards.GetThirstGainedReward(amount));
+        else if (currentThirst < 0)
+        {
+            ModifyHealth(-10);
+        }
+        agent.AddReward(rewards.GetThirstGainedReward(amount));
     }
-    public void Heal(float amount)
+    public void ModifyHealth(float amount)
     {
         currentHealth += amount;
         if(currentHealth > maxHealth)
         {
             float healthGained = currentHealth - maxHealth;
-            humanAgent.AddReward(humanRewards.GetHealthGainedReward(healthGained));
+            agent.AddReward(rewards.GetHealthGainedReward(healthGained));
             currentHealth = maxHealth;
+            return;
         }
-        humanAgent.AddReward(humanRewards.GetThirstGainedReward(amount));
+        else if(currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+        agent.AddReward(rewards.GetThirstGainedReward(amount));
     }
-
     public void ModifyStamina(float amount)
     {
         currentStamina += amount;
@@ -149,57 +158,10 @@ public class Attributes : MonoBehaviour
             currentStamina = 0;
         }
     }
-    public void HarvestResource(GameObject resource)
-    {
-        if (currentStamina >= 10)
-        {
-            ModifyStamina(-10);
-            Resource harvestItem = resource.GetComponent<Resource>();
-            float harvestAmount = harvestItem.Harvest();
-            Eat(harvestAmount);
-        }
-    }
-    public void HarvestWater()
-    {
-        if (currentStamina >= 10)
-        {
-            ModifyStamina(-10);
-            Drink(10);
-        }
-    }
-    public void AttackEntity(GameObject entity)
-    {
-        Attributes targetAttributes = entity.GetComponent<Attributes>();
-        if(currentStamina >= 10)
-        {
-            ModifyStamina(-10f);
-            if(Random.Range(1,10) >= targetAttributes.agility)
-            {
-                targetAttributes.currentHealth -= attack;
-            }
-        }
-        if(currentHealth >= targetAttributes.currentHealth)
-        {
-            //humanAgent.AddReward(humanRewards.GetAttackReward());
-        }
-        else
-        {
-            //humanAgent.AddReward(humanRewards.GetAttackPunishment());
-        }
-    }
-    public void AttackResource(GameObject resource)
-    {
-        if(currentStamina >= 10)
-        {
-            ModifyStamina(-10f);
-            Resource targetResource = resource.GetComponent<Resource>();
-            targetResource.HealthRemaining -= attack;
-        }
-    }
     private void Die()
     {
         //Instantiate(deathResource, transform.position, Quaternion.identity);
         Destroy(gameObject);
-        humanAgent.AddReward(-10000f);
+        agent.AddReward(-10000f);
     }
 }

@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using Unity.MLAgents.Actuators;
 using UnityEngine;
 
-public class BirdActions : MonoBehaviour
+public class Actions : MonoBehaviour
 {
-    [SerializeField] private int actionDelay;
-    [SerializeField] private int actionDelayMax = 25;
-    [SerializeField] private bool isFlying = false;
+    protected Movement movement;
+    protected Attributes attributes;
 
-    private Movement movement;
-    private Attributes attributes;
-    private float groundSpeed;
+    [SerializeField] protected int actionDelay;
+    [SerializeField] protected int actionDelayMax = 25;
 
-    public float additionalAirSpeed = 10;
-
-    void Awake()
+    protected void OnAwake()
     {
         movement = GetComponent<Movement>();
         if (movement == null) throw new System.Exception("Moment not set in HumanActions");
-        groundSpeed = movement.runSpeed;
+
         attributes = GetComponent<Attributes>();
         if (attributes == null) throw new System.Exception("Attributes not set in HumanActions");
 
         EpisodeBegin();
+    }
+    void Awake()
+    {
+        OnAwake();
     }
 
     public void EpisodeBegin()
@@ -39,29 +39,15 @@ public class BirdActions : MonoBehaviour
         }
     }
 
-    public void ActionsRecieved(ActionBuffers actions)
+    public void OnActionsRecieved(ActionBuffers actions)
     {
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
-        if(isFlying)
-        {
-            movement.runSpeed = groundSpeed + additionalAirSpeed;
-            movement.SetMovement(moveX, moveY);
-        }
-        else 
-        {
-            movement.runSpeed = groundSpeed;
-            movement.SetMovement(moveX, moveY);
-        }
+
+        movement.SetMovement(moveX, moveY);
 
         if (actionDelay == actionDelayMax)
         {
-            int toggleFlying = actions.DiscreteActions[2];
-            if ( toggleFlying == 1)
-            {
-                isFlying = !isFlying;
-            }
-
             int harvest = actions.DiscreteActions[0];
             if (harvest == 1)
             {
@@ -69,7 +55,7 @@ public class BirdActions : MonoBehaviour
                 {
                     if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
                     {
-                        attributes.HarvestResource(movement.collisions[i]);
+                        HarvestResource(movement.collisions[i]);
                     }
                 }
                 actionDelay = 0;
@@ -78,7 +64,7 @@ public class BirdActions : MonoBehaviour
             {
                 if (movement.currentLayer <= movement.waterLevel)
                 {
-                    attributes.HarvestWater();
+                    HarvestWater();
                 }
                 actionDelay = 0;
             }
@@ -90,7 +76,7 @@ public class BirdActions : MonoBehaviour
                 {
                     if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Entity"))
                     {
-                        attributes.AttackEntity(movement.collisions[i]);
+                        AttackEntity(movement.collisions[i]);
                     }
                 }
                 actionDelay = 0;
@@ -101,12 +87,17 @@ public class BirdActions : MonoBehaviour
                 {
                     if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
                     {
-                        attributes.AttackResource(movement.collisions[i]);
+                        AttackResource(movement.collisions[i]);
                     }
                 }
                 actionDelay = 0;
             }
         }
+    }
+
+    protected void ActionsRecieved(ActionBuffers actions)
+    {
+        OnActionsRecieved(actions);
     }
 
     public void Heuristic(in ActionBuffers actionsOut)
@@ -139,13 +130,47 @@ public class BirdActions : MonoBehaviour
         {
             discreteActions[1] = 0;
         }
-        if (Input.GetKey(KeyCode.F))
+    }
+
+    public void HarvestWater()
+    {
+        if (attributes.currentStamina >= 10)
         {
-            discreteActions[2] = 1;
+            attributes.ModifyStamina(-10);
+            attributes.ModifyThirst(10);
         }
-        else 
-        { 
-            discreteActions[2] = 0; 
-        } 
+    }
+
+    public void HarvestResource(GameObject resource)
+    {
+        if (attributes.currentStamina >= 10)
+        {
+            attributes.ModifyStamina(-10);
+            Resource harvestItem = resource.GetComponent<Resource>();
+            float harvestAmount = harvestItem.Harvest();
+            attributes.ModifyHunger(harvestAmount);
+        }
+    }
+
+    public void AttackEntity(GameObject entity)
+    {
+        Attributes targetAttributes = entity.GetComponent<Attributes>();
+        if (attributes.currentStamina >= 10)
+        {
+            attributes.ModifyStamina(-10f);
+            if (Random.Range(1, 10) >= targetAttributes.agility)
+            {
+                targetAttributes.currentHealth -= attributes.attack;
+            }
+        }
+    }
+    public void AttackResource(GameObject resource)
+    {
+        if (attributes.currentStamina >= 10)
+        {
+            attributes.ModifyStamina(-10f);
+            Resource targetResource = resource.GetComponent<Resource>();
+            targetResource.HealthRemaining -= attributes.attack;
+        }
     }
 }

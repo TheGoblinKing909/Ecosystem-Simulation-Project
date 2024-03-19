@@ -95,14 +95,14 @@ GameObject:
   - component: {fileID: 2503543045794815843}
   - component: {fileID: 1664442808425052632}
   - component: {fileID: 3546818685955101749}
-  - component: {fileID: 8246608674245010654}
   - component: {fileID: 4972973499633036202}
   - component: {fileID: 4550008357227579664}
-  - component: {fileID: 2745697513359430392}
   - component: {fileID: 3101473392609247204}
-  - component: {fileID: 2350601208052281066}
   - component: {fileID: 7120549220117669667}
   - component: {fileID: 4482945247933846885}
+  - component: {fileID: 7029465726365006328}
+  - component: {fileID: 425193338734575239}
+  - component: {fileID: 8613057018135947169}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -188,37 +188,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 0.25}
   m_Direction: 1
---- !u!114 &8246608674245010654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3513417172050916003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8905492a9c20a6c49b6053ca3dd489be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  body: {fileID: 0}
-  attributes: {fileID: 0}
-  runSpeed: 0
-  currentLayer: 0
-  waterLevel: 1
-  grid: {fileID: 0}
-  tilemaps:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  collisions: []
 --- !u!114 &4972973499633036202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,35 +234,9 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  attributes: {fileID: 425193338734575239}
+  actions: {fileID: 7120549220117669667}
   manager: {fileID: 0}
---- !u!114 &2745697513359430392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3513417172050916003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95045146853aa4642bb2ad2b19aa6798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  maxStamina: 100
-  maxHunger: 100
-  maxThirst: 100
-  hungerDecayRate: 2
-  thirstDecayRate: 2
-  currentHealth: 0
-  currentStamina: 0
-  currentHunger: 0
-  currentThirst: 0
-  agility: 0
-  attack: 0
-  size: 0
-  movement: {fileID: 0}
-  currentResource: {fileID: 0}
-  deathResource: {fileID: 0}
 --- !u!114 &3101473392609247204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,35 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
---- !u!114 &2350601208052281066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3513417172050916003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e94a4f2dd420a44aaa5b162f2cde5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributes: {fileID: 0}
-  maxHealthGainReward: 1
-  minHealthGainReward: 0.01
-  maxHealthLossPunishment: -1
-  minHealthLossPunishment: -0.01
-  maxHungerGainReward: 2
-  minHungerGainReward: 0.01
-  maxHungerLossPunishment: -1
-  minHungerLossPunishment: -0.01
-  maxThirstGainReward: 0.7
-  minThirstGainReward: 0.01
-  maxThirstLossPunishment: -1
-  minThirstLossPunishment: -0.01
-  maxAttackReward: 0.01
-  minAttackReward: 0.01
-  maxAttackPunishment: -0.01
-  minAttackPunishment: -0.01
 --- !u!114 &7120549220117669667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40505ac804d882b438f07c884253e15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movement: {fileID: 8613057018135947169}
+  attributes: {fileID: 425193338734575239}
   actionDelay: 0
   actionDelayMax: 25
   isFlying: 0
@@ -374,3 +290,82 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   visibleTargets: []
+--- !u!114 &7029465726365006328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513417172050916003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 059814cec904979429e0f07c48ca4c65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attributes: {fileID: 425193338734575239}
+  maxHealthGainReward: 1
+  minHealthGainReward: 0.01
+  maxHealthLossPunishment: -1
+  minHealthLossPunishment: -0.01
+  maxHungerGainReward: 2
+  minHungerGainReward: 0.01
+  maxHungerLossPunishment: -1
+  minHungerLossPunishment: -0.01
+  maxThirstGainReward: 0.7
+  minThirstGainReward: 0.01
+  maxThirstLossPunishment: -1
+  minThirstLossPunishment: -0.01
+  maxAttackReward: 0.01
+  minAttackReward: 0.01
+  maxAttackPunishment: -0.01
+  minAttackPunishment: -0.01
+--- !u!114 &425193338734575239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513417172050916003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc911154f75045949890bb39e502db5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  maxStamina: 100
+  maxHunger: 100
+  maxThirst: 100
+  hungerDecayRate: 2
+  thirstDecayRate: 2
+  currentHealth: 0
+  currentStamina: 0
+  currentHunger: 0
+  currentThirst: 0
+  agility: 2
+  attack: 0
+  size: 0
+  movement: {fileID: 8613057018135947169}
+  currentResource: {fileID: 0}
+  deathResource: {fileID: 0}
+  rewards: {fileID: 7029465726365006328}
+  agent: {fileID: 4550008357227579664}
+--- !u!114 &8613057018135947169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513417172050916003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8905492a9c20a6c49b6053ca3dd489be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 0}
+  attributes: {fileID: 425193338734575239}
+  runSpeed: 0
+  currentLayer: 0
+  waterLevel: 0
+  grid: {fileID: 0}
+  tilemaps: []
+  collisions: []

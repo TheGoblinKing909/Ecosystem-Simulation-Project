@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Movement : MonoBehaviour
+public class BirdMovement : MonoBehaviour
 {
-    protected Rigidbody2D body;
-    protected Attributes attributes;
+    public Rigidbody2D body;
+    public BirdAttributes attributes;
 
     float horizontal;
     float vertical;
@@ -18,30 +18,23 @@ public class Movement : MonoBehaviour
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<GameObject> collisions = new List<GameObject>();
 
-    protected void OnAwake()
-    {
-        attributes = GetComponent<Attributes>();
-        if (attributes == null) { throw new System.Exception("attributes not found for movement"); }
-    }
-    void Awake()
-    {
-        OnAwake();
-    }
-
+    // Start is called before the first frame update
     public void OnInstantiate()
     {
 
         ObjectSpawner entityManager = transform.parent.GetComponent<ObjectSpawner>();
 
-        if ( entityManager != null ) {
+        if (entityManager != null)
+        {
             grid = entityManager.grid;
             tilemaps = entityManager.tilemaps;
             body = GetComponent<Rigidbody2D>();
             currentLayer = gameObject.layer - 6;
-            attributes = GetComponent<Attributes>();
+            attributes = GetComponent<BirdAttributes>();
             runSpeed = attributes.agility;
         }
-        else {
+        else
+        {
             Debug.LogError("EntityManager not found!");
         }
 
@@ -49,9 +42,11 @@ public class Movement : MonoBehaviour
 
     public void SetMovement(float x, float y, float newSpeed = -1)
     {
+        float speed = runSpeed;
+        if(newSpeed > 0) { speed = newSpeed; }
         horizontal = x;
         vertical = y;
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        body.velocity = new Vector2(horizontal * speed, vertical * speed);
 
         Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
         float deltaTime = Time.deltaTime; // Get the time since the last frame update
@@ -79,15 +74,15 @@ public class Movement : MonoBehaviour
                 Vector3 direction = new Vector3(horizontal, vertical, 0);
                 direction = Quaternion.Euler(0, 0, -45) * direction;
                 Vector3Int directionInt = new Vector3Int(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y), 0);
-                
+
                 bool stillMoving = true;
                 if (currentLayer > 0)
                 {
                     Vector3Int cellDown = currentCell;
                     if (currentLayer > 2)
                     {
-                    cellDown.x--;
-                    cellDown.y--;
+                        cellDown.x--;
+                        cellDown.y--;
                     }
                     cellDown += directionInt;
                     if (tilemaps[currentLayer - 1].HasTile(cellDown))
@@ -107,8 +102,8 @@ public class Movement : MonoBehaviour
                     Vector3Int cellUp = currentCell;
                     if (currentLayer > 1)
                     {
-                    cellUp.x++;
-                    cellUp.y++;
+                        cellUp.x++;
+                        cellUp.y++;
                     }
                     cellUp += directionInt;
                     if (tilemaps[currentLayer + 1].HasTile(cellUp))

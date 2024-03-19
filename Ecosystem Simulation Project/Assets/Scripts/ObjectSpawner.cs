@@ -216,8 +216,16 @@ public class ObjectSpawner : MonoBehaviour {
 
                                         GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
                                         instantiatedEntity.layer = layerNumber + 6;
-                                        Movement movementScript = instantiatedEntity.GetComponent<Movement>();
-                                        movementScript.OnInstantiate();
+                                        try
+                                        {
+                                            Movement movementScript = instantiatedEntity.GetComponent<Movement>();
+                                            movementScript.OnInstantiate();
+                                        }
+                                        catch 
+                                        {
+                                            BirdMovement movementScript = instantiatedEntity.GetComponent<BirdMovement>();
+                                            movementScript.OnInstantiate();
+                                        }
 
                                         // if ( attributesScript != null ) {
 
