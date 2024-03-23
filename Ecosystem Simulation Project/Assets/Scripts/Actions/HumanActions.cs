@@ -21,7 +21,7 @@ public class HumanActions : MonoBehaviour
 
         EpisodeBegin();
     }
-    
+
     public void EpisodeBegin()
     {
         actionDelay = actionDelayMax;

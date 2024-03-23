@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class TimeManager : MonoBehaviour
     public int dateInMonth;
     [Range(1, 4)]
     public int season;
-    [Range(1, 99)]
+    [Range(1, 1000)]
     public int year;
     [Range(0, 24)]
     public int hour;
@@ -16,6 +17,8 @@ public class TimeManager : MonoBehaviour
     public int minutes;
 
     private DateTime DateTime;
+    public Slider slider; // Assign the Slider reference manually in the prefab
+    public Text text; // Assign the Text reference manually in the prefab
 
     [Header("Tick Settings")]
     public int TickMinutesIncreased = 10;
@@ -26,18 +29,20 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
-        // DateTime = new DateTime(dateInMonth, season - 1, year, hour, minutes * 10);
         DateTime = new DateTime(1, 1, 1);
-
-        //Debug.Log($"New Years Day: {DateTime.NewYearsDay(2)}");
-        //Debug.Log($"Summer Solstice: {DateTime.SummerSolstice(4)}");
-        //Debug.Log($"Start of a Season: {DateTime.StartOfSeason(1, 3)}");
-        //Debug.Log($"Starting of Winter: {DateTime.StartOfWinter(3)}");
     }
 
     private void Start()
     {
         OnDateTimeChanged?.Invoke(DateTime);
+
+        if (slider == null)
+        {
+            Debug.LogError("Time Scale Slider is not assigned!");
+            return;
+        }
+
+        slider.onValueChanged.AddListener(UpdateTimeScale);
     }
 
     private void Update()
@@ -49,6 +54,21 @@ public class TimeManager : MonoBehaviour
             currentTimeBetweenTicks = 0;
             Tick();
         }
+
+        if (slider != null && text != null)
+        {
+            text.text = slider.value.ToString("F2");
+        }
+        else
+        {
+            Debug.Log("Either the Slider or Text gameObjects are not assigned references");
+        }
+
+    }
+
+    void UpdateTimeScale(float newValue)
+    {
+        Time.timeScale = newValue;
     }
 
     void Tick()
@@ -69,230 +89,6 @@ public class TimeManager : MonoBehaviour
     }
 
 }
-
-/*
-[System.Serializable]
-public struct DateTime
-{
-    #region Fields
-    private Days day;
-    private int date;
-    private int year;
-
-    private int hour;
-    private int minutes;
-
-    private Season season;
-
-    private int totalNumDays;
-    private int totalNumWeeks;
-    #endregion
-
-    #region Properties
-    public Days Day => day;
-    public int Date => date;
-    public int Hour => hour;
-    public int Minutes => minutes;
-    public Season Season => season;
-    public int Year => year;
-    public int TotalNumDays => totalNumDays;
-    public int TotalNumWeeks => totalNumWeeks;
-    public int CurrentWeek => totalNumWeeks % 48 == 0 ? 48 : totalNumWeeks % 48;
-    #endregion
-
-    #region Constructors
-    public DateTime(int date, int season, int year, int hour, int minutes)
-    {
-        this.day = (Days)(date % 7);
-        if (day == 0) day = (Days)7;
-        this.date = date;
-        this.season = (Season)season;
-        this.year = year;
-
-        this.hour = hour;
-        this.minutes = minutes;
-
-        totalNumDays = date + (28 * (int)this.season) + (336 * (year - 1));
-
-        totalNumWeeks = 1 + totalNumDays / 7;
-    }
-    #endregion
-
-    #region Time Advancement
-    public void AdvanceMinutes(int SecondsToAdvanceBy)
-    {
-        if (minutes + SecondsToAdvanceBy >= 60)
-        {
-            minutes = (minutes + SecondsToAdvanceBy) % 60;
-            AdvanceHour();
-        }
-        else
-        {
-            minutes += SecondsToAdvanceBy;
-        }
-    }
-
-    private void AdvanceHour()
-    {
-        if ((hour + 1) == 24)
-        {
-            hour = 0;
-            AdvanceDay();
-        }
-        else
-        {
-            hour++;
-        }
-    }
-
-    private void AdvanceDay()
-    {
-        day++;
-
-        if (day > (Days)7)
-        {
-            day = (Days)1;
-            totalNumWeeks++;
-        }
-
-        date++;
-
-        if (date % 29 == 0 && totalNumWeeks % 12 == 0)
-        {
-            AdvanceSeason();
-            date = 1;
-        }
-        else if (date % 29 ==0)
-        {
-            date = 1;
-        }
-
-        totalNumDays++;
-
-    }
-
-    private void AdvanceSeason()
-    {
-        if (Season == Season.Winter)
-        {
-            season = Season.Spring;
-            AdvanceYear();
-        }
-        else season++;
-    }
-
-    private void AdvanceYear()
-    {
-        date = 1;
-        year++;
-    }
-    #endregion
-
-    #region Bool Checks
-    public bool IsNight()
-    {
-        return hour > 18 || hour < 6;
-    }
-
-    public bool IsMorning()
-    {
-        return hour >= 6 && hour <= 12;
-    }
-
-    public bool IsAfternoon()
-    {
-        return hour > 12 && hour < 18;
-    }
-
-    public bool IsWeekend()
-    {
-        return day > Days.Fri ? true : false;
-    }
-
-    public bool IsParticularDay(Days _day)
-    {
-        return day == _day;
-    }
-    #endregion
-
-    #region Key Dates
-    public DateTime NewYearsDay(int year)
-    {
-        if (year == 0) year = 1;
-        return new DateTime(1, 0, year, 6, 0);
-    }
-    public DateTime SummerSolstice(int year)
-    {
-        if (year == 0) year = 1;
-        return new DateTime(28, 1, year, 6, 0);
-    }
-    #endregion
-
-    #region Start Of Season
-    public DateTime StartOfSeason(int season, int year)
-    {
-        season = Mathf.Clamp(season, 0, 3);
-        if (year == 0) year = 1;
-
-        return new DateTime(1, season, year, 6, 0);
-    }
-
-    public DateTime StartOfSpring(int year)
-    {
-        return StartOfSeason(0, year);
-    }
-
-    public DateTime StartOfSummer(int year)
-    {
-        return StartOfSeason(1, year);
-    }
-
-    public DateTime StartOfAutumn(int year)
-    {
-        return StartOfSeason(2, year);
-    }
-
-    public DateTime StartOfWinter(int year)
-    {
-        return StartOfSeason(3, year);
-    }
-    #endregion
-
-    #region To Strings
-    public override string ToString()
-    {
-        return $"Date: {DateToString()} Season: {season} Time: {TimeToString()} " +
-            $"\nTotal Days: {totalNumDays} | Total Weeks: {totalNumWeeks}";
-    }
-    public string DateToString()
-    {
-        return $"{Day} {Date} {Year.ToString("D2")}";
-    }
-
-    public string TimeToString()
-    {
-        int adjustedHour = 0;
-
-        if (hour == 0)
-        {
-            adjustedHour = 12;
-        }
-        else if (hour >= 13)
-        {
-            adjustedHour = hour - 12;
-        }
-        else
-        {
-            adjustedHour = hour;
-        }
-
-        string AmPm = hour < 12 ? "AM" : "PM";
-
-        return $"{adjustedHour.ToString("D2")}:{minutes.ToString("D2")} {AmPm}";
-    }
-    #endregion
-}
-*/
 
 [System.Serializable]
 public enum Days
@@ -337,6 +133,7 @@ public enum Months
 public struct DateTime
 {
     public Days Day;
+    public int DayOfMonth;
     public Months Month;
     public int Year;
 
@@ -359,6 +156,7 @@ public struct DateTime
     public DateTime(int day, int month, int year)
     {
         Day = (Days)day;
+        DayOfMonth = 1;
         Month = (Months)month;
         Year = year;
 
@@ -373,46 +171,9 @@ public struct DateTime
         weeksInMonth = 4;
     }
 
-    //
-    // Summary:
-    //     Shorthand for writing Vector3(1, 1, 1).
-    public DateTime(int day, int month, int year, int hour, int minutes)
-    {
-        Day = (Days)day;
-        Month = (Months)month;
-        Year = year;
-
-        Hour = hour;
-        Minutes = minutes;
-
-        Week = 1;
-
-        Season = (Season)0;
-
-        weeksInYear = 48;
-        weeksInMonth = 4;
-    }
-
-    public DateTime(int day, int month, int year, int hour, int minutes, int week, int season, int _weeksInYear, int _weeksInMonth)
-    {
-        Day = (Days)day;
-        Month = (Months)month;
-        Year = year;
-
-        Hour = hour;
-        Minutes = minutes;
-
-        Week = week;
-
-        Season = (Season)season;
-
-        weeksInYear = _weeksInYear;
-        weeksInMonth = weeksInYear / 12;
-    }
-
     public string DateToString()
     {
-        return $"{Day} {Month} {Year.ToString("D2")}";
+        return $"{Day} {Month} {DayOfMonth}, {Year.ToString("D2")}";
     }
 
     public string TimeToString()
@@ -445,8 +206,12 @@ public struct DateTime
     {
         if (Minutes + SecondsToAdvanceBy > 50)
         {
-            Minutes = 0;
-            AdvanceHour();
+            int overflowMinutes = Minutes + SecondsToAdvanceBy;
+            Minutes = overflowMinutes % 60;
+            int numHours = (overflowMinutes) / 60;
+            for(;numHours > 0; numHours--) {
+                AdvanceHour();
+            }
         }
         else
         {
@@ -465,10 +230,18 @@ public struct DateTime
         {
             Hour++;
         }
+
     }
 
     private void AdvanceDay()
     {
+        // Increment DayOfMonth along with the day of the week.
+        DayOfMonth++;
+        if (DayOfMonth > 28) // Assuming a simplified 28-day month for all months
+        {
+            DayOfMonth = 1; // Reset to the first day of the month
+        }
+
         if (Day + 1 > (Days)7)
         {
             Day = (Days)1;
@@ -478,6 +251,7 @@ public struct DateTime
         {
             Day++;
         }
+
     }
 
     private void AdvanceWeek()

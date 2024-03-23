@@ -59,20 +59,34 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if ( ++frameCount > 20 ) {
+        if (++frameCount > 20) {
             frameCount = 0;
-            int spawnAmount;
+
             totalResourceCount = resourceSpawner.GetChildCount();
             totalEntityCount = entitySpawner.GetChildCount();
-            if ( totalResourceCount < resourceMax ) {
-                spawnAmount = 1;
-                resourceSpawner.SpawnResources(spawnAmount);
+
+            int resourceSpawnAmount = CalculateSpawnAmount(resourceMax, totalResourceCount);
+            int entitySpawnAmount = CalculateSpawnAmount(entityMax, totalEntityCount);
+
+            if (resourceSpawnAmount > 0) {
+                resourceSpawner.SpawnResources(resourceSpawnAmount);
             }
-            if ( totalEntityCount < entityMax ) {
-                spawnAmount = 1;
-                entitySpawner.SpawnEntities(spawnAmount);
+            if (entitySpawnAmount > 0) {
+                entitySpawner.SpawnEntities(entitySpawnAmount);
             }
         }
+    }
+
+    int CalculateSpawnAmount(float max, int current)
+    {
+        float deficit = max - current;
+        float proportion = 0.1f; // Adjust this value as needed
+
+        // Ensure at least 1 is spawned if there's any deficit at all,
+        // but cap it with a calculated proportion of the deficit to avoid overpopulation
+        int spawnAmount = Mathf.Clamp(Mathf.CeilToInt(deficit * proportion), 0, Mathf.Max(1, Mathf.FloorToInt(deficit)));
+
+        return spawnAmount;
     }
 
 }

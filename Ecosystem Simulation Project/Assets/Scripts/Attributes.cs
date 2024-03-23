@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Attributes : MonoBehaviour
 {
-    // Player attributes
     public float initialHealth = 100f;
     public float initialStamina = 100f;
     public float initialHunger = 100f;
@@ -18,7 +17,7 @@ public class Attributes : MonoBehaviour
     public float maxAge = 100f;
     public float primeAge = 50f;
     public float ageDelay = 10f;
-    public float hungerDecayRate = 2f; // Health decay rate per second
+    public float hungerDecayRate = 2f;
     public float thirstDecayRate = 2f;
 
     public float maxHealth;
@@ -34,43 +33,45 @@ public class Attributes : MonoBehaviour
 
     public float agility;
     public float attack;
-    public float size; 
+    public float size;
 
     public Shelter shelter = null;
-
-    // public Rigidbody2D rigidbody2D;
     public Movement movement;
     public Resource currentResource;
     public GameObject deathResource;
     private HumanRewards humanRewards;
     private HumanAgent humanAgent;
+
+    // Thermocomfort attributes
+    public float thermo_min = 0.45f;
+    public float thermo_max = 0.75f;
+    private WeatherManager weatherManager;
+
     private float ageTime;
+
+    public EntityType entityType = EntityType.Diurnal;
 
     public void Awake()
     {
         movement = GetComponent<Movement>();
-        var test = movement;
-        if (movement == null)
-        {
-            throw new System.Exception("movement not set in attributes");
-        }
-
         humanRewards = GetComponent<HumanRewards>();
-        if (humanRewards == null)
-        {
-            throw new System.Exception("HumanRewards not set in attributes");
-        }
-
         humanAgent = GetComponent<HumanAgent>();
-        if (humanAgent == null)
+
+        // Ensure required components are attached
+        if (movement == null || humanRewards == null || humanAgent == null)
         {
-            throw new System.Exception("Human Agent not set in attributes");
+            Debug.LogError("Essential components (Movement, HumanRewards, HumanAgent) not set in attributes", this);
         }
+    }
+
+    public void Start()
+    {
+        EpisodeBegin();
+        weatherManager = FindObjectOfType<WeatherManager>();
     }
 
     public void EpisodeBegin()
     {
-        // reset attributes
         maxHealth = initialHealth;
         maxStamina = initialStamina;
         maxHunger = initialHunger;
@@ -80,48 +81,79 @@ public class Attributes : MonoBehaviour
         size = initialSize;
 
         currentHealth = maxHealth;
+        currentStamina = maxStamina;
         currentHunger = maxHunger;
         currentThirst = maxThirst;
-        currentStamina = maxStamina;
-
         currentAge = 0;
         ageTime = 0;
     }
-    private void Start()
-    {
-        EpisodeBegin();
-    }
 
-    // FixedUpdate is called once every 0.02 seconds
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
-        if(currentHealth <= 0) 
+        if (currentHealth <= 0) 
         {
             Die();
         }
-        DecayHealth();
 
-        if(currentHunger > (maxHunger/2) && currentThirst > (maxThirst/2))
+        float worldTemperature = GetWorldTemperatureNormalized();
+        float thermocomfortEffect = CalculateThermocomfortEffect(worldTemperature);
+
+        DecayHealth(thermocomfortEffect);
+
+        if (currentHunger > (maxHunger / 2) && currentThirst > (maxThirst / 2))
         {
-            Heal(5f * Time.deltaTime);
+            Heal(5f * Time.deltaTime * (2 - thermocomfortEffect));
         }
-        ModifyStamina(2 * Time.deltaTime);
+
+        ModifyStamina(2 * Time.deltaTime * (2 - thermocomfortEffect));
 
         ageTime += Time.deltaTime;
-        if (ageTime > ageDelay) {
+        if (ageTime > ageDelay) 
+        {
             IncreaseAge();
             ageTime = 0;
         }
+    }
 
-        if (shelter != null && currentHunger > 0 && currentThirst > 0) {
-            float recoveryAmount = shelter.recoveryRate * Time.deltaTime;
-            Heal(recoveryAmount);
-            ModifyStamina(recoveryAmount);
-            humanAgent.AddReward(humanRewards.GetHealthGainedReward(recoveryAmount));
+    private float GetWorldTemperatureNormalized()
+    {
+        if (weatherManager != null)
+        {
+            float currentTemperature = weatherManager.GetCurrentTemperature();
+            return currentTemperature / 100.0f;
+        }
+        return 0.0f; // Default value if weatherManager is null or not set
+    }
+
+    private float CalculateThermocomfortEffect(float worldTemperature)
+    {
+        if (worldTemperature < thermo_min || worldTemperature > thermo_max)
+        {
+            float difference = Mathf.Max(worldTemperature - thermo_max, thermo_min - worldTemperature);
+            return 1 + (difference * difference);
+        }
+        return 1;
+    }
+
+    private void DecayHealth(float thermocomfortEffect)
+    {
+        currentHunger -= hungerDecayRate * Time.deltaTime * thermocomfortEffect;
+        currentThirst -= thirstDecayRate * Time.deltaTime * thermocomfortEffect;
+        if (currentHunger <= 0)
+        {
+            currentHunger = 0;
+            float hungerDamageTaken = 10 * Time.deltaTime;
+            currentHealth -= hungerDamageTaken;
+        }
+        if (currentThirst <= 0)
+        {
+            currentThirst = 0;
+            float thirstDamageTaken = 10 * Time.deltaTime;
+            currentHealth -= thirstDamageTaken;
         }
     }
 
-    private void DecayHealth()
+    /* private void DecayHealth()
     {
         currentHunger -= hungerDecayRate * Time.deltaTime;
         currentThirst -= thirstDecayRate * Time.deltaTime;
@@ -131,14 +163,14 @@ public class Attributes : MonoBehaviour
             float hungerDamageTaken = 10 * Time.deltaTime;
             currentHealth -= hungerDamageTaken;
         }
-        if (currentThirst <=0)
+        if (currentThirst <= 0)
         {
             currentThirst = 0;
             float thirstDamageTaken = 10 * Time.deltaTime;
             currentHealth -= thirstDamageTaken;
         }
+    } */
 
-    }
     public void Eat(float amount)
     {
         currentHunger += amount;
@@ -270,18 +302,21 @@ public class Attributes : MonoBehaviour
             Die();
         }
     }
+
     private void AgeToPrime(ref float current, ref float max, float initial, float scaler)
     {
         float previousMax = max;
         max = initial + (initial * scaler);
         current += max - previousMax;
     }
+
     private void AgePastPrime(ref float current, ref float max, float initial, float scaler)
     {
         float previousMax = max;
         max = (initial * 2) - (initial * scaler);
         current += max - previousMax;
     }
+
     private void Die()
     {
         GameObject deathInstance = Instantiate(deathResource, transform.position, Quaternion.identity);
@@ -299,4 +334,5 @@ public class Attributes : MonoBehaviour
         Destroy(gameObject);
         humanAgent.AddReward(-10000f);
     }
+
 }

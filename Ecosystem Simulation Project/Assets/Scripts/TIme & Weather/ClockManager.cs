@@ -4,22 +4,14 @@ using TMPro;
 
 public class ClockManager : MonoBehaviour
 {
-
     [Header("Lighting Settings")]
     public Gradient lightingGradient;
-
     public RectTransform ClockFace;
     public TextMeshProUGUI Date, Time, Season, Week;
-
-    public Image weatherSprite;
-    public Sprite[] weatherSprites;
-
     private float startingRotation;
-
     // public Light sunlight;
     public float nightIntensity;
     public float dayIntensity;
-
     public AnimationCurve dayNightCurve;
 
     private void Awake()
@@ -51,8 +43,6 @@ public class ClockManager : MonoBehaviour
 
         if (Week != null)
             Week.text = $"WK: {dateTime.CurrentWeek}";
-
-        weatherSprite.sprite = weatherSprites[(int)WeatherManager.currentWeather];
 
         float t = (float)dateTime.Hour / 24f;
 
