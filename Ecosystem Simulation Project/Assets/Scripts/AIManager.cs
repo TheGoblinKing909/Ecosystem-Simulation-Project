@@ -9,7 +9,6 @@ public class AIManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private ObjectSpawner resourceManager;
-
     [SerializeField] private float maxTimeBeforeReset = 10f;
     [SerializeField] private float TimeScale = 1.0f;
     public float _TimeScale

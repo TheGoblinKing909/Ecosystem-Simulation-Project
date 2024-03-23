@@ -11,7 +11,7 @@ public static class WorldGenerator
         System.Random rand = new System.Random(seed);
         Vector2[] octavesOffset = new Vector2[octaves];
 
-        for (int i = 0; i < octaves; i++) 
+        for (int i = 0; i < octaves; i++)
         {
             float xOffset = rand.Next(-100000, 100000) + offset.x;
             float yOffset = rand.Next(-100000, 100000) + offset.y;
