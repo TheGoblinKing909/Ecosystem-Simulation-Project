@@ -43,21 +43,21 @@ public class ObjectSpawner : MonoBehaviour {
 
     public float entityDensity;
 
-    public void Awake() {
+    public void OnInstantiate() {
 
         gameManager = transform.parent.GetComponent<GameManager>();
 
         if ( gameManager != null ) {
-            width = MainMenuController.inputWidth;
-            height = MainMenuController.inputHeight;
+            width = gameManager.inputWidth;
+            height = gameManager.inputHeight;
             grid = gameManager.grid;
             tilemaps = gameManager.tilemaps;
             resourcePrefabs = gameManager.resourcePrefabs;
             // resourceDensity = gameManager.resourceDensity;
-            resourceDensity = MainMenuController.inputResDensity;
+            resourceDensity = gameManager.inputResDensity;
             entityPrefabs = gameManager.entityPrefabs;
             //entityDensity = gameManager.entityDensity;
-            entityDensity = MainMenuController.inputEntDensity;
+            entityDensity = gameManager.inputEntDensity;
         }
         else {
             Debug.LogError("GameManager not found!");
