@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -22,7 +24,32 @@ public class MainMenuController : MonoBehaviour
         inputLacunarity = float.Parse(userLacunarity.text);
         inputResDensity = float.Parse(userResDensity.text);
         inputEntDensity = float.Parse(userEntDensity.text);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        if (Application.isEditor)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            Process mlagentsProcess = new Process();
+            mlagentsProcess.StartInfo.UseShellExecute = false;
+            mlagentsProcess.StartInfo.RedirectStandardInput = true;
+            mlagentsProcess.StartInfo.WorkingDirectory = "..";
+            mlagentsProcess.StartInfo.FileName = "cmd.exe";
+            mlagentsProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
+            mlagentsProcess.Start();
+
+            if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\")) 
+            {
+                mlagentsProcess.StandardInput.WriteLine("conda env create -f environment.yml");
+            }
+
+            mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
+            mlagentsProcess.StandardInput.WriteLine(@"mlagents-learn trainer_config.yaml --run-id=build --force --env=""Simulation\Ecosystem Simulation Project.exe"" --env-args " +
+                inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " + 
+                inputScale.ToString() + " " + inputPersistence.ToString() + " " + inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " + 
+                inputEntDensity.ToString());
+        }
     }
     public void Create()
     {
