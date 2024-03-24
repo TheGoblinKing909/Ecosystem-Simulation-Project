@@ -195,6 +195,7 @@ public class Attributes : MonoBehaviour
         }
         agent.AddReward(rewards.GetHungerGainedReward(amount));
     }
+
     public void ModifyThirst(float amount)
     {
         currentThirst += amount;
@@ -211,6 +212,7 @@ public class Attributes : MonoBehaviour
         }
         agent.AddReward(rewards.GetThirstGainedReward(amount));
     }
+
     public void ModifyHealth(float amount)
     {
         currentHealth += amount;
@@ -228,6 +230,7 @@ public class Attributes : MonoBehaviour
         }
         agent.AddReward(rewards.GetThirstGainedReward(amount));
     }
+
     public void ModifyStamina(float amount)
     {
         currentStamina += amount;

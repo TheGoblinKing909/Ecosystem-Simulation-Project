@@ -886,6 +886,18 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4966037371092837446, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: entityPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966037371092837446, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: entityPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1640055438649528310, guid: d4f049fdb36eb284fb0de960ed56113b, type: 3}
+    - target: {fileID: 4966037371092837446, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: entityPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1640055438649528310, guid: 5ffb1b17bb0e8574da18b4468d2d763a, type: 3}
     - target: {fileID: 5754555620172212034, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

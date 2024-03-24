@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 2
   currentLayer: 0
-  waterLevel: 0
+  waterLevel: 1
   grid: {fileID: 0}
   tilemaps:
   - {fileID: 0}
