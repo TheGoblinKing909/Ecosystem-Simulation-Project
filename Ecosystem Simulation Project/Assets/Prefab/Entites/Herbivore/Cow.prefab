@@ -175,8 +175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5dc44ffe0139bd4fb6cee94f5c37864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 15
-  viewAngle: 35
+  entityType: 0
+  maxViewRadius: 60
+  maxViewAngle: 90
+  _viewAngle: 0
   targetMask:
     serializedVersion: 2
     m_Bits: 0
@@ -224,20 +226,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc911154f75045949890bb39e502db5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialHealth: 100
+  initialStamina: 100
+  initialHunger: 100
+  initialThirst: 100
+  initialAgility: 2
+  initialAttack: 10
+  initialSize: 5
+  maxAge: 100
+  primeAge: 50
+  ageDelay: 10
+  hungerDecayRate: 2
+  thirstDecayRate: 2
   maxHealth: 100
   maxStamina: 100
   maxHunger: 100
   maxThirst: 100
-  hungerDecayRate: 2
-  thirstDecayRate: 2
   currentHealth: 0
   currentStamina: 0
   currentHunger: 0
   currentThirst: 0
+  currentAge: 0
   agility: 1
   attack: 0
   size: 0
-  deathResource: {fileID: 0}
+  shelter: {fileID: 0}
+  movement: {fileID: 0}
+  currentResource: {fileID: 0}
+  deathResource: {fileID: 1640055438649528310, guid: 8c1d2e7c6a77bd344a3eaae9ab636c67, type: 3}
+  thermo_min: 0.45
+  thermo_max: 0.75
+  entityType: 0
 --- !u!114 &7617848876019780080
 MonoBehaviour:
   m_ObjectHideFlags: 0
