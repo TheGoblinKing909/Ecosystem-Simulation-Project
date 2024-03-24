@@ -49,9 +49,11 @@ public class Movement : MonoBehaviour
 
     public void SetMovement(float x, float y, float newSpeed = -1)
     {
+        float speed = runSpeed;
+        if (newSpeed > 0) { speed = newSpeed; }
         horizontal = x;
         vertical = y;
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        body.velocity = new Vector2(horizontal * speed, vertical * speed);
 
         Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
         float deltaTime = Time.deltaTime; // Get the time since the last frame update

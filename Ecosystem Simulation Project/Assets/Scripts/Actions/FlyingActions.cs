@@ -15,7 +15,7 @@ public class FlyingActions : Actions
         groundSpeed = attributes.agility;
     }
 
-    public new void ActionsRecieved(ActionBuffers actions)
+    protected new void ActionsRecieved(ActionBuffers actions)
     {
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];

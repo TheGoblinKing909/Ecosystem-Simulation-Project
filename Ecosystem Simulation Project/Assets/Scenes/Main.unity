@@ -853,11 +853,11 @@ PrefabInstance:
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: entityPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 1640055438649528310, guid: f0b371a42575ef4428c577d8434836ce, type: 3}
+      objectReference: {fileID: 1640055438649528310, guid: 5ffb1b17bb0e8574da18b4468d2d763a, type: 3}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: entityPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 7404917140349088052, guid: 2c339d4938d1ee14ea65978bf9438488, type: 3}
+      objectReference: {fileID: 1640055438649528310, guid: 5ffb1b17bb0e8574da18b4468d2d763a, type: 3}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: resourcePrefabs.Array.data[2]
       value: 
