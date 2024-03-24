@@ -40,7 +40,7 @@ public class Attributes : MonoBehaviour
     public Resource currentResource;
     public GameObject deathResource;
     private Rewards rewards;
-    private HumanAgent humanAgent;
+    private Entity agent;
 
     // Thermocomfort attributes
     public float thermo_min = 0.45f;
@@ -106,7 +106,7 @@ public class Attributes : MonoBehaviour
 
         if (currentHunger > (maxHunger / 2) && currentThirst > (maxThirst / 2))
         {
-            Heal(5f * Time.deltaTime * (2 - thermocomfortEffect));
+            ModifyHealth(5f * Time.deltaTime * (2 - thermocomfortEffect));
         }
 
         ModifyStamina(2 * Time.deltaTime * (2 - thermocomfortEffect));
@@ -173,8 +173,6 @@ public class Attributes : MonoBehaviour
             float thirstDamageTaken = -10;
             ModifyHealth(thirstDamageTaken);
         }
-    } 
-
     }
 
     public void ModifyHunger(float amount)
@@ -193,6 +191,7 @@ public class Attributes : MonoBehaviour
         }
         agent.AddReward(rewards.GetHungerGainedReward(amount));
     }
+
     public void ModifyThirst(float amount)
     {
         currentThirst += amount;
@@ -209,6 +208,7 @@ public class Attributes : MonoBehaviour
         }
         agent.AddReward(rewards.GetThirstGainedReward(amount));
     }
+
     public void ModifyHealth(float amount)
     {
         currentHealth += amount;
@@ -226,6 +226,7 @@ public class Attributes : MonoBehaviour
         }
         agent.AddReward(rewards.GetThirstGainedReward(amount));
     }
+
     public void ModifyStamina(float amount)
     {
         currentStamina += amount;
@@ -238,54 +239,55 @@ public class Attributes : MonoBehaviour
             currentStamina = 0;
         }
     }
-private void IncreaseAge()
-{
-    currentAge++;
-    if (currentAge <= primeAge)
+
+    private void IncreaseAge()
     {
-        float ageScaler = (currentAge * currentAge) / (primeAge * primeAge);
+        currentAge++;
+        if (currentAge <= primeAge)
+        {
+            float ageScaler = (currentAge * currentAge) / (primeAge * primeAge);
 
-        AgeToPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
-        AgeToPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
-        AgeToPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
-        AgeToPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
+            AgeToPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
+            AgeToPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
+            AgeToPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
+            AgeToPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
 
-        agility = initialAgility + (initialAgility * ageScaler);
-        attack = initialAttack + (initialAttack * ageScaler);
-        size = initialSize + (initialSize * ageScaler);
+            agility = initialAgility + (initialAgility * ageScaler);
+            attack = initialAttack + (initialAttack * ageScaler);
+            size = initialSize + (initialSize * ageScaler);
+        }
+        else if (currentAge <= maxAge)
+        {
+            float ageScaler = ((currentAge - primeAge) * (currentAge - primeAge)) / ((maxAge - primeAge) * (maxAge - primeAge));
+
+            AgePastPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
+            AgePastPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
+            AgePastPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
+            AgePastPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
+
+            agility = (initialAgility * 2) - (initialAgility * ageScaler);
+            attack = (initialAttack * 2) - (initialAttack * ageScaler);
+            size = (initialSize * 2) - (initialSize * ageScaler);
+        }
+        else
+        {
+            Die();
+        }
     }
-    else if (currentAge <= maxAge)
+
+    private void AgeToPrime(ref float current, ref float max, float initial, float scaler)
     {
-        float ageScaler = ((currentAge - primeAge) * (currentAge - primeAge)) / ((maxAge - primeAge) * (maxAge - primeAge));
-
-        AgePastPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
-        AgePastPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
-        AgePastPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
-        AgePastPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
-
-        agility = (initialAgility * 2) - (initialAgility * ageScaler);
-        attack = (initialAttack * 2) - (initialAttack * ageScaler);
-        size = (initialSize * 2) - (initialSize * ageScaler);
+        float previousMax = max;
+        max = initial + (initial * scaler);
+        current += max - previousMax;
     }
-    else
+
+    private void AgePastPrime(ref float current, ref float max, float initial, float scaler)
     {
-        Die();
+        float previousMax = max;
+        max = (initial * 2) - (initial * scaler);
+        current += max - previousMax;
     }
-}
-
-private void AgeToPrime(ref float current, ref float max, float initial, float scaler)
-{
-    float previousMax = max;
-    max = initial + (initial * scaler);
-    current += max - previousMax;
-}
-
-private void AgePastPrime(ref float current, ref float max, float initial, float scaler)
-{
-    float previousMax = max;
-    max = (initial * 2) - (initial * scaler);
-    current += max - previousMax;
-}
 
     private void Die()
     {
