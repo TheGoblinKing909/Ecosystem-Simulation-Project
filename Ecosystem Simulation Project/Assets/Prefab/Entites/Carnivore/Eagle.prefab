@@ -283,7 +283,7 @@ MonoBehaviour:
   shelter: {fileID: 0}
   movement: {fileID: 0}
   currentResource: {fileID: 0}
-  deathResource: {fileID: 0}
+  deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
   thermo_min: 0.45
   thermo_max: 0.75
   entityType: 0
