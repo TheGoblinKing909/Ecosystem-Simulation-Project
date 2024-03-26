@@ -43,6 +43,8 @@ public class TimeManager : MonoBehaviour
         }
 
         slider.onValueChanged.AddListener(UpdateTimeScale);
+        Time.timeScale = (float)1.00;
+        slider.value = (float)1.00;
     }
 
     private void Update()
