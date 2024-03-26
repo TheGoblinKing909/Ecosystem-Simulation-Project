@@ -39,7 +39,7 @@ public class Actions : MonoBehaviour
         }
     }
 
-    public void OnActionsRecieved(ActionBuffers actions)
+    public virtual void OnCustomActionReceived(ActionBuffers actions)
     {
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
@@ -95,11 +95,11 @@ public class Actions : MonoBehaviour
         }
     }
 
-    protected void ActionsRecieved(ActionBuffers actions)
+    public void OnActionsRecieved(ActionBuffers actions)
     {
-        OnActionsRecieved(actions);
-    }
+        OnCustomActionReceived(actions);
 
+    }
     public void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;

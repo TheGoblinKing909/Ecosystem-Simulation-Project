@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -7709936612222318048}
   - component: {fileID: -7258744783881942041}
   - component: {fileID: 9182960821285177141}
+  - component: {fileID: -5861375054117496671}
   m_Layer: 0
   m_Name: ChirpingBird
   m_TagString: Entity
@@ -288,6 +289,20 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+--- !u!114 &-5861375054117496671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640055438649528310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1
 --- !u!1 &8887786653963769228
 GameObject:
   m_ObjectHideFlags: 0
