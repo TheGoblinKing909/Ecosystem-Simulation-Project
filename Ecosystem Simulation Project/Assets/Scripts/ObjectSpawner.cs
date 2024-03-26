@@ -128,7 +128,11 @@ public class ObjectSpawner : MonoBehaviour {
                                         }
 
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
-                                        Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                                        GameObject instantiatedResource = Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                                        Vector3 resourcePosition = instantiatedResource.transform.position;
+                                        resourcePosition.z = 25; // Set the z-coordinate to 0
+                                        instantiatedResource.transform.position = resourcePosition; // Update the position
+
                                         totalResourceCount++;
 
                                         if ( resourceQueue[i] > 0 && randomValue > effectiveDensity )
@@ -211,7 +215,11 @@ public class ObjectSpawner : MonoBehaviour {
                             }
 
                             world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
-                            Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            GameObject instantiatedResource = Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            Vector3 resourcePosition = instantiatedResource.transform.position;
+                            resourcePosition.z = 25; // Set the z-coordinate to 0
+                            instantiatedResource.transform.position = resourcePosition; // Update the position
+
                             spawned = true;
                             spawnAmount--;
 
@@ -288,8 +296,11 @@ public class ObjectSpawner : MonoBehaviour {
                                         }
 
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
-
                                         GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                                        Vector3 entityPosition = instantiatedEntity.transform.position;
+                                        entityPosition.z = 25; // Set the z-coordinate to 0
+                                        instantiatedEntity.transform.position = entityPosition; // Update the position
+
                                         instantiatedEntity.layer = layerNumber + 6;
                                         Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         movementScript.OnInstantiate();
@@ -372,9 +383,13 @@ public class ObjectSpawner : MonoBehaviour {
                                 grid_xyz_pos.y -= layerNumber - 2;
                                 grid_xyz_pos.x -= layerNumber - 2;
                             }
-                            world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
 
+                            world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
                             GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            Vector3 entityPosition = instantiatedEntity.transform.position;
+                            entityPosition.z = 25; // Set the z-coordinate to 0
+                            instantiatedEntity.transform.position = entityPosition; // Update the position
+
                             instantiatedEntity.layer = layerNumber + 6;
                             Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                             movementScript.OnInstantiate();
