@@ -20,11 +20,13 @@ public class ObjectSpawner : MonoBehaviour {
         (2) Wheat
         (3) Cave
     */
+    /*
     public bool[,] resourceAllowedTilemaps = new bool[,] {
         { false, false, false, true, true, true, true, false, false, false, false },
         { false, false, false, true, true, true, true, false, false, false, false },
         { false, false, false, false, false, false, false, true, true, true, true }
     };
+    */
 
     public float resourceDensity;
 
@@ -36,10 +38,12 @@ public class ObjectSpawner : MonoBehaviour {
         (1) Human
         (2) Bear
     */
+    /*
     public bool[,] entityAllowedTilemaps = new bool[,] {
         { false, false, false, true, true, false, false, false, false, false, false },
         { false, false, false, false, false, true, true, false, false, false, false }
     };
+    */
 
     public float entityDensity;
 
@@ -101,7 +105,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                         for ( int i = 0; i < resourcePrefabs.Count; i++ ) {
 
-                            if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
+                            // if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
 
                                 randomValue = Random.Range(0f, 1f);
 
@@ -136,7 +140,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                                 }
 
-                            }
+                            // }
 
                         }
 
@@ -193,7 +197,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                     while ( !spawned && attempts < 10 ) {
 
-                        if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
+                        // if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
 
                             if ( layerNumber < 3 )
                                 grid_z = 0;
@@ -211,7 +215,7 @@ public class ObjectSpawner : MonoBehaviour {
                             spawned = true;
                             spawnAmount--;
 
-                        }
+                        // }
 
                         attempts++;
 
@@ -260,7 +264,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                         for ( int i = 0; i < entityPrefabs.Count; i++ ) {
 
-                            if ( entityAllowedTilemaps[i, layerNumber] == true ) {
+                            // if ( entityAllowedTilemaps[i, layerNumber] == true ) {
 
                                 randomValue = Random.Range(0f, 1f);
 
@@ -301,7 +305,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                                 }
 
-                            }
+                            // }
 
                         }
 
@@ -356,7 +360,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                     while ( !spawned && attempts < 10 ) {
 
-                        if ( entityAllowedTilemaps[i, layerNumber] == true ) {
+                        // if ( entityAllowedTilemaps[i, layerNumber] == true ) {
 
                             if ( layerNumber < 3 )
                                 grid_z = 0;
@@ -378,7 +382,7 @@ public class ObjectSpawner : MonoBehaviour {
                             spawned = true;
                             spawnAmount--;
 
-                        }
+                        // }
 
                         attempts++;
 
@@ -390,12 +394,9 @@ public class ObjectSpawner : MonoBehaviour {
                 }
 
             }
-    
+
         }
 
-        //Debug.Log("Human = " + count1);
-        //Debug.Log("Bear = " + count2);
-    
     }
 
 }

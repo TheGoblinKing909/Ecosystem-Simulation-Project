@@ -81,6 +81,18 @@ public class GameManager : MonoBehaviour
             inputLacunarity = float.Parse(args[argLen-3]);
             inputResDensity = float.Parse(args[argLen-2]);
             inputEntDensity = float.Parse(args[argLen-1]);
+
+            Process tensorboardProcess = new Process();
+            tensorboardProcess.StartInfo.UseShellExecute = false;
+            tensorboardProcess.StartInfo.RedirectStandardInput = true;
+            tensorboardProcess.StartInfo.FileName = "cmd.exe";
+            tensorboardProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
+            tensorboardProcess.Start();
+
+            tensorboardProcess.StandardInput.WriteLine("conda activate build-env");
+            tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
+
+            Application.OpenURL("http://localhost:6006/");
         }
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(inputWidth, inputHeight, inputSeed, inputScale, inputOctaves, inputPersistence, inputLacunarity, offset);
         WorldGenerator.PlaceTiles(inputWidth, inputHeight, noiseMap, grid, tilemaps, tileList);
@@ -88,18 +100,6 @@ public class GameManager : MonoBehaviour
         resourceMax = resourceSpawner.PlaceResources();
         entitySpawner.OnInstantiate();
         entityMax = entitySpawner.PlaceEntities();
-
-        Process tensorboardProcess = new Process();
-        tensorboardProcess.StartInfo.UseShellExecute = false;
-        tensorboardProcess.StartInfo.RedirectStandardInput = true;
-        tensorboardProcess.StartInfo.FileName = "cmd.exe";
-        tensorboardProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
-        tensorboardProcess.Start();
-
-        tensorboardProcess.StandardInput.WriteLine("conda activate build-env");
-        tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
-
-        Application.OpenURL("http://localhost:6006/");
     }
 
     void Update()
