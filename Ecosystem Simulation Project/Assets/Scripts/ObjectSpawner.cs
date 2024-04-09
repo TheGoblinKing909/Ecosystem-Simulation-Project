@@ -20,11 +20,13 @@ public class ObjectSpawner : MonoBehaviour {
         (2) Wheat
         (3) Cave
     */
+    /*
     public bool[,] resourceAllowedTilemaps = new bool[,] {
         { false, false, false, true, true, true, true, false, false, false, false },
         { false, false, false, true, true, true, true, false, false, false, false },
         { false, false, false, false, false, false, false, true, true, true, true }
     };
+    */
 
     public float resourceDensity;
 
@@ -36,28 +38,30 @@ public class ObjectSpawner : MonoBehaviour {
         (1) Human
         (2) Bear
     */
+    /*
     public bool[,] entityAllowedTilemaps = new bool[,] {
         { false, false, false, true, true, false, false, false, false, false, false },
         { false, false, false, false, false, true, true, false, false, false, false }
     };
+    */
 
     public float entityDensity;
 
-    public void Awake() {
+    public void OnInstantiate() {
 
         gameManager = transform.parent.GetComponent<GameManager>();
 
         if ( gameManager != null ) {
-            width = MainMenuController.inputWidth;
-            height = MainMenuController.inputHeight;
+            width = gameManager.inputWidth;
+            height = gameManager.inputHeight;
             grid = gameManager.grid;
             tilemaps = gameManager.tilemaps;
             resourcePrefabs = gameManager.resourcePrefabs;
             // resourceDensity = gameManager.resourceDensity;
-            resourceDensity = MainMenuController.inputResDensity;
+            resourceDensity = gameManager.inputResDensity;
             entityPrefabs = gameManager.entityPrefabs;
             //entityDensity = gameManager.entityDensity;
-            entityDensity = MainMenuController.inputEntDensity;
+            entityDensity = gameManager.inputEntDensity;
         }
         else {
             Debug.LogError("GameManager not found!");
@@ -101,7 +105,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                         for ( int i = 0; i < resourcePrefabs.Count; i++ ) {
 
-                            if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
+                            // if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
 
                                 randomValue = Random.Range(0f, 1f);
 
@@ -124,7 +128,11 @@ public class ObjectSpawner : MonoBehaviour {
                                         }
 
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
-                                        Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                                        GameObject instantiatedResource = Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                                        Vector3 resourcePosition = instantiatedResource.transform.position;
+                                        resourcePosition.z = 25; // Set the z-coordinate to 0
+                                        instantiatedResource.transform.position = resourcePosition; // Update the position
+
                                         totalResourceCount++;
 
                                         if ( resourceQueue[i] > 0 && randomValue > effectiveDensity )
@@ -136,7 +144,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                                 }
 
-                            }
+                            // }
 
                         }
 
@@ -155,7 +163,7 @@ public class ObjectSpawner : MonoBehaviour {
         //Debug.Log("Grass = " + count1);
         //Debug.Log("Wheat = " + count2);
         return totalResourceCount;
-    
+
     }
 
     public void SpawnResources ( int spawnAmount ) {
@@ -193,7 +201,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                     while ( !spawned && attempts < 10 ) {
 
-                        if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
+                        // if ( resourceAllowedTilemaps[i, layerNumber] == true ) {
 
                             if ( layerNumber < 3 )
                                 grid_z = 0;
@@ -207,11 +215,15 @@ public class ObjectSpawner : MonoBehaviour {
                             }
 
                             world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
-                            Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            GameObject instantiatedResource = Instantiate(resourcePrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            Vector3 resourcePosition = instantiatedResource.transform.position;
+                            resourcePosition.z = 25; // Set the z-coordinate to 0
+                            instantiatedResource.transform.position = resourcePosition; // Update the position
+
                             spawned = true;
                             spawnAmount--;
 
-                        }
+                        // }
 
                         attempts++;
 
@@ -260,7 +272,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                         for ( int i = 0; i < entityPrefabs.Count; i++ ) {
 
-                            if ( entityAllowedTilemaps[i, layerNumber] == true ) {
+                            // if ( entityAllowedTilemaps[i, layerNumber] == true ) {
 
                                 randomValue = Random.Range(0f, 1f);
 
@@ -284,8 +296,11 @@ public class ObjectSpawner : MonoBehaviour {
                                         }
 
                                         world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
-
                                         GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                                        Vector3 entityPosition = instantiatedEntity.transform.position;
+                                        entityPosition.z = 25; // Set the z-coordinate to 0
+                                        instantiatedEntity.transform.position = entityPosition; // Update the position
+
                                         instantiatedEntity.layer = layerNumber + 6;
                                         Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         movementScript.OnInstantiate();
@@ -301,7 +316,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                                 }
 
-                            }
+                            // }
 
                         }
 
@@ -356,7 +371,7 @@ public class ObjectSpawner : MonoBehaviour {
 
                     while ( !spawned && attempts < 10 ) {
 
-                        if ( entityAllowedTilemaps[i, layerNumber] == true ) {
+                        // if ( entityAllowedTilemaps[i, layerNumber] == true ) {
 
                             if ( layerNumber < 3 )
                                 grid_z = 0;
@@ -368,9 +383,13 @@ public class ObjectSpawner : MonoBehaviour {
                                 grid_xyz_pos.y -= layerNumber - 2;
                                 grid_xyz_pos.x -= layerNumber - 2;
                             }
-                            world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
 
+                            world_xyz_pos = grid.CellToWorld(grid_xyz_pos);
                             GameObject instantiatedEntity = Instantiate(entityPrefabs[i], world_xyz_pos, Quaternion.identity, transform);
+                            Vector3 entityPosition = instantiatedEntity.transform.position;
+                            entityPosition.z = 25; // Set the z-coordinate to 0
+                            instantiatedEntity.transform.position = entityPosition; // Update the position
+
                             instantiatedEntity.layer = layerNumber + 6;
                             Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                             movementScript.OnInstantiate();
@@ -378,7 +397,7 @@ public class ObjectSpawner : MonoBehaviour {
                             spawned = true;
                             spawnAmount--;
 
-                        }
+                        // }
 
                         attempts++;
 
@@ -390,12 +409,9 @@ public class ObjectSpawner : MonoBehaviour {
                 }
 
             }
-    
+
         }
 
-        //Debug.Log("Human = " + count1);
-        //Debug.Log("Bear = " + count2);
-    
     }
 
 }

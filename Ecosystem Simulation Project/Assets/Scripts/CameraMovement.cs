@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 public class CameraMovement : MonoBehaviour
 {
     private Camera view;
     private Vector3 dragPosition;
+    private EventSystem eventSystem; // Add this line
     public float dragSpeed;
     public float zoomSpeed;
     public float zoomMin;
@@ -14,6 +17,7 @@ public class CameraMovement : MonoBehaviour
     void Start()
     {
         view = GetComponent<Camera>();
+        eventSystem = EventSystem.current; // Add this line
     }
 
     void Update()
@@ -37,5 +41,6 @@ public class CameraMovement : MonoBehaviour
         {
             view.orthographicSize -= zoomSpeed;
         }
+
     }
 }

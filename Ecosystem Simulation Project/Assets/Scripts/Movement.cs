@@ -5,8 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    public Rigidbody2D body;
-    public Attributes attributes;
+    protected Rigidbody2D body;
+    protected Attributes attributes;
 
     float horizontal;
     float vertical;
@@ -18,14 +18,20 @@ public class Movement : MonoBehaviour
     public List<Tilemap> tilemaps = new List<Tilemap>();
     public List<GameObject> collisions = new List<GameObject>();
 
-    public HumanAgent agent = null;
+    protected void OnAwake()
+    {
+        attributes = GetComponent<Attributes>();
+        if (attributes == null) { throw new System.Exception("attributes not found for movement"); }
+    }
+    void Awake()
+    {
+        OnAwake();
+    }
 
-    // Start is called before the first frame update
     public void OnInstantiate()
     {
 
         ObjectSpawner entityManager = transform.parent.GetComponent<ObjectSpawner>();
-        agent = GetComponent<HumanAgent>();
 
         if ( entityManager != null ) {
             grid = entityManager.grid;
@@ -41,24 +47,17 @@ public class Movement : MonoBehaviour
 
     }
 
-    public void SetMovement(float x, float y)
+    public void SetMovement(float x, float y, float newSpeed = -1)
     {
+        float speed = runSpeed;
+        if (newSpeed > 0) { speed = newSpeed; }
         horizontal = x;
         vertical = y;
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        body.velocity = new Vector2(horizontal * speed, vertical * speed);
 
-        // Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
-        // float deltaTime = Time.deltaTime; // Get the time since the last frame update
-        // Vector2 newPosition = currentPosition + body.velocity * deltaTime;
-
-        // if(newPosition.x > 50 || newPosition.x < -50)
-        // {
-        //     agent.AddReward(-10000000);
-        // }
-        // if (newPosition.y > 50 || newPosition.y < -50)
-        // {
-        //     agent.AddReward(-10000000);
-        // }
+        Vector2 currentPosition = body.position; // Assuming 'body' is a Rigidbody2D
+        float deltaTime = Time.deltaTime; // Get the time since the last frame update
+        Vector2 newPosition = currentPosition + (body.velocity * deltaTime);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
