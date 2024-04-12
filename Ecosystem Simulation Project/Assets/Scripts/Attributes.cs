@@ -47,9 +47,12 @@ public class Attributes : MonoBehaviour
     public float thermo_max = 0.75f;
     private WeatherManager weatherManager;
 
-    private float ageTime;
+    public float ageTime;
 
     public EntityType entityType = EntityType.Diurnal;
+
+    public int prefabIndex;
+    public bool isLoaded = false;
 
     protected void OnAwake()
     {
@@ -88,13 +91,15 @@ public class Attributes : MonoBehaviour
         agility = initialAgility;
         attack = initialAttack;
         size = initialSize;
-
-        currentHealth = maxHealth;
-        currentStamina = maxStamina;
-        currentHunger = maxHunger;
-        currentThirst = maxThirst;
-        currentAge = 0;
-        ageTime = 0;
+        if(!isLoaded)
+        {
+            currentHealth = maxHealth;
+            currentStamina = maxStamina;
+            currentHunger = maxHunger;
+            currentThirst = maxThirst;
+            currentAge = 0;
+            ageTime = 0;
+        }
     }
 
     public void FixedUpdate()
@@ -303,6 +308,9 @@ public class Attributes : MonoBehaviour
 
             if (resourceManagerTransform != null) {
                 deathInstance.transform.parent = resourceManagerTransform;
+                Resource res = deathInstance.GetComponent<Resource>();
+                res.MaxRemaining();
+                res.PrefabIndex = 1;
             }
         }
 

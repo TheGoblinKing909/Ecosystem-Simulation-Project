@@ -24,6 +24,8 @@ public class Resource : MonoBehaviour {
     public Color defaultColor = Color.green;
     private Color deadColor = Color.black;
 
+    public int PrefabIndex;
+
     private void Awake() {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if(spriteRenderer == null) {
@@ -49,7 +51,7 @@ public class Resource : MonoBehaviour {
         HealthRemaining = Mathf.Min(HealthRemaining, HealthMax);
     }
 
-    void Start() {
+    public void MaxRemaining() {
         HarvestRemaining = HarvestMax;
         HealthRemaining = HealthMax;
     }
