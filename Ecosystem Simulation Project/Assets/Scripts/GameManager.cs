@@ -53,33 +53,47 @@ public class GameManager : MonoBehaviour
     // world generation parameters
     public int inputWidth, inputHeight, inputSeed, inputOctaves;
     public float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
-
     public bool loadWorld;
+    public string worldName;
 
     void Start()
     {
-        if(!loadWorld)
+        if (Application.isEditor)
+        {
+            // loadWorld = MainMenuController.loadWorld;
+            // worldName = MainMenuController.WorldName;
+            loadWorld = false;
+            worldName = "TestWorld";
+        }
+        else
+        {
+            string[] args = System.Environment.GetCommandLineArgs();
+            loadWorld = bool.Parse(args[0]);
+            worldName = args[1];
+        }
+
+        if (!loadWorld)
         {
             if (Application.isEditor)
             {
-                // inputWidth = MainMenuController.inputWidth;
-                // inputHeight = MainMenuController.inputHeight;
-                // inputSeed = MainMenuController.inputSeed;
-                // inputOctaves = MainMenuController.inputOctaves;
-                // inputScale = MainMenuController.inputScale;
-                // inputPersistence = MainMenuController.inputPersistence;
-                // inputLacunarity = MainMenuController.inputLacunarity;
-                // inputResDensity = MainMenuController.inputResDensity;
-                // inputEntDensity = MainMenuController.inputEntDensity;
-                inputWidth = 50;
-                inputHeight = 50;
-                inputSeed = 50;
-                inputOctaves = 3;
-                inputScale = 100f;
-                inputPersistence = .3f;
-                inputLacunarity = 3f;
-                inputResDensity = .005f;
-                inputEntDensity = .005f;
+                inputWidth = MainMenuController.inputWidth;
+                inputHeight = MainMenuController.inputHeight;
+                inputSeed = MainMenuController.inputSeed;
+                inputOctaves = MainMenuController.inputOctaves;
+                inputScale = MainMenuController.inputScale;
+                inputPersistence = MainMenuController.inputPersistence;
+                inputLacunarity = MainMenuController.inputLacunarity;
+                inputResDensity = MainMenuController.inputResDensity;
+                inputEntDensity = MainMenuController.inputEntDensity;
+                // inputWidth = 50;
+                // inputHeight = 50;
+                // inputSeed = 50;
+                // inputOctaves = 3;
+                // inputScale = 100f;
+                // inputPersistence = .3f;
+                // inputLacunarity = 3f;
+                // inputResDensity = .005f;
+                // inputEntDensity = .005f;
             }
             else
             {
@@ -95,17 +109,7 @@ public class GameManager : MonoBehaviour
                 inputResDensity = float.Parse(args[argLen-2]);
                 inputEntDensity = float.Parse(args[argLen-1]);
 
-                Process tensorboardProcess = new Process();
-                tensorboardProcess.StartInfo.UseShellExecute = false;
-                tensorboardProcess.StartInfo.RedirectStandardInput = true;
-                tensorboardProcess.StartInfo.FileName = "cmd.exe";
-                tensorboardProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
-                tensorboardProcess.Start();
-
-                tensorboardProcess.StandardInput.WriteLine("conda activate build-env");
-                tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
-
-                Application.OpenURL("http://localhost:6006/");
+                displayTensorboard();
             }
             float[,] noiseMap = WorldGenerator.GenerateNoiseMap(inputWidth, inputHeight, inputSeed, inputScale, inputOctaves, inputPersistence, inputLacunarity, offset);
             WorldGenerator.PlaceTiles(inputWidth, inputHeight, noiseMap, grid, tilemaps, tileList);
@@ -137,7 +141,7 @@ public class GameManager : MonoBehaviour
             if (entitySpawnAmount > 0) {
                 entitySpawner.SpawnEntities(entitySpawnAmount);
             }
-            // Save();
+            Save();
         }
     }
 
@@ -153,9 +157,29 @@ public class GameManager : MonoBehaviour
         return spawnAmount;
     }
 
+    void displayTensorboard()
+    {
+        Process tensorboardProcess = new Process();
+        tensorboardProcess.StartInfo.UseShellExecute = false;
+        tensorboardProcess.StartInfo.RedirectStandardInput = true;
+        tensorboardProcess.StartInfo.FileName = "cmd.exe";
+        tensorboardProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
+        tensorboardProcess.Start();
+
+        tensorboardProcess.StandardInput.WriteLine("conda activate build-env");
+        tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
+
+        Application.OpenURL("http://localhost:6006/");
+    }
+
     void Save()
     {
-        string savePath = @"C:\Users\colby\Ecosystem-Simulation-Project-Build\Saves\SavedWorld.json";
+        string savePath = Application.persistentDataPath + "/Saves/";
+        if (!System.IO.Directory.Exists(savePath))
+        {
+            System.IO.Directory.CreateDirectory(savePath);
+        }
+        savePath += worldName + ".json";
 
         SaveData saveData = new SaveData();
         saveData.width = inputWidth;
@@ -224,12 +248,17 @@ public class GameManager : MonoBehaviour
 
         string saveDataString = JsonUtility.ToJson(saveData);
         System.IO.File.WriteAllText(savePath, saveDataString);
-        UnityEngine.Debug.Log("Saved");
+        UnityEngine.Debug.Log("Saved to " + savePath);
     }
 
     void Load()
     {
-        string savePath = @"C:\Users\colby\Ecosystem-Simulation-Project-Build\Saves\SavedWorld.json";
+        string savePath = Application.persistentDataPath + "/Saves/";
+        if (!System.IO.Directory.Exists(savePath))
+        {
+            System.IO.Directory.CreateDirectory(savePath);
+        }
+        savePath += worldName + ".json";
 
         string saveDataString = System.IO.File.ReadAllText(savePath);
         SaveData saveData = new SaveData();
@@ -304,7 +333,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        UnityEngine.Debug.Log("Loaded");
+        UnityEngine.Debug.Log("Loaded from " + savePath);
     }
 
 }
