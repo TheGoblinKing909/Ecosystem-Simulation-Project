@@ -67,9 +67,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            string[] args = System.Environment.GetCommandLineArgs();
-            loadWorld = bool.Parse(args[0]);
-            worldName = args[1];
+            // string[] args = System.Environment.GetCommandLineArgs();
+            // loadWorld = bool.Parse(args[0]);
+            // worldName = args[1];
+            loadWorld = false;
+            worldName = "TestWorld";
         }
 
         if (!loadWorld)
@@ -85,15 +87,15 @@ public class GameManager : MonoBehaviour
                 inputLacunarity = MainMenuController.inputLacunarity;
                 inputResDensity = MainMenuController.inputResDensity;
                 inputEntDensity = MainMenuController.inputEntDensity;
-                // inputWidth = 50;
-                // inputHeight = 50;
-                // inputSeed = 50;
+                // inputWidth = 100;
+                // inputHeight = 100;
+                // inputSeed = 123;
                 // inputOctaves = 3;
-                // inputScale = 100f;
+                // inputScale = 75f;
                 // inputPersistence = .3f;
                 // inputLacunarity = 3f;
                 // inputResDensity = .005f;
-                // inputEntDensity = .005f;
+                // inputEntDensity = .003f;
             }
             else
             {
@@ -109,7 +111,7 @@ public class GameManager : MonoBehaviour
                 inputResDensity = float.Parse(args[argLen-2]);
                 inputEntDensity = float.Parse(args[argLen-1]);
 
-                displayTensorboard();
+                DisplayTensorboard();
             }
             float[,] noiseMap = WorldGenerator.GenerateNoiseMap(inputWidth, inputHeight, inputSeed, inputScale, inputOctaves, inputPersistence, inputLacunarity, offset);
             WorldGenerator.PlaceTiles(inputWidth, inputHeight, noiseMap, grid, tilemaps, tileList);
@@ -141,7 +143,11 @@ public class GameManager : MonoBehaviour
             if (entitySpawnAmount > 0) {
                 entitySpawner.SpawnEntities(entitySpawnAmount);
             }
-            Save();
+            // Save();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SaveAndExit();
         }
     }
 
@@ -157,7 +163,7 @@ public class GameManager : MonoBehaviour
         return spawnAmount;
     }
 
-    void displayTensorboard()
+    void DisplayTensorboard()
     {
         Process tensorboardProcess = new Process();
         tensorboardProcess.StartInfo.UseShellExecute = false;
@@ -170,6 +176,36 @@ public class GameManager : MonoBehaviour
         tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
 
         Application.OpenURL("http://localhost:6006/");
+    }
+
+    void SaveAndExit()
+    {
+        Save();
+        if (!Application.isEditor)
+        {
+            Process[] processes = Process.GetProcessesByName("mlagents-learn");
+            foreach (Process process in processes)
+            {
+                process.Kill();
+                process.WaitForExit();
+                process.Dispose();
+            }
+            processes = Process.GetProcessesByName("tensorboard");
+            foreach (Process process in processes)
+            {
+                process.Kill();
+                process.WaitForExit();
+                process.Dispose();
+            }
+            processes = Process.GetProcessesByName("cmd");
+            foreach (Process process in processes)
+            {
+                process.Kill();
+                process.WaitForExit();
+                process.Dispose();
+            }
+            Application.Quit();
+        }
     }
 
     void Save()
