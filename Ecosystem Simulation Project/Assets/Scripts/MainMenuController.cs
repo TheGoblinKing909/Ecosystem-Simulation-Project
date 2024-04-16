@@ -10,15 +10,40 @@ public class MainMenuController : MonoBehaviour
 {
     public CanvasGroup OptionPanel, WorldParam;
     public TMPro.TMP_InputField userWidth, userHeight, userSeed, userOctaves, userScale, userPersistence, userLacunarity, userResDensity, userEntDensity;
-    public Slider sliderWidth, sliderHeight, sliderSeed, sliderOctaves, sliderScale, sliderPersistance, sliderLacunarity, sliderResDensity, sliderEntDensity;
+    //public Slider sliderWidth, sliderHeight, sliderSeed, sliderOctaves, sliderScale, sliderPersistence, sliderLacunarity, sliderResDensity, sliderEntDensity;
     public static int inputWidth, inputHeight, inputSeed, inputOctaves;
     public static float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
+    public TMPro.TMP_InputField[] inputFields;
+    public Slider[] sliders;
+    public float[] low_values = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public float[] med_values = { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    public float[] high_values = { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
 
-
-    public void Update()
+    void Start()
     {
-        sliderWidth.onValueChanged.AddListener(OnSliderChanged(userWidth, sliderWidth));
-        userWidth.onValueChanged.AddListener(OnFieldChanged(userWidth, sliderWidth));
+        // Add listeners to sliders
+        for (int i = 0; i < sliders.Length; i++)
+        {
+            int index = i; // To capture the current value of i in the lambda
+            sliders[i].onValueChanged.AddListener((value) => {
+                // Update corresponding input field
+                inputFields[index].text = value.ToString();
+            });
+        }
+        // Add listeners to input fields
+        for (int i = 0; i < inputFields.Length; i++)
+        {
+            int index = i; // To capture the current value of i in the lambda
+            inputFields[i].onValueChanged.AddListener((value) => {
+
+                // Parse input value as float
+                if (float.TryParse(value, out float floatValue))
+                {
+                    // Update corresponding slider
+                    sliders[index].value = floatValue;
+                }
+            });
+        }
     }
 
     public void StartGame()
@@ -47,35 +72,40 @@ public class MainMenuController : MonoBehaviour
             mlagentsProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
             mlagentsProcess.Start();
 
-            if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\")) 
+            if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\"))
             {
                 mlagentsProcess.StandardInput.WriteLine("conda env create -f environment.yml");
             }
 
             mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
             mlagentsProcess.StandardInput.WriteLine(@"mlagents-learn trainer_config.yaml --run-id=build --force --env=""Simulation\Ecosystem Simulation Project.exe"" --env-args " +
-                inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " + 
-                inputScale.ToString() + " " + inputPersistence.ToString() + " " + inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " + 
+                inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " +
+                inputScale.ToString() + " " + inputPersistence.ToString() + " " + inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " +
                 inputEntDensity.ToString());
         }
     }
 
-    public void OnSliderChanged(TMPro.TMP_InputField input, Slider slider)
+    public void SmallTemplate()
     {
-        if (input.text != slider.value.ToString())
+        for (int i = 0; i < inputFields.Length; i++)
         {
-            input.text = slider.value.ToString();
+            inputFields[i].text = low_values[i].ToString();
         }
     }
 
-    public void OnFieldChanged(TMPro.TMP_InputField input, Slider slider)
+    public void MedTemplate()
     {
-        if (slider.value.ToString() != input.text)
+        for (int i = 0; i < inputFields.Length; i++)
         {
-            if (float.TryParse(input.text, out float number))
-            {
-                slider.value = number;
-            }
+            inputFields[i].text = med_values[i].ToString();
+        }
+    }
+
+    public void LargeTemplate()
+    {
+        for (int i = 0; i < inputFields.Length; i++)
+        {
+            inputFields[i].text = high_values[i].ToString();
         }
     }
 
@@ -84,21 +114,30 @@ public class MainMenuController : MonoBehaviour
         WorldParam.alpha = 1;
         WorldParam.blocksRaycasts = true;
     }
+
     public void Options()
     {
         OptionPanel.alpha = 1;
         OptionPanel.blocksRaycasts = true;
     }
+
     public void OptionBack()
     {
         OptionPanel.alpha = 0;
         OptionPanel.blocksRaycasts = false;
     }
+
     public void ParamBack()
     {
+        for (int i = 0; i < inputFields.Length; i++)
+        {
+            sliders[i].value = low_values[i];
+            inputFields[i].text = "";
+        }
         WorldParam.alpha = 0;
         WorldParam.blocksRaycasts = false;
     }
+
     public void ExitGame()
     {
         Application.Quit();
