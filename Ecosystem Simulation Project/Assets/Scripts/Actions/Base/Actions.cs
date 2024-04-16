@@ -55,7 +55,7 @@ public class Actions : MonoBehaviour
                 {
                     for (int i = 0; i < movement.collisions.Count; i++)
                     {
-                        if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
+                        if (movement.collisions[i] != null && (movement.collisions[i].CompareTag("Resource") || movement.collisions[i].CompareTag("Shelter")))
                         {
                             HarvestResource(movement.collisions[i]);
                         }
@@ -87,7 +87,7 @@ public class Actions : MonoBehaviour
                 {
                     for (int i = 0; i < movement.collisions.Count; i++)
                     {
-                        if (movement.collisions[i] != null && movement.collisions[i].CompareTag("Resource"))
+                        if (movement.collisions[i] != null && (movement.collisions[i].CompareTag("Resource") || movement.collisions[i].CompareTag("Shelter")))
                         {
                             AttackResource(movement.collisions[i]);
                         }
@@ -104,6 +104,7 @@ public class Actions : MonoBehaviour
                         {
                             Shelter shelter = movement.collisions[i].GetComponent<Shelter>();
                             shelter.EnterShelter(gameObject);
+                            movement.SetMovement(0,0);
                         }
                     }
                 }
