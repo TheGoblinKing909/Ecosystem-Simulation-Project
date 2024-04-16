@@ -127,6 +127,13 @@ public class Attributes : MonoBehaviour
             IncreaseAge();
             ageTime = 0;
         }
+
+        if (shelter != null && currentHunger > 0 && currentThirst > 0) {
+            float recoveryAmount = shelter.recoveryRate * Time.deltaTime;
+            ModifyHealth(recoveryAmount);
+            ModifyStamina(recoveryAmount);
+            agent.AddReward(rewards.GetHealthGainedReward(recoveryAmount));
+        }
     }
 
     private float GetWorldTemperatureNormalized()

@@ -150,7 +150,7 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 0300000003000000
+      BranchSizes: 030000000300000003000000
     VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
@@ -256,7 +256,10 @@ MonoBehaviour:
   deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
   thermo_min: 0.45
   thermo_max: 0.75
+  ageTime: 0
   entityType: 0
+  prefabIndex: 0
+  isLoaded: 0
 --- !u!114 &5326310339894285368
 MonoBehaviour:
   m_ObjectHideFlags: 0
