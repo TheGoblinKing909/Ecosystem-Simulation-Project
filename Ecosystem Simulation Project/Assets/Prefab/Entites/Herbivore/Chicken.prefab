@@ -178,14 +178,14 @@ MonoBehaviour:
   entityType: 0
   maxViewRadius: 60
   maxViewAngle: 90
-  _viewAngle: 0
+  _viewRadius: 5
+  _viewAngle: 90
   targetMask:
     serializedVersion: 2
     m_Bits: 0
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  visibleTargets: []
 --- !u!114 &1522910362738212620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +273,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  agentType: 4
 --- !u!114 &2973974818300493872
 MonoBehaviour:
   m_ObjectHideFlags: 0
