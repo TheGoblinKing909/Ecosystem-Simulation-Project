@@ -41,15 +41,19 @@ public class Attributes : MonoBehaviour
     public GameObject deathResource;
     private Rewards rewards;
     private Entity agent;
+    private AttributeBar attributeBar;
 
     // Thermocomfort attributes
     public float thermo_min = 0.45f;
     public float thermo_max = 0.75f;
     private WeatherManager weatherManager;
 
-    private float ageTime;
+    public float ageTime;
 
     public EntityType entityType = EntityType.Diurnal;
+
+    public int prefabIndex;
+    public bool isLoaded = false;
 
     protected void OnAwake()
     {
@@ -61,6 +65,9 @@ public class Attributes : MonoBehaviour
 
         agent = GetComponent<Entity>();
         if (agent == null) { throw new System.Exception("Human Agent not set in attributes"); }
+
+        attributeBar = GetComponentInChildren<AttributeBar>();
+        if (attributeBar == null) { throw new System.Exception("Attribute Bar not set in attributes"); }
     }
 
     public void Awake()
@@ -88,13 +95,15 @@ public class Attributes : MonoBehaviour
         agility = initialAgility;
         attack = initialAttack;
         size = initialSize;
-
-        currentHealth = maxHealth;
-        currentStamina = maxStamina;
-        currentHunger = maxHunger;
-        currentThirst = maxThirst;
-        currentAge = 0;
-        ageTime = 0;
+        if(!isLoaded)
+        {
+            currentHealth = maxHealth;
+            currentStamina = maxStamina;
+            currentHunger = maxHunger;
+            currentThirst = maxThirst;
+            currentAge = 0;
+            ageTime = 0;
+        }
     }
 
     public void FixedUpdate()
@@ -120,8 +129,21 @@ public class Attributes : MonoBehaviour
         if (ageTime > ageDelay) 
         {
             IncreaseAge();
+            attributeBar.UpdateAgeNumber(currentAge);
             ageTime = 0;
         }
+
+        if (shelter != null && currentHunger > 0 && currentThirst > 0) {
+            float recoveryAmount = shelter.recoveryRate * Time.deltaTime;
+            ModifyHealth(recoveryAmount);
+            ModifyStamina(recoveryAmount);
+            agent.AddReward(rewards.GetHealthGainedReward(recoveryAmount));
+        }
+
+        attributeBar.UpdateHealthBar(currentHealth, maxHealth);
+        attributeBar.UpdateStaminaBar(currentStamina, maxStamina);
+        attributeBar.UpdateHungerBar(currentHunger, maxHunger);
+        attributeBar.UpdateThirstBar(currentThirst, maxThirst);
     }
 
     private float GetWorldTemperatureNormalized()
@@ -294,6 +316,11 @@ public class Attributes : MonoBehaviour
 
     private void Die()
     {
+        if (shelter != null)
+        {
+            shelter.ExitShelter(gameObject);
+        }
+
         GameObject deathInstance = Instantiate(deathResource, transform.position, Quaternion.identity);
         GameManager gameManager = FindObjectOfType<GameManager>();
 
@@ -303,6 +330,9 @@ public class Attributes : MonoBehaviour
 
             if (resourceManagerTransform != null) {
                 deathInstance.transform.parent = resourceManagerTransform;
+                Resource res = deathInstance.GetComponent<Resource>();
+                res.MaxRemaining();
+                res.PrefabIndex = 1;
             }
         }
 

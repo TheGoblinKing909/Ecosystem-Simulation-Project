@@ -18,11 +18,14 @@ public class Resource : MonoBehaviour {
     public float Thermo_min = 0.45f;
     public float Thermo_max = 0.75f;
     private WeatherManager weatherManager;
+    private ResourceBar resourceBar;
 
     public SpriteRenderer spriteRenderer;
 
     public Color defaultColor = Color.green;
     private Color deadColor = Color.black;
+
+    public int PrefabIndex;
 
     private void Awake() {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -33,6 +36,9 @@ public class Resource : MonoBehaviour {
         }
 
         weatherManager = FindObjectOfType<WeatherManager>();
+
+        resourceBar = GetComponentInChildren<ResourceBar>();
+        if (resourceBar == null) { throw new System.Exception("Resource Bar not set in attributes"); }
     }
 
     private void FixedUpdate() {
@@ -47,9 +53,12 @@ public class Resource : MonoBehaviour {
         
         HealthRemaining += (HealthRecovery * temperatureEffect) * Time.deltaTime;
         HealthRemaining = Mathf.Min(HealthRemaining, HealthMax);
+
+        resourceBar.UpdateHealthBar(HealthRemaining, HealthMax);
+        resourceBar.UpdateHarvestBar(HarvestRemaining, HarvestMax);
     }
 
-    void Start() {
+    public void MaxRemaining() {
         HarvestRemaining = HarvestMax;
         HealthRemaining = HealthMax;
     }
