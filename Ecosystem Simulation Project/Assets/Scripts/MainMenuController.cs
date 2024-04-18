@@ -10,14 +10,13 @@ public class MainMenuController : MonoBehaviour
 {
     public CanvasGroup OptionPanel, WorldParam;
     public TMPro.TMP_InputField userWidth, userHeight, userSeed, userOctaves, userScale, userPersistence, userLacunarity, userResDensity, userEntDensity;
-    //public Slider sliderWidth, sliderHeight, sliderSeed, sliderOctaves, sliderScale, sliderPersistence, sliderLacunarity, sliderResDensity, sliderEntDensity;
     public static int inputWidth, inputHeight, inputSeed, inputOctaves;
     public static float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
     public TMPro.TMP_InputField[] inputFields;
     public Slider[] sliders;
-    public float[] low_values = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    public float[] med_values = { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-    public float[] high_values = { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+    public float[] low_values = { 50, 50, 1, 50, 1, 0.1f, 1, 0.001f, 0.001f };
+    public float[] med_values = { 125, 125, 128, 100, 3, 0.3f, 3, 0.005f, 0.003f };
+    public float[] high_values = { 200, 200, 255, 150, 5, 0.5f, 5, 0.01f, 0.005f };
 
     void Start()
     {
@@ -34,13 +33,26 @@ public class MainMenuController : MonoBehaviour
         for (int i = 0; i < inputFields.Length; i++)
         {
             int index = i; // To capture the current value of i in the lambda
-            inputFields[i].onValueChanged.AddListener((value) => {
+            inputFields[i].onEndEdit.AddListener((value) => {
 
                 // Parse input value as float
                 if (float.TryParse(value, out float floatValue))
                 {
-                    // Update corresponding slider
-                    sliders[index].value = floatValue;
+                    if (floatValue >= low_values[index] && floatValue <= high_values[index])
+                    {
+                        // Update corresponding slider
+                        sliders[index].value = floatValue;
+                    }
+                    else if (floatValue < low_values[index])
+                    {
+                        sliders[index].value = low_values[index];
+                        inputFields[index].text = low_values[index].ToString();
+                    }
+                    else if (floatValue > low_values[index])
+                    {
+                        sliders[index].value = high_values[index];
+                        inputFields[index].text = high_values[index].ToString();
+                    }
                 }
             });
         }
@@ -89,7 +101,9 @@ public class MainMenuController : MonoBehaviour
     {
         for (int i = 0; i < inputFields.Length; i++)
         {
-            inputFields[i].text = low_values[i].ToString();
+            int index = i;
+            inputFields[i].text = low_values[index].ToString();
+            sliders[index].value = low_values[index];
         }
     }
 
@@ -97,7 +111,9 @@ public class MainMenuController : MonoBehaviour
     {
         for (int i = 0; i < inputFields.Length; i++)
         {
-            inputFields[i].text = med_values[i].ToString();
+            int index = i;
+            inputFields[i].text = med_values[index].ToString();
+            sliders[index].value = med_values[index];
         }
     }
 
@@ -105,7 +121,9 @@ public class MainMenuController : MonoBehaviour
     {
         for (int i = 0; i < inputFields.Length; i++)
         {
-            inputFields[i].text = high_values[i].ToString();
+            int index = i;
+            inputFields[i].text = high_values[index].ToString();
+            sliders[index].value = high_values[index];
         }
     }
 
