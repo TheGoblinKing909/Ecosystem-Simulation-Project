@@ -880,7 +880,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: resourcePrefabs.Array.size
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: entityPrefabs.Array.data[0]
@@ -923,7 +923,35 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1640055438649528310, guid: d4f049fdb36eb284fb0de960ed56113b, type: 3}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourcePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4380840106439738494, guid: aa0d17affca4b2d4986db8904994916b, type: 3}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourcePrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4380840106439738494, guid: b20979b897fa0324ab6f00f558a4c418, type: 3}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: resourcePrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 4380840106439738494, guid: 67de891b47ec9a547b1236d33dee47eb, type: 3}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourcePrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4380840106439738494, guid: 2435ddd069c877047969afad1fd58282, type: 3}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourcePrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 4380840106439738494, guid: d5f99114e44364c49b14fad7b73f8ce4, type: 3}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourcePrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 4380840106439738494, guid: b480047f90ea6834297cc7708f94f970, type: 3}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourcePrefabs.Array.data[6]
+      value: 
+      objectReference: {fileID: 4380840106439738494, guid: 4c506f681ed29894783112f003dba6cd, type: 3}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: resourcePrefabs.Array.data[7]
       value: 
       objectReference: {fileID: 4380840106439738494, guid: c057f986df25ee14ea80b4c7354f9d19, type: 3}
     - target: {fileID: 3519383774398139853, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
