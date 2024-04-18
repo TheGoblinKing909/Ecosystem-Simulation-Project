@@ -116,8 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8905492a9c20a6c49b6053ca3dd489be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
-  attributes: {fileID: 0}
   runSpeed: 0
   currentLayer: 0
   waterLevel: 1
@@ -205,6 +203,9 @@ MonoBehaviour:
   movement: {fileID: 0}
   currentResource: {fileID: 0}
   deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
+  thermo_min: 0.45
+  thermo_max: 0.75
+  entityType: 0
 --- !u!114 &2921981329471445916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e94a4f2dd420a44aaa5b162f2cde5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributes: {fileID: 912134818160146133}
   maxHealthGainReward: 1
   minHealthGainReward: 0.01
   maxHealthLossPunishment: -1
@@ -264,7 +264,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  manager: {fileID: 0}
+  agentType: 0
 --- !u!114 &8824152356037625016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,15 +291,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5dc44ffe0139bd4fb6cee94f5c37864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 15
-  viewAngle: 75
+  entityType: 0
+  maxViewRadius: 60
+  maxViewAngle: 90
+  _viewAngle: 0
   targetMask:
     serializedVersion: 2
     m_Bits: 0
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  visibleTargets: []
 --- !u!1 &8887786653963769228
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,6 +21,7 @@ public class FieldOfView : MonoBehaviour
     [SerializeField]
     private float maxViewAngle = 90f; // Define the maximum view angle
 
+    [SerializeField]
     private float _viewRadius;
     public float viewRadius
     {
@@ -40,7 +41,12 @@ public class FieldOfView : MonoBehaviour
     public LayerMask obstacleMask;
 
     [HideInInspector]
-    public List<Transform> visibleTargets = new List<Transform>();
+    public class VisibleTargetData
+    {
+        public Transform transform;
+        public Entity entity;
+    }
+    public List<VisibleTargetData> visibleTargets = new List<VisibleTargetData>();
 
     private void Start()
     {
@@ -69,6 +75,8 @@ public class FieldOfView : MonoBehaviour
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
+            var gameObject = targetsInViewRadius[i].gameObject;
+            Entity entity= gameObject.GetComponent<Entity>();
             Transform target = targetsInViewRadius[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
@@ -77,7 +85,10 @@ public class FieldOfView : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
-                    visibleTargets.Add(target);
+                    VisibleTargetData data = new();
+                    data.transform = target;
+                    data.entity = entity;
+                    visibleTargets.Add(data);
                 }
             }
         }

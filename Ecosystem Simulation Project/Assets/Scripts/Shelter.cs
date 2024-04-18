@@ -7,6 +7,13 @@ public class Shelter : MonoBehaviour
     public List<GameObject> shelteredEntities = new List<GameObject>();
     public float capacity = 20f;
     public float recoveryRate = 10f;
+    private ShelterBar shelterBar;
+
+    private void Awake()
+    {
+        shelterBar = GetComponentInChildren<ShelterBar>();
+        if (shelterBar == null) { throw new System.Exception("Shelter Bar not set in attributes"); }
+    }
 
     public float GetSizeRemaining() 
     {
@@ -31,10 +38,12 @@ public class Shelter : MonoBehaviour
             SpriteRenderer[] entityRenderer = entity.GetComponentsInChildren<SpriteRenderer>();
             entityRenderer[0].enabled = false;
 
-            Debug.Log(entity.name + " entered " + gameObject.name);
+            // Debug.Log(entity.name + " entered " + gameObject.name);
+
+            shelterBar.UpdateCapacityBar(GetSizeRemaining(), capacity);
         }
         else {
-            Debug.Log(entity.name + " could not enter " + gameObject.name + ": remaining size is " + GetSizeRemaining());
+            // Debug.Log(entity.name + " could not enter " + gameObject.name + ": remaining size is " + GetSizeRemaining());
         }
     }
 
@@ -50,6 +59,8 @@ public class Shelter : MonoBehaviour
         SpriteRenderer[] entityRenderer = entity.GetComponentsInChildren<SpriteRenderer>();
         entityRenderer[0].enabled = true;
 
-        Debug.Log(entity.name + " exited " + gameObject.name);
+        // Debug.Log(entity.name + " exited " + gameObject.name);
+
+        shelterBar.UpdateCapacityBar(GetSizeRemaining(), capacity);
     }
 }

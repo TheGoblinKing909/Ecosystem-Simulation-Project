@@ -6,11 +6,33 @@ using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum AgentType
+{
+    None = 0,
+    Eagle = 1,
+    Owl,
+    Wolf,
+    Chicken,
+    ChirpingBird,
+    Cow,
+    Pig,
+    Bear,
+    Fox,
+    Gorilla,
+    Oragatan,
+}
 public class Entity : Agent
 {
+    public  AgentType agentType = AgentType.None;
+    public float AvgRewardsPerStep;
+    public float CReward;
+    private float _AvgRewardPerStep { get => (GetCumulativeReward() / StepCount); set{ } }
+
+    private float _CReward { get => (this.GetCumulativeReward()); set { } }
     private Attributes attributes;
     private Actions actions;
     private AIManager manager;
+    private FieldOfView fov;
 
     protected void OnInitalize()
     {
@@ -20,6 +42,9 @@ public class Entity : Agent
         actions = GetComponent<Actions>();
         manager = FindObjectOfType<AIManager>();
         if (manager == null) throw new System.Exception("AIManager not set in HumanAgent parent");
+
+        fov = GetComponent<FieldOfView>();
+        if (fov == null) throw new System.Exception("fov not set in "+ agentType +" agent parent");
     }
 
     public override void Initialize()
@@ -29,21 +54,24 @@ public class Entity : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation((Vector2)transform.position);
+        AvgRewardsPerStep = _AvgRewardPerStep;
+        CReward = _CReward;
+        sensor.AddObservation(transform.position);
+        sensor.AddObservation(AvgRewardsPerStep);
 
-        var seeResource = false;
-
-        foreach (Transform resource in manager.resources)
+        foreach (FieldOfView.VisibleTargetData data in fov.visibleTargets)
         {
-            if (seeResource)
-            {
-                sensor.AddObservation(1);
-                Vector2 direction = (resource.position - transform.position);
-                float distance = Vector2.Distance(transform.position, resource.position);
+                Entity entity = data.entity;
+                Transform target = data.transform;
+                AgentType agentType = AgentType.None;
+                if (entity != null) { agentType = entity.agentType; }
+                Vector2 direction = (target.position - transform.position);
+                Vector3 entityData = new((float)agentType, direction.x, direction.y);
+                float distance = Vector2.Distance(transform.position, target.position);
+                sensor.AddObservation(entityData);
+                sensor.AddObservation(distance);
                 Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);
                 sensor.AddObservation(resourceObservation);
-            }
-            seeResource = !seeResource;
         }
 
         //foreach(Transform entites in manager.entites)

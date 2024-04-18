@@ -132,6 +132,9 @@ public class ObjectSpawner : MonoBehaviour {
                                         Vector3 resourcePosition = instantiatedResource.transform.position;
                                         resourcePosition.z = 25; // Set the z-coordinate to 0
                                         instantiatedResource.transform.position = resourcePosition; // Update the position
+                                        Resource res = instantiatedResource.GetComponent<Resource>();
+                                        res.MaxRemaining();
+                                        res.PrefabIndex = i;
 
                                         totalResourceCount++;
 
@@ -219,6 +222,9 @@ public class ObjectSpawner : MonoBehaviour {
                             Vector3 resourcePosition = instantiatedResource.transform.position;
                             resourcePosition.z = 25; // Set the z-coordinate to 0
                             instantiatedResource.transform.position = resourcePosition; // Update the position
+                            Resource res = instantiatedResource.GetComponent<Resource>();
+                            res.MaxRemaining();
+                            res.PrefabIndex = i;
 
                             spawned = true;
                             spawnAmount--;
@@ -304,7 +310,23 @@ public class ObjectSpawner : MonoBehaviour {
                                         instantiatedEntity.layer = layerNumber + 6;
                                         Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         movementScript.OnInstantiate();
-        
+
+                                        if (instantiatedEntity.GetComponent<Carnivore>() != null)
+                                        {
+                                            Carnivore ent = instantiatedEntity.GetComponent<Carnivore>();
+                                            ent.prefabIndex = i;
+                                        }
+                                        else if (instantiatedEntity.GetComponent<Omnivore>() != null)
+                                        {
+                                            Omnivore ent = instantiatedEntity.GetComponent<Omnivore>();
+                                            ent.prefabIndex = i;
+                                        }
+                                        else
+                                        {
+                                            Herbivore ent = instantiatedEntity.GetComponent<Herbivore>();
+                                            ent.prefabIndex = i;
+                                        }
+                                    
                                         totalEntityCount++;
 
                                         if ( entityQueue[i] > 0 && randomValue > effectiveDensity )
@@ -393,6 +415,22 @@ public class ObjectSpawner : MonoBehaviour {
                             instantiatedEntity.layer = layerNumber + 6;
                             Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                             movementScript.OnInstantiate();
+
+                            if (instantiatedEntity.GetComponent<Carnivore>() != null)
+                            {
+                                Carnivore ent = instantiatedEntity.GetComponent<Carnivore>();
+                                ent.prefabIndex = i;
+                            }
+                            else if (instantiatedEntity.GetComponent<Omnivore>() != null)
+                            {
+                                Omnivore ent = instantiatedEntity.GetComponent<Omnivore>();
+                                ent.prefabIndex = i;
+                            }
+                            else
+                            {
+                                Herbivore ent = instantiatedEntity.GetComponent<Herbivore>();
+                                ent.prefabIndex = i;
+                            }
 
                             spawned = true;
                             spawnAmount--;
