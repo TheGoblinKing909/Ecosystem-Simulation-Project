@@ -12,7 +12,8 @@ public enum ResourceType
     OrangeFlower,
     PinkBud,
     PinkFlower,
-    RedBerry
+    RedBerry,
+    DeadEntity
 }
 public class Resource : MonoBehaviour {
     public ResourceType resourceType = ResourceType.None;

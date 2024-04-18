@@ -538,7 +538,7 @@ MonoBehaviour:
   shelter: {fileID: 0}
   movement: {fileID: 0}
   currentResource: {fileID: 0}
-  deathResource: {fileID: 4380840106439738494, guid: d2151e2eb8cecbb46b644fb1eb4413ec, type: 3}
+  deathResource: {fileID: 4380840106439738494, guid: 4628e34d0e9b2d949ac3a0830f2dc666, type: 3}
   thermo_min: 0.45
   thermo_max: 0.75
   ageTime: 0
@@ -562,6 +562,8 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   agentType: 11
+  AvgRewardsPerStep: 0
+  CReward: 0
 --- !u!114 &4771389101539091595
 MonoBehaviour:
   m_ObjectHideFlags: 0
