@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
                 inputResDensity = float.Parse(args[argLen-2]);
                 inputEntDensity = float.Parse(args[argLen-1]);
 
-                DisplayTensorboard();
+                // DisplayTensorboard();
             }
             float[,] noiseMap = WorldGenerator.GenerateNoiseMap(inputWidth, inputHeight, inputSeed, inputScale, inputOctaves, inputPersistence, inputLacunarity, offset);
             WorldGenerator.PlaceTiles(inputWidth, inputHeight, noiseMap, grid, tilemaps, tileList);
@@ -148,6 +148,10 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SaveAndExit();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            DisplayTensorboard();
         }
     }
 
