@@ -24,6 +24,11 @@ public enum AgentType
 public class Entity : Agent
 {
     public  AgentType agentType = AgentType.None;
+    public float AvgRewardsPerStep;
+    public float CReward;
+    private float _AvgRewardPerStep { get => (GetCumulativeReward() / StepCount); set{ } }
+
+    private float _CReward { get => (this.GetCumulativeReward()); set { } }
     private Attributes attributes;
     private Actions actions;
     private AIManager manager;
@@ -49,7 +54,10 @@ public class Entity : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation((Vector2)transform.position);
+        AvgRewardsPerStep = _AvgRewardPerStep;
+        CReward = _CReward;
+        sensor.AddObservation(transform.position);
+        sensor.AddObservation(AvgRewardsPerStep);
 
         foreach (FieldOfView.VisibleTargetData data in fov.visibleTargets)
         {
