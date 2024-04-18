@@ -60,6 +60,16 @@ public class MainMenuController : MonoBehaviour
 
     public void StartGame()
     {
+        for (int i = 0; i < inputFields.Length; i++)
+        {
+            int index = i;
+
+            if (inputFields[i].text == "")
+            {
+                inputFields[i].text = med_values[index].ToString();
+            }
+        }
+
         inputWidth = int.Parse(userWidth.text);
         inputHeight = int.Parse(userHeight.text);
         inputSeed = int.Parse(userSeed.text);
