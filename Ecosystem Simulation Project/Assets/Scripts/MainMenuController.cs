@@ -12,6 +12,8 @@ public class MainMenuController : MonoBehaviour
     public TMPro.TMP_InputField userWidth, userHeight, userSeed, userOctaves, userScale, userPersistence, userLacunarity, userResDensity, userEntDensity;
     public static int inputWidth, inputHeight, inputSeed, inputOctaves;
     public static float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
+    public static bool loadWorld;
+    public static string worldName;
     public TMPro.TMP_InputField[] inputFields;
     public Slider[] sliders;
     public float[] low_values = { 50, 50, 1, 50, 1, 0.1f, 1, 0.001f, 0.001f };
@@ -58,6 +60,15 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    // Temporary way to test loading in build
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadGame();
+        }
+    }
+
     public void StartGame()
     {
         for (int i = 0; i < inputFields.Length; i++)
@@ -70,6 +81,8 @@ public class MainMenuController : MonoBehaviour
             }
         }
 
+        loadWorld = false;
+        worldName = "TestWorld3";
         inputWidth = int.Parse(userWidth.text);
         inputHeight = int.Parse(userHeight.text);
         inputSeed = int.Parse(userSeed.text);
@@ -100,10 +113,39 @@ public class MainMenuController : MonoBehaviour
             }
 
             mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
-            mlagentsProcess.StandardInput.WriteLine(@"mlagents-learn trainer_config.yaml --run-id=build --force --env=""Simulation\Ecosystem Simulation Project.exe"" --env-args " +
-                inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " +
-                inputScale.ToString() + " " + inputPersistence.ToString() + " " + inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " +
-                inputEntDensity.ToString());
+            mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --force --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
+                inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " + inputScale.ToString() + " " + inputPersistence.ToString() + " " +
+                inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " + inputEntDensity.ToString() + " " + loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
+        }
+    }
+
+    public void LoadGame()
+    {
+        loadWorld = true;
+        worldName = "TestWorld3";
+
+        if (Application.isEditor)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            Process mlagentsProcess = new Process();
+            mlagentsProcess.StartInfo.UseShellExecute = false;
+            mlagentsProcess.StartInfo.RedirectStandardInput = true;
+            mlagentsProcess.StartInfo.WorkingDirectory = "..";
+            mlagentsProcess.StartInfo.FileName = "cmd.exe";
+            mlagentsProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
+            mlagentsProcess.Start();
+
+            if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\"))
+            {
+                mlagentsProcess.StandardInput.WriteLine("conda env create -f environment.yml");
+            }
+
+            mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
+            mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --resume --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
+                loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
         }
     }
 

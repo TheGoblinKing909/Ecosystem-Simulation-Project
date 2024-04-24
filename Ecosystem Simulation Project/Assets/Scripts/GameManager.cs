@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -55,23 +56,23 @@ public class GameManager : MonoBehaviour
     public float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
     public bool loadWorld;
     public string worldName;
+    private string[] args;
+    private int argLen, mlagentsId;
 
     void Start()
     {
         if (Application.isEditor)
         {
-            // loadWorld = MainMenuController.loadWorld;
-            // worldName = MainMenuController.WorldName;
-            loadWorld = false;
-            worldName = "TestWorld";
+            loadWorld = MainMenuController.loadWorld;
+            worldName = MainMenuController.worldName;
         }
         else
         {
-            // string[] args = System.Environment.GetCommandLineArgs();
-            // loadWorld = bool.Parse(args[0]);
-            // worldName = args[1];
-            loadWorld = false;
-            worldName = "TestWorld";
+            args = System.Environment.GetCommandLineArgs();
+            argLen = args.Length;
+            loadWorld = bool.Parse(args[argLen-3]);
+            worldName = args[argLen-2];
+            mlagentsId = int.Parse(args[argLen-1]);
         }
 
         if (!loadWorld)
@@ -87,29 +88,18 @@ public class GameManager : MonoBehaviour
                 inputLacunarity = MainMenuController.inputLacunarity;
                 inputResDensity = MainMenuController.inputResDensity;
                 inputEntDensity = MainMenuController.inputEntDensity;
-                // inputWidth = 100;
-                // inputHeight = 100;
-                // inputSeed = 123;
-                // inputOctaves = 3;
-                // inputScale = 75f;
-                // inputPersistence = .3f;
-                // inputLacunarity = 3f;
-                // inputResDensity = .005f;
-                // inputEntDensity = .003f;
             }
             else
             {
-                string[] args = System.Environment.GetCommandLineArgs();
-                int argLen = args.Length;
-                inputWidth = int.Parse(args[argLen-9]);
-                inputHeight = int.Parse(args[argLen-8]);
-                inputSeed = int.Parse(args[argLen-7]);
-                inputOctaves = int.Parse(args[argLen-6]);
-                inputScale = float.Parse(args[argLen-5]);
-                inputPersistence = float.Parse(args[argLen-4]);
-                inputLacunarity = float.Parse(args[argLen-3]);
-                inputResDensity = float.Parse(args[argLen-2]);
-                inputEntDensity = float.Parse(args[argLen-1]);
+                inputWidth = int.Parse(args[argLen-12]);
+                inputHeight = int.Parse(args[argLen-11]);
+                inputSeed = int.Parse(args[argLen-10]);
+                inputOctaves = int.Parse(args[argLen-9]);
+                inputScale = float.Parse(args[argLen-8]);
+                inputPersistence = float.Parse(args[argLen-7]);
+                inputLacunarity = float.Parse(args[argLen-6]);
+                inputResDensity = float.Parse(args[argLen-5]);
+                inputEntDensity = float.Parse(args[argLen-4]);
 
                 // DisplayTensorboard();
             }
@@ -182,33 +172,25 @@ public class GameManager : MonoBehaviour
         Application.OpenURL("http://localhost:6006/");
     }
 
+    internal const int CTRL_C_EVENT = 0;
+    [DllImport("kernel32.dll")]
+    internal static extern bool GenerateConsoleCtrlEvent(uint dwCtrlEvent, uint dwProcessGroupId);
+    [DllImport("kernel32.dll", SetLastError = true)]
+    internal static extern bool AttachConsole(uint dwProcessId);
+    [DllImport("kernel32.dll")]
+    static extern bool SetConsoleCtrlHandler(ConsoleCtrlDelegate HandlerRoutine, bool Add);
+    delegate bool ConsoleCtrlDelegate(uint CtrlType);
+
     void SaveAndExit()
     {
         Save();
         if (!Application.isEditor)
         {
-            Process[] processes = Process.GetProcessesByName("mlagents-learn");
-            foreach (Process process in processes)
+            if (AttachConsole((uint) mlagentsId))
             {
-                process.Kill();
-                process.WaitForExit();
-                process.Dispose();
+                SetConsoleCtrlHandler(null, true);
+                GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0);
             }
-            processes = Process.GetProcessesByName("tensorboard");
-            foreach (Process process in processes)
-            {
-                process.Kill();
-                process.WaitForExit();
-                process.Dispose();
-            }
-            processes = Process.GetProcessesByName("cmd");
-            foreach (Process process in processes)
-            {
-                process.Kill();
-                process.WaitForExit();
-                process.Dispose();
-            }
-            Application.Quit();
         }
     }
 
