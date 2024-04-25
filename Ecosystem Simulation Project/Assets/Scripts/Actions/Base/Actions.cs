@@ -127,6 +127,7 @@ public class Actions : MonoBehaviour
         OnCustomActionReceived(actions);
 
     }
+
     public virtual void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
@@ -203,6 +204,7 @@ public class Actions : MonoBehaviour
             }
         }
     }
+
     public void AttackResource(GameObject resource)
     {
         if (attributes.currentStamina >= 10)
@@ -212,4 +214,5 @@ public class Actions : MonoBehaviour
             targetResource.HealthRemaining -= attributes.attack;
         }
     }
+
 }
