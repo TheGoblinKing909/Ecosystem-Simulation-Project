@@ -62,17 +62,6 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    /*
-    // Temporary way to test loading in build
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadGame();
-        }
-    }
-    */
-
     public void StartGame()
     {
         if (userWorldName.text == "")
