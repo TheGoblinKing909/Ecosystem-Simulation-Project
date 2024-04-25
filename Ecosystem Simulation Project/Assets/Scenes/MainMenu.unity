@@ -396,7 +396,7 @@ MonoBehaviour:
   m_MinValue: 0.1
   m_MaxValue: 0.5
   m_WholeNumbers: 0
-  m_Value: 0.1
+  m_Value: 0.35
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -650,30 +650,30 @@ MonoBehaviour:
   - 50
   - 50
   - 1
-  - 50
-  - 1
-  - 0.1
-  - 1
+  - 70
+  - 3
+  - 0.3
+  - 2.5
   - 0.001
   - 0.001
   med_values:
   - 125
   - 125
-  - 128
-  - 100
+  - 1
+  - 75
   - 3
-  - 0.3
-  - 3
+  - 0.4
+  - 2.75
   - 0.005
   - 0.003
   high_values:
   - 200
   - 200
-  - 255
-  - 150
-  - 5
-  - 0.5
-  - 5
+  - 1
+  - 75
+  - 3
+  - 0.4
+  - 2.5
   - 0.01
   - 0.005
 --- !u!4 &69277086
@@ -811,7 +811,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1857608364}
   m_Direction: 0
   m_MinValue: 1
-  m_MaxValue: 255
+  m_MaxValue: 10000
   m_WholeNumbers: 1
   m_Value: 1
   m_OnValueChanged:
@@ -2020,10 +2020,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 14019380}
   m_HandleRect: {fileID: 1889586261}
   m_Direction: 0
-  m_MinValue: 50
+  m_MinValue: 25
   m_MaxValue: 150
   m_WholeNumbers: 0
-  m_Value: 50
+  m_Value: 75
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2913,7 +2913,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1888166220}
   m_HandleRect: {fileID: 972133037}
   m_Direction: 0
-  m_MinValue: 0.001
+  m_MinValue: 0
   m_MaxValue: 0.01
   m_WholeNumbers: 0
   m_Value: 0.001
@@ -5947,10 +5947,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 456543170}
   m_HandleRect: {fileID: 1658272046}
   m_Direction: 0
-  m_MinValue: 50
-  m_MaxValue: 200
+  m_MinValue: 1
+  m_MaxValue: 1000
   m_WholeNumbers: 1
-  m_Value: 50
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6215,7 +6215,7 @@ MonoBehaviour:
   m_MinValue: 1
   m_MaxValue: 5
   m_WholeNumbers: 1
-  m_Value: 1
+  m_Value: 3
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7002,7 +7002,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 667040212}
   m_HandleRect: {fileID: 1058004905}
   m_Direction: 0
-  m_MinValue: 0.001
+  m_MinValue: 0
   m_MaxValue: 0.005
   m_WholeNumbers: 0
   m_Value: 0.001
@@ -11537,10 +11537,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1290090482}
   m_HandleRect: {fileID: 1537767016}
   m_Direction: 0
-  m_MinValue: 50
-  m_MaxValue: 200
+  m_MinValue: 1
+  m_MaxValue: 1000
   m_WholeNumbers: 1
-  m_Value: 50
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11919,7 +11919,7 @@ MonoBehaviour:
   m_MinValue: 1
   m_MaxValue: 5
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 2.75
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
