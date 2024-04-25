@@ -35,7 +35,6 @@ public class WorldLight : MonoBehaviour
 
         // Sample the gradient using normalized time
         Color lightColor = lightingGradient.Evaluate(normalizedTime);
-
     }
 
 }

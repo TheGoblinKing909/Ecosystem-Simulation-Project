@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using weather.effects;
 
 public enum ResourceType
 {
@@ -15,20 +16,20 @@ public enum ResourceType
     RedBerry,
     DeadEntity
 }
+
 public class Resource : MonoBehaviour {
     public ResourceType resourceType = ResourceType.None;
     public float AmountPerHarvest = 10;
 
-    public float HarvestMax = 100f;
     public float HealthMax = 100f;
+    public float HarvestMax = 100f;
 
-    public float HarvestRemaining;
     public float HealthRemaining;
+    public float HarvestRemaining;
 
-    public float HarvestRecovery = 2f;
-    public float HealthRecovery = 2f;
+    public float HealthRecovery = 0.5f;
+    public float HarvestRecovery = 0.5f;
 
-    // Thermocomfort attributes similar to the Attributes script
     public float Thermo_min = 0.45f;
     public float Thermo_max = 0.75f;
     private WeatherManager weatherManager;
@@ -41,7 +42,8 @@ public class Resource : MonoBehaviour {
 
     public int PrefabIndex;
 
-    private void Awake() {
+    private void Awake()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if(spriteRenderer == null) {
             Debug.LogError("SpriteRenderer not attached to component");
@@ -55,29 +57,32 @@ public class Resource : MonoBehaviour {
         if (resourceBar == null) { throw new System.Exception("Resource Bar not set in attributes"); }
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         float temperatureEffect = CalculateTemperatureEffect();
 
         if (HealthRemaining <= 0) {
             DestroyResource();
         }
 
-        HarvestRemaining += (HarvestRecovery * temperatureEffect) * Time.deltaTime;
-        HarvestRemaining = Mathf.Min(HarvestRemaining, HarvestMax);
-        
         HealthRemaining += (HealthRecovery * temperatureEffect) * Time.deltaTime;
         HealthRemaining = Mathf.Min(HealthRemaining, HealthMax);
+
+        HarvestRemaining += (HarvestRecovery * temperatureEffect) * Time.deltaTime;
+        HarvestRemaining = Mathf.Min(HarvestRemaining, HarvestMax);
 
         resourceBar.UpdateHealthBar(HealthRemaining, HealthMax);
         resourceBar.UpdateHarvestBar(HarvestRemaining, HarvestMax);
     }
 
-    public void MaxRemaining() {
+    public void MaxRemaining()
+    {
         HarvestRemaining = HarvestMax;
         HealthRemaining = HealthMax;
     }
 
-    public float Harvest() {
+    public float Harvest()
+    {
         if(HarvestRemaining <= 0) {
             return 0;
         }
@@ -88,7 +93,8 @@ public class Resource : MonoBehaviour {
         return amountHarvested;
     }
 
-    private void DestroyResource() {
+    private void DestroyResource()
+    {
         if (TryGetComponent<Shelter>(out Shelter shelter)) {
             foreach (var entity in shelter.shelteredEntities) {
                 shelter.ExitShelter(entity);
@@ -97,19 +103,35 @@ public class Resource : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private float CalculateTemperatureEffect() {
-        if (weatherManager != null) {
+    private float CalculateTemperatureEffect()
+    {
+        if (weatherManager != null)
+        {
             float currentTemperature = weatherManager.GetCurrentTemperature();
             currentTemperature = currentTemperature / 100.0f;
 
-            if (currentTemperature < Thermo_min || currentTemperature > Thermo_max) {
+            if (currentTemperature < Thermo_min || currentTemperature > Thermo_max)
+            {
                 float difference = Mathf.Max(currentTemperature - Thermo_max, Thermo_min - currentTemperature);
-                return 1 + (difference * difference); // This formula can be adjusted
+                difference *= 100;
+                float effect = Mathf.Pow(difference, 1.75f) / 300.0f;
+                return Mathf.Max(0, 1 - effect);  // Ensure the result is never negative
             }
 
             return 1f;
         }
-        return 1f; // Default effect if WeatherManager is not found
+        return 1f;
+    }
+
+    public void ApplyWeatherEffects(AttributeEffects effects)
+    {
+        HealthRemaining += effects.HealthEffect;
+        HealthRemaining = Mathf.Clamp(HealthRemaining, 0, HealthMax);
+
+        HarvestRemaining += effects.AmountEffect;
+        HarvestRemaining = Mathf.Clamp(HarvestRemaining, 0, HarvestMax);
+
+        Debug.Log($"Weather effects applied to Resource: {effects.HealthEffect} to Health, {effects.AmountEffect} to Harvest Amount.");
     }
 
 }

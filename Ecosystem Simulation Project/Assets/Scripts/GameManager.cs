@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (++frameCount > 20) {
+        if (++frameCount > 10) {
             frameCount = 0;
 
             totalResourceCount = resourceSpawner.GetChildCount();

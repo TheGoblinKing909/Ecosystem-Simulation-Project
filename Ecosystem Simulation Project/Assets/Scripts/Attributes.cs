@@ -17,8 +17,8 @@ public class Attributes : MonoBehaviour
     public float maxAge = 100f;
     public float primeAge = 50f;
     public float ageDelay = 10f;
-    public float hungerDecayRate = 2f;
-    public float thirstDecayRate = 2f;
+    public float hungerDecayRate = 0.5f;
+    public float thirstDecayRate = 0.5f;
 
     public float maxHealth;
     public float maxStamina;
@@ -43,7 +43,6 @@ public class Attributes : MonoBehaviour
     private Entity agent;
     private AttributeBar attributeBar;
 
-    // Thermocomfort attributes
     public float thermo_min = 0.45f;
     public float thermo_max = 0.75f;
     private WeatherManager weatherManager;
@@ -64,7 +63,7 @@ public class Attributes : MonoBehaviour
         if (rewards == null) { throw new System.Exception("Rewards not set in attributes"); }
 
         agent = GetComponent<Entity>();
-        if (agent == null) { throw new System.Exception("Human Agent not set in attributes"); }
+        if (agent == null) { throw new System.Exception("Agent not set in attributes"); }
 
         attributeBar = GetComponentInChildren<AttributeBar>();
         if (attributeBar == null) { throw new System.Exception("Attribute Bar not set in attributes"); }
@@ -116,14 +115,14 @@ public class Attributes : MonoBehaviour
         float worldTemperature = GetWorldTemperatureNormalized();
         float thermocomfortEffect = CalculateThermocomfortEffect(worldTemperature);
 
-        DecayHealth(thermocomfortEffect);
+        Decay(thermocomfortEffect);
 
         if (currentHunger > (maxHunger / 2) && currentThirst > (maxThirst / 2))
         {
-            ModifyHealth(5f * Time.deltaTime * (2 - thermocomfortEffect));
+            ModifyHealth(0.5f * Time.deltaTime * thermocomfortEffect);
         }
 
-        ModifyStamina(2 * Time.deltaTime * (2 - thermocomfortEffect));
+        ModifyStamina(0.5f * Time.deltaTime * thermocomfortEffect);
 
         ageTime += Time.deltaTime;
         if (ageTime > ageDelay) 
@@ -153,7 +152,7 @@ public class Attributes : MonoBehaviour
             float currentTemperature = weatherManager.GetCurrentTemperature();
             return currentTemperature / 100.0f;
         }
-        return 0.0f; // Default value if weatherManager is null or not set
+        return 0.0f;
     }
 
     private float CalculateThermocomfortEffect(float worldTemperature)
@@ -161,46 +160,19 @@ public class Attributes : MonoBehaviour
         if (worldTemperature < thermo_min || worldTemperature > thermo_max)
         {
             float difference = Mathf.Max(worldTemperature - thermo_max, thermo_min - worldTemperature);
-            return 1 + (difference * difference);
+            difference *= 100;
+            float effect = Mathf.Pow(difference, 1.75f) / 300.0f;
+            return Mathf.Max(0, 1 - effect);  // Ensure the result is never negative
         }
-        return 1;
+        return 1f;
     }
 
-    private void DecayHealth(float thermocomfortEffect)
+    private void Decay(float thermocomfortEffect)
     {
-        currentHunger -= hungerDecayRate * Time.deltaTime * thermocomfortEffect;
-        currentThirst -= thirstDecayRate * Time.deltaTime * thermocomfortEffect;
-        if (currentHunger <= 0)
-        {
-            currentHunger = 0;
-            float hungerDamageTaken = 10 * Time.deltaTime;
-            currentHealth -= hungerDamageTaken;
-        }
-        if (currentThirst <= 0)
-        {
-            currentThirst = 0;
-            float thirstDamageTaken = 10 * Time.deltaTime;
-            currentHealth -= thirstDamageTaken;
-        }
+        ModifyHunger( - (hungerDecayRate * Time.deltaTime * (1 + (1 - thermocomfortEffect) )) );
+        ModifyThirst( - (thirstDecayRate * Time.deltaTime * (1 + (1 - thermocomfortEffect) )) );
     }
 
-    private void Decay()
-    {
-        currentHunger -= hungerDecayRate * Time.deltaTime;
-        currentThirst -= thirstDecayRate * Time.deltaTime;
-        if (currentHunger <= 0)
-        {
-            currentHunger = 0;
-            float hungerDamageTaken = -10;
-            ModifyHealth(hungerDamageTaken);
-        }
-        if (currentThirst <= 0)
-        {
-            currentThirst = 0;
-            float thirstDamageTaken = -10;
-            ModifyHealth(thirstDamageTaken);
-        }
-    } 
     public void ModifyHunger(float amount)
     {
         currentHunger += amount;
@@ -211,9 +183,11 @@ public class Attributes : MonoBehaviour
             currentHunger = maxHunger;
             return;
         }
-        else if (currentHunger < 0)
+        else if (currentHunger <= 0)
         {
-            ModifyHealth(-10);
+            currentHunger = 0;
+            float hungerDamageTaken = -0.5f * Time.deltaTime;
+            ModifyHealth(hungerDamageTaken);
         }
         agent.AddReward(rewards.GetHungerGainedReward(amount));
     }
@@ -228,9 +202,11 @@ public class Attributes : MonoBehaviour
             currentThirst = maxThirst;
             return;
         }
-        else if (currentThirst < 0)
+        else if (currentThirst <= 0)
         {
-            ModifyHealth(-10);
+            currentThirst = 0;
+            float thirstDamageTaken = -0.5f * Time.deltaTime;
+            ModifyHealth(thirstDamageTaken);
         }
         agent.AddReward(rewards.GetThirstGainedReward(amount));
     }
@@ -250,7 +226,7 @@ public class Attributes : MonoBehaviour
             Die();
             return;
         }
-        agent.AddReward(rewards.GetThirstGainedReward(amount));
+        agent.AddReward(rewards.GetHealthGainedReward(amount));
     }
 
     public void ModifyStamina(float amount)
@@ -265,6 +241,7 @@ public class Attributes : MonoBehaviour
             currentStamina = 0;
         }
     }
+
     private void IncreaseAge()
     {
         currentAge++;
