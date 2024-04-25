@@ -350,7 +350,7 @@ RectTransform:
   m_GameObject: {fileID: 360535956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1049392212}
@@ -375,12 +375,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: -1050
+    m_Left: -9000
     m_Right: 0
-    m_Top: -1050
+    m_Top: -4225
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: -5300
+  m_Spacing: -8000
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -848,7 +848,7 @@ RectTransform:
   m_GameObject: {fileID: 998533285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1049392212}
@@ -905,8 +905,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 725
+  m_fontSizeBase: 725
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -983,7 +983,7 @@ RectTransform:
   m_GameObject: {fileID: 1049392211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 998533286}
@@ -992,7 +992,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3102.5002, y: 3020}
+  m_SizeDelta: {x: 2990.0002, y: 1500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1049392213
 MonoBehaviour:
@@ -1037,7 +1037,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1049392214}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2037697367}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SaveAndExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1049392214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +1193,7 @@ RectTransform:
   m_GameObject: {fileID: 1655258728}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 26, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1997256486}
@@ -1238,8 +1250,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 525
+  m_fontSizeBase: 525
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1321,7 +1333,7 @@ RectTransform:
   m_GameObject: {fileID: 1997256485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1655258729}
@@ -1330,7 +1342,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3102.5002, y: 3020}
+  m_SizeDelta: {x: 2990.0002, y: 1500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1997256487
 MonoBehaviour:
@@ -1375,7 +1387,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1997256488}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2037697367}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: DisplayTensorboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1997256488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2015,6 +2039,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6948607803400892810, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
   m_PrefabInstance: {fileID: 2037697364}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2037697367 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+  m_PrefabInstance: {fileID: 2037697364}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21015d9acd697ed48b66a32318fe436f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &149433835717951011
 PrefabInstance:
   m_ObjectHideFlags: 0

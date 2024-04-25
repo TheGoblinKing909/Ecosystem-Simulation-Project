@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -191,6 +192,10 @@ public class GameManager : MonoBehaviour
                 SetConsoleCtrlHandler(null, true);
                 GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0);
             }
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 

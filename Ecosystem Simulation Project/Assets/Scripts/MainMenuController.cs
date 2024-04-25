@@ -5,11 +5,12 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using static System.Net.Mime.MediaTypeNames;
 
 public class MainMenuController : MonoBehaviour
 {
     public CanvasGroup OptionPanel, WorldParam;
-    public TMPro.TMP_InputField userWidth, userHeight, userSeed, userOctaves, userScale, userPersistence, userLacunarity, userResDensity, userEntDensity, userWorldName;
+    public TMPro.TMP_InputField userWidth, userHeight, userSeed, userOctaves, userScale, userPersistence, userLacunarity, userResDensity, userEntDensity, userWorldName, userLoadWorld;
     public static int inputWidth, inputHeight, inputSeed, inputOctaves;
     public static float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
     public static bool loadWorld;
@@ -19,7 +20,7 @@ public class MainMenuController : MonoBehaviour
     public float[] low_values = { 50, 50, 1, 50, 1, 0.1f, 1, 0.001f, 0.001f };
     public float[] med_values = { 125, 125, 128, 100, 3, 0.3f, 3, 0.005f, 0.003f };
     public float[] high_values = { 200, 200, 255, 150, 5, 0.5f, 5, 0.01f, 0.005f };
-    public int default_sig = 0;
+    public TMPro.TMP_Text worldNotFound;
 
     void Start()
     {
@@ -61,6 +62,7 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    /*
     // Temporary way to test loading in build
     void Update()
     {
@@ -69,13 +71,13 @@ public class MainMenuController : MonoBehaviour
             LoadGame();
         }
     }
+    */
 
     public void StartGame()
     {
         if (userWorldName.text == "")
         {
-            userWorldName.text = "default_" + default_sig.ToString();
-            default_sig++;
+            userWorldName.text = "default_save";
         }
 
         for (int i = 0; i < inputFields.Length; i++)
@@ -89,7 +91,7 @@ public class MainMenuController : MonoBehaviour
         }
 
         loadWorld = false;
-        worldName = "TestWorld3";
+        worldName = userWorldName.text;
         inputWidth = int.Parse(userWidth.text);
         inputHeight = int.Parse(userHeight.text);
         inputSeed = int.Parse(userSeed.text);
@@ -100,7 +102,7 @@ public class MainMenuController : MonoBehaviour
         inputResDensity = float.Parse(userResDensity.text);
         inputEntDensity = float.Parse(userEntDensity.text);
 
-        if (Application.isEditor)
+        if (UnityEngine.Application.isEditor)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
@@ -128,31 +130,45 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadGame()
     {
-        loadWorld = true;
-        worldName = "TestWorld3";
-
-        if (Application.isEditor)
+        if (userLoadWorld.text == "")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            worldNotFound.text = "Please enter world name to load!";
         }
         else
         {
-            Process mlagentsProcess = new Process();
-            mlagentsProcess.StartInfo.UseShellExecute = false;
-            mlagentsProcess.StartInfo.RedirectStandardInput = true;
-            mlagentsProcess.StartInfo.WorkingDirectory = "..";
-            mlagentsProcess.StartInfo.FileName = "cmd.exe";
-            mlagentsProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
-            mlagentsProcess.Start();
-
-            if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\"))
+            worldName = userLoadWorld.text;
+            string loadPath = UnityEngine.Application.persistentDataPath + "/Saves/" + worldName + ".json";
+            if (!File.Exists(loadPath))
             {
-                mlagentsProcess.StandardInput.WriteLine("conda env create -f environment.yml");
+                worldNotFound.text = "Save data not found!";
             }
+            else
+            {
+                loadWorld = true;
+                if (UnityEngine.Application.isEditor)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                else
+                {
+                    Process mlagentsProcess = new Process();
+                    mlagentsProcess.StartInfo.UseShellExecute = false;
+                    mlagentsProcess.StartInfo.RedirectStandardInput = true;
+                    mlagentsProcess.StartInfo.WorkingDirectory = "..";
+                    mlagentsProcess.StartInfo.FileName = "cmd.exe";
+                    mlagentsProcess.StartInfo.Arguments = @"/K ..\anaconda3\Scripts\activate.bat ..\anaconda3";
+                    mlagentsProcess.Start();
 
-            mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
-            mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --resume --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
-                loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
+                    if (!Directory.Exists(@"..\..\anaconda3\envs\build-env\"))
+                    {
+                        mlagentsProcess.StandardInput.WriteLine("conda env create -f environment.yml");
+                    }
+
+                    mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
+                    mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --resume --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
+                        loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
+                }
+            }
         }
     }
 
@@ -200,6 +216,8 @@ public class MainMenuController : MonoBehaviour
 
     public void OptionBack()
     {
+        userLoadWorld.text = "";
+        worldNotFound.text = "";
         OptionPanel.alpha = 0;
         OptionPanel.blocksRaycasts = false;
     }
@@ -211,12 +229,13 @@ public class MainMenuController : MonoBehaviour
             sliders[i].value = low_values[i];
             inputFields[i].text = "";
         }
+        userWorldName.text = "";
         WorldParam.alpha = 0;
         WorldParam.blocksRaycasts = false;
     }
 
     public void ExitGame()
     {
-        Application.Quit();
+        UnityEngine.Application.Quit();
     }
 }
