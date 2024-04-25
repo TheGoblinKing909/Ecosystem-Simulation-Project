@@ -307,9 +307,9 @@ GameObject:
   - component: {fileID: 2263030192826731352}
   - component: {fileID: 411178171154377570}
   - component: {fileID: 2298315059625814257}
-  - component: {fileID: 367208634923936692}
+  - component: {fileID: 6452167524560980998}
   m_Layer: 0
-  m_Name: Grass
+  m_Name: BlueBerry
   m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -372,8 +372,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.19753313, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 691734930, guid: c8ee7841a45a7a447836db36630e16b4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -419,7 +419,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2, y: 2.0666666}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -428,7 +428,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &367208634923936692
+--- !u!114 &6452167524560980998
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,11 +437,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4380840106439738494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 638a75da7ac8b344bb44f38f88a672c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a349f80e80cc4f459aa2a63cbe78adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmountPerHarvest: 10
-  HarvestMax: 100
+  resourceType: 1
+  AmountPerHarvest: 2
+  HarvestMax: 300
   HealthMax: 100
   HarvestRemaining: 0
   HealthRemaining: 0
@@ -449,8 +450,8 @@ MonoBehaviour:
   HealthRecovery: 2
   Thermo_min: 0.45
   Thermo_max: 0.75
-  spriteRenderer: {fileID: 411178171154377570}
-  defaultColor: {r: 0, g: 1, b: 0, a: 1}
+  spriteRenderer: {fileID: 0}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
   PrefabIndex: 0
 --- !u!1 &4748125757262927231
 GameObject:

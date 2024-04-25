@@ -2,7 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ResourceType
+{
+    None = 0,
+    BlueBerry = 1,
+    BlueFlower,
+    BushBerry,
+    Grass,
+    OrangeFlower,
+    PinkBud,
+    PinkFlower,
+    RedBerry,
+    DeadEntity
+}
 public class Resource : MonoBehaviour {
+    public ResourceType resourceType = ResourceType.None;
     public float AmountPerHarvest = 10;
 
     public float HarvestMax = 100f;
