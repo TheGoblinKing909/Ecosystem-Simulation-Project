@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     public CanvasGroup OptionPanel, WorldParam;
-    public TMPro.TMP_InputField userWidth, userHeight, userSeed, userOctaves, userScale, userPersistence, userLacunarity, userResDensity, userEntDensity;
+    public TMPro.TMP_InputField userWidth, userHeight, userSeed, userOctaves, userScale, userPersistence, userLacunarity, userResDensity, userEntDensity, userWorldName;
     public static int inputWidth, inputHeight, inputSeed, inputOctaves;
     public static float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
     public TMPro.TMP_InputField[] inputFields;
@@ -17,6 +17,7 @@ public class MainMenuController : MonoBehaviour
     public float[] low_values = { 50, 50, 1, 50, 1, 0.1f, 1, 0.001f, 0.001f };
     public float[] med_values = { 125, 125, 128, 100, 3, 0.3f, 3, 0.005f, 0.003f };
     public float[] high_values = { 200, 200, 255, 150, 5, 0.5f, 5, 0.01f, 0.005f };
+    public int default_sig = 0;
 
     void Start()
     {
@@ -60,6 +61,12 @@ public class MainMenuController : MonoBehaviour
 
     public void StartGame()
     {
+        if (userWorldName.text == "")
+        {
+            userWorldName.text = "default_" + default_sig.ToString();
+            default_sig++;
+        }
+
         for (int i = 0; i < inputFields.Length; i++)
         {
             int index = i;
