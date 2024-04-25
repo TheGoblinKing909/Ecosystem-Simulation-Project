@@ -111,24 +111,20 @@ public class Entity : Agent
             return;
         }
 
-        // Apply the effects to the attributes of the entity
         attributes.currentHealth += effects.HealthEffect;
         attributes.currentStamina += effects.StaminaEffect;
         attributes.currentHunger += effects.HungerEffect;
         attributes.currentThirst += effects.ThirstEffect;
         attributes.agility += effects.AgilityEffect;
 
-        // Optionally, adjust decay rates if your Attributes class supports it
         attributes.hungerDecayRate += effects.HungerDecayRateEffect;
         attributes.thirstDecayRate += effects.ThirstDecayRateEffect;
 
-        // Ensure values do not exceed their maximum or minimum allowed values
         attributes.currentHealth = Mathf.Clamp(attributes.currentHealth, 0, attributes.maxHealth);
         attributes.currentStamina = Mathf.Clamp(attributes.currentStamina, 0, attributes.maxStamina);
         attributes.currentHunger = Mathf.Clamp(attributes.currentHunger, 0, attributes.maxHunger);
         attributes.currentThirst = Mathf.Clamp(attributes.currentThirst, 0, attributes.maxThirst);
 
-        // Optionally log the changes for debugging
         Debug.Log($"Weather effects applied to Entity: {effects.HealthEffect} Health, {effects.StaminaEffect} Stamina.");
     }
 

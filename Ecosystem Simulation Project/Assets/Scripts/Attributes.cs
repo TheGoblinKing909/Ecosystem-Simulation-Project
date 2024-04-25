@@ -171,8 +171,6 @@ public class Attributes : MonoBehaviour
     {
         ModifyHunger( - (hungerDecayRate * Time.deltaTime * (1 + (1 - thermocomfortEffect) )) );
         ModifyThirst( - (thirstDecayRate * Time.deltaTime * (1 + (1 - thermocomfortEffect) )) );
-        // currentHunger -= hungerDecayRate * Time.deltaTime * (1 + (1 - thermocomfortEffect) );
-        // currentThirst -= thirstDecayRate * Time.deltaTime * (1 + (1 - thermocomfortEffect) );
     }
 
     public void ModifyHunger(float amount)

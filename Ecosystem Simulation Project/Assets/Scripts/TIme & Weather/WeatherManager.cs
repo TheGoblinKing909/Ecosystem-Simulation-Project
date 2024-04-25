@@ -56,26 +56,26 @@ public class WeatherManager : MonoBehaviour
     {
         springEvents = new WeatherEvent[]
         {
-            new WeatherEvent("Sunny", 5f, new AttributeEffects(1, 1, -0.1f, -0.1f, 0.5f, 0, -0.05f, -0.05f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
-            new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0, 0.1f, 0.1f), new AttributeEffects(0, 0, 0, 0, 0, -5, 0, 0))
+            new WeatherEvent("Sunny", 5f, new AttributeEffects(1, 1, -0.1f, -0.1f, 0.5f, 0, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
+            new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0f, 0f, 0f), new AttributeEffects(-5, 0, 0, 0, 0, -5, 0, 0))
             
         };
         summerEvents = new WeatherEvent[]
         {
-            new WeatherEvent("Sunny", 5f, new AttributeEffects(1, 1, -0.1f, -0.1f, 0.5f, 0, -0.05f, -0.05f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
-            new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0, 0.1f, 0.1f), new AttributeEffects(0, 0, 0, 0, 0, -5, 0, 0))
+            new WeatherEvent("Sunny", 5f, new AttributeEffects(1, 1, -0.1f, -0.1f, 0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
+            new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0f, 0f, 0f), new AttributeEffects(-5, 0, 0, 0, 0, -5, 0, 0))
             
         };
         autumnEvents = new WeatherEvent[]
         {
-            new WeatherEvent("Snow", -10f, new AttributeEffects(-1, -1, 0.1f, 0.1f, -0.5f, 0, 0.05f, 0.05f), new AttributeEffects(0, 0, 0, 0, 0, -10, 0, 0)),
-            new WeatherEvent("Blizzard", -15f, new AttributeEffects(-2, -2, 0.2f, 0.2f, -1f, 0, 0.1f, 0.1f), new AttributeEffects(0, 0, 0, 0, 0, -15, 0, 0))
+            new WeatherEvent("Snow", -10f, new AttributeEffects(-1, -1, 0.1f, 0.1f, -0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -10, 0, 0)),
+            new WeatherEvent("Blizzard", -15f, new AttributeEffects(-2, -2, 0.2f, 0.2f, -1f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -15, 0, 0))
             
         };
         winterEvents = new WeatherEvent[]
         {
-            new WeatherEvent("Snow", -10f, new AttributeEffects(-1, -1, 0.1f, 0.1f, -0.5f, 0, 0.05f, 0.05f), new AttributeEffects(0, 0, 0, 0, 0, -10, 0, 0)),
-            new WeatherEvent("Blizzard", -15f, new AttributeEffects(-2, -2, 0.2f, 0.2f, -1f, 0, 0.1f, 0.1f), new AttributeEffects(0, 0, 0, 0, 0, -15, 0, 0))
+            new WeatherEvent("Snow", -10f, new AttributeEffects(-1, -1, 0.1f, 0.1f, -0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -10, 0, 0)),
+            new WeatherEvent("Blizzard", -15f, new AttributeEffects(-2, -2, 0.2f, 0.2f, -1f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -15, 0, 0))
             
         };
         currentWeatherEvent = springEvents[0];
@@ -252,20 +252,19 @@ public class WeatherManager : MonoBehaviour
             }
         }
 
-        foreach (Transform resourceTransform in gameManager.resourceSpawner.transform)
+        /* foreach (Transform resourceTransform in gameManager.resourceSpawner.transform)
         {
             Resource resource = resourceTransform.GetComponent<Resource>();
             if (resource != null)
             {
                 resource.ApplyWeatherEffects(currentWeatherEvent.ResourceEffects);
             }
-        }
+        } */
 
     }
 
     private void ApplyWeatherEffectsToResources(AttributeEffects effects)
     {
-        // Assuming all resources derive from a base class or implement an interface called IResource
         foreach (var resource in FindObjectsOfType<Resource>())
         {
             resource.ApplyWeatherEffects(effects);
