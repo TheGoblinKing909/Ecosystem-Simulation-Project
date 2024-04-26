@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
         tensorboardProcess.Start();
 
         tensorboardProcess.StandardInput.WriteLine("conda activate build-env");
-        tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
+        tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results/" + worldName);
 
         Application.OpenURL("http://localhost:6006/");
     }
@@ -235,43 +235,25 @@ public class GameManager : MonoBehaviour
             EntityData entData = new EntityData();
             entData.position = child.position;
             entData.layer = child.gameObject.layer;
-            if (child.GetComponent<Carnivore>() != null)
-            {
-                Carnivore ent = child.GetComponent<Carnivore>();
-                entData.health = ent.currentHealth;
-                entData.stamina = ent.currentStamina;
-                entData.hunger = ent.currentHunger;
-                entData.thirst = ent.currentThirst;
-                entData.age = ent.currentAge;
-                entData.ageTime = ent.ageTime;
-                entData.index = ent.prefabIndex;
-                saveData.entities.Add(entData);
-            }
-            else if (child.GetComponent<Omnivore>() != null)
-            {
-                Omnivore ent = child.GetComponent<Omnivore>();
-                entData.health = ent.currentHealth;
-                entData.stamina = ent.currentStamina;
-                entData.hunger = ent.currentHunger;
-                entData.thirst = ent.currentThirst;
-                entData.age = ent.currentAge;
-                entData.ageTime = ent.ageTime;
-                entData.index = ent.prefabIndex;
-                saveData.entities.Add(entData);
-            }
-            else
-            {
-                Herbivore ent = child.GetComponent<Herbivore>();
-                entData.health = ent.currentHealth;
-                entData.stamina = ent.currentStamina;
-                entData.hunger = ent.currentHunger;
-                entData.thirst = ent.currentThirst;
-                entData.age = ent.currentAge;
-                entData.ageTime = ent.ageTime;
-                entData.index = ent.prefabIndex;
-                saveData.entities.Add(entData);
-            }
+            Attributes ent = child.GetComponent<Attributes>();
+            entData.health = ent.currentHealth;
+            entData.stamina = ent.currentStamina;
+            entData.hunger = ent.currentHunger;
+            entData.thirst = ent.currentThirst;
+            entData.age = ent.currentAge;
+            entData.ageTime = ent.ageTime;
+            entData.index = ent.prefabIndex;
+            saveData.entities.Add(entData);
         }
+
+        saveData.minutes = timeManager.DateTime.Minutes;
+        saveData.hour = timeManager.DateTime.Hour;
+        saveData.day = (int) timeManager.DateTime.Day;
+        saveData.dayOfMonth = timeManager.DateTime.DayOfMonth;
+        saveData.week = timeManager.DateTime.Week;
+        saveData.month = (int) timeManager.DateTime.Month;
+        saveData.season = (int) timeManager.DateTime.Season;
+        saveData.year = timeManager.DateTime.Year;
 
         string saveDataString = JsonUtility.ToJson(saveData);
         System.IO.File.WriteAllText(savePath, saveDataString);
@@ -321,44 +303,19 @@ public class GameManager : MonoBehaviour
             instantiatedEntity.layer = entData.layer;
             Movement movementScript = instantiatedEntity.GetComponent<Movement>();
             movementScript.OnInstantiate();
-
-            if (instantiatedEntity.GetComponent<Carnivore>() != null)
-            {
-                Carnivore ent = instantiatedEntity.GetComponent<Carnivore>();
-                ent.currentHealth = entData.health;
-                ent.currentStamina = entData.stamina;
-                ent.currentHunger = entData.hunger;
-                ent.currentThirst = entData.thirst;
-                ent.currentAge = entData.age;
-                ent.ageTime = entData.ageTime;
-                ent.prefabIndex = entData.index;
-                ent.isLoaded = true;
-            }
-            else if (instantiatedEntity.GetComponent<Omnivore>() != null)
-            {
-                Omnivore ent = instantiatedEntity.GetComponent<Omnivore>();
-                ent.currentHealth = entData.health;
-                ent.currentStamina = entData.stamina;
-                ent.currentHunger = entData.hunger;
-                ent.currentThirst = entData.thirst;
-                ent.currentAge = entData.age;
-                ent.ageTime = entData.ageTime;
-                ent.prefabIndex = entData.index;
-                ent.isLoaded = true;
-            }
-            else
-            {
-                Herbivore ent = instantiatedEntity.GetComponent<Herbivore>();
-                ent.currentHealth = entData.health;
-                ent.currentStamina = entData.stamina;
-                ent.currentHunger = entData.hunger;
-                ent.currentThirst = entData.thirst;
-                ent.currentAge = entData.age;
-                ent.ageTime = entData.ageTime;
-                ent.prefabIndex = entData.index;
-                ent.isLoaded = true;
-            }
+            Attributes ent = instantiatedEntity.GetComponent<Attributes>();
+            ent.currentHealth = entData.health;
+            ent.currentStamina = entData.stamina;
+            ent.currentHunger = entData.hunger;
+            ent.currentThirst = entData.thirst;
+            ent.currentAge = entData.age;
+            ent.ageTime = entData.ageTime;
+            ent.prefabIndex = entData.index;
+            ent.isLoaded = true;
         }
+
+        timeManager.DateTime.SetTime(saveData.minutes, saveData.hour, saveData.day, saveData.dayOfMonth, saveData.week, saveData.month, saveData.season, saveData.year);
+        TimeManager.OnDateTimeChanged?.Invoke(timeManager.DateTime);
 
         UnityEngine.Debug.Log("Loaded from " + savePath);
     }
@@ -379,6 +336,14 @@ public class SaveData
     public float entDensity;
     public List<ResourceData> resources = new List<ResourceData>();
     public List<EntityData> entities = new List<EntityData>();
+    public int minutes;
+    public int hour;
+    public int day;
+    public int dayOfMonth;
+    public int week;
+    public int month;
+    public int season;
+    public int year;
 }
 
 [System.Serializable]

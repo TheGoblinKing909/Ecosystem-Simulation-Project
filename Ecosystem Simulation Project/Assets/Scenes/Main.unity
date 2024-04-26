@@ -1503,6 +1503,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
+      propertyPath: timeManager
+      value: 
+      objectReference: {fileID: 475575553}
+    - target: {fileID: 3394108241678306030, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: entityDensity
       value: 0
       objectReference: {fileID: 0}
@@ -1704,7 +1708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5996926454013209364, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: maxTimeBeforeReset
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6299341815498763752, guid: 2e9bd967fff950145aa3517edf8f7f49, type: 3}
       propertyPath: m_ColliderPaths.Array.size

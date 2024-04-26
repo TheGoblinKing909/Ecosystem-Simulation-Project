@@ -678,7 +678,6 @@ MonoBehaviour:
   - 2.5
   - 0.01
   - 0.005
-  default_sig: 0
   worldNotFound: {fileID: 1826179111}
 --- !u!4 &69277086
 Transform:
