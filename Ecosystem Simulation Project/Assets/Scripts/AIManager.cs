@@ -63,6 +63,7 @@ public class AIManager : MonoBehaviour
     void Update()
     {
         currentTime += Time.deltaTime;
+        if (maxTimeBeforeReset == 0) return;
         if(currentTime > maxTimeBeforeReset)
         {
             ResetEpisodes();
