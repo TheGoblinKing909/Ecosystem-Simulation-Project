@@ -337,7 +337,7 @@ public class Attributes : MonoBehaviour
         }
 
         Destroy(gameObject);
-        agent.AddReward(-10000f);
+        agent.AddReward(-10f);
     }
 
 }
