@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     public string worldName;
     private string[] args;
     private int argLen, mlagentsId;
+    public List<GameObject> initialModels;
 
     void Start()
     {
@@ -110,6 +111,7 @@ public class GameManager : MonoBehaviour
             resourceMax = resourceSpawner.PlaceResources();
             entitySpawner.OnInstantiate();
             entityMax = entitySpawner.PlaceEntities();
+            initialModels = entitySpawner.InitializeModels();
         }
         else
         {
@@ -134,7 +136,10 @@ public class GameManager : MonoBehaviour
             if (entitySpawnAmount > 0) {
                 entitySpawner.SpawnEntities(entitySpawnAmount);
             }
-            // Save();
+            if (initialModels.Count > 0)
+            {
+                entitySpawner.RemoveModels(initialModels);
+            }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
