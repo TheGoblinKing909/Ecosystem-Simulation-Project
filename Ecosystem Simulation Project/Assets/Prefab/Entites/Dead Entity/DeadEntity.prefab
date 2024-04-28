@@ -306,7 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2263030192826731352}
   - component: {fileID: 411178171154377570}
-  - component: {fileID: 2298315059625814257}
+  - component: {fileID: 3204301043462302621}
   - component: {fileID: 4418270917536336915}
   m_Layer: 0
   m_Name: DeadEntity
@@ -383,8 +383,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2298315059625814257
-BoxCollider2D:
+--- !u!58 &3204301043462302621
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -416,18 +416,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.6, y: 2.6}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.8666667
 --- !u!114 &4418270917536336915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,12 +432,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: 0
   AmountPerHarvest: 10
-  HarvestMax: 100
   HealthMax: 100
-  HarvestRemaining: 0
+  HarvestMax: 100
   HealthRemaining: 0
-  HarvestRecovery: 2
+  HarvestRemaining: 0
   HealthRecovery: 2
+  HarvestRecovery: 2
   Thermo_min: 0.45
   Thermo_max: 0.75
   spriteRenderer: {fileID: 0}
