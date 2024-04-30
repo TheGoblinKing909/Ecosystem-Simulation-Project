@@ -119,10 +119,10 @@ public class Attributes : MonoBehaviour
 
         if (currentHunger > (maxHunger / 2) && currentThirst > (maxThirst / 2))
         {
-            ModifyHealth(0.5f * Time.deltaTime * thermocomfortEffect);
+            ModifyHealth(3f * Time.deltaTime * thermocomfortEffect);
         }
 
-        ModifyStamina(0.5f * Time.deltaTime * thermocomfortEffect);
+        ModifyStamina(3f * Time.deltaTime * thermocomfortEffect);
 
         ageTime += Time.deltaTime;
         if (ageTime > ageDelay) 

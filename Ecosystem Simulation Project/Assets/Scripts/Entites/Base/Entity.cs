@@ -70,6 +70,7 @@ public class Entity : Agent
                 Vector2 direction = (target.position - transform.position);
                 Vector3 entityData = new((float)agentType, direction.x, direction.y);
                 float distance = Vector2.Distance(transform.position, target.position);
+                // UnityEngine.Debug.Log(gameObject + " sees entity: " + entity);
                 sensor.AddObservation(entityData);
                 sensor.AddObservation(distance);
                 Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);

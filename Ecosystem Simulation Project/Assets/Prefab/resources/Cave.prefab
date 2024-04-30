@@ -464,13 +464,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceType: 0
-  AmountPerHarvest: 10
-  HealthMax: 100
-  HarvestMax: 100
+  AmountPerHarvest: 5
+  HealthMax: 500
+  HarvestMax: 50
   HealthRemaining: 0
   HarvestRemaining: 0
-  HealthRecovery: 2
-  HarvestRecovery: 2
+  HealthRecovery: 5
+  HarvestRecovery: 1
   Thermo_min: 0.45
   Thermo_max: 0.75
   spriteRenderer: {fileID: 411178171154377570}

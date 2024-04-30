@@ -183,7 +183,7 @@ MonoBehaviour:
   _viewAngle: 90
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 131009
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
@@ -237,8 +237,8 @@ MonoBehaviour:
   maxAge: 100
   primeAge: 50
   ageDelay: 10
-  hungerDecayRate: 2
-  thirstDecayRate: 2
+  hungerDecayRate: 1
+  thirstDecayRate: 1
   maxHealth: 100
   maxStamina: 100
   maxHunger: 100

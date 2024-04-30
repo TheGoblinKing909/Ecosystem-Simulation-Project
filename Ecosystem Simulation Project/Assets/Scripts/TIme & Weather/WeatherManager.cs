@@ -56,13 +56,13 @@ public class WeatherManager : MonoBehaviour
     {
         springEvents = new WeatherEvent[]
         {
-            new WeatherEvent("Sunny", 5f, new AttributeEffects(1, 1, -0.1f, -0.1f, 0.5f, 0, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
+            new WeatherEvent("Sunny", 5f, new AttributeEffects(0.5f, 0.5f, -0.1f, -0.1f, 0.5f, 0, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
             new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0f, 0f, 0f), new AttributeEffects(-5, 0, 0, 0, 0, -5, 0, 0))
             
         };
         summerEvents = new WeatherEvent[]
         {
-            new WeatherEvent("Sunny", 5f, new AttributeEffects(1, 1, -0.1f, -0.1f, 0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
+            new WeatherEvent("Sunny", 5f, new AttributeEffects(0.5f, 0.5f, -0.1f, -0.1f, 0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
             new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0f, 0f, 0f), new AttributeEffects(-5, 0, 0, 0, 0, -5, 0, 0))
             
         };
