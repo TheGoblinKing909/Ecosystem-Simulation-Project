@@ -33,11 +33,6 @@ public class Observation
 {
     public ObservationType ObservationType;
     public int ObservationID = -1;
-    public float CurrentThirst = -1;
-    public float CurrentHunger = -1;
-    public float CurrentHealth = -1;
-    public float CurrentStamina = -1;
-    public Vector3 Position; 
     public Vector3 TargetPosition;
 
 }
@@ -80,18 +75,20 @@ public class Entity : Agent
         Observation observation = new();
         AvgRewardsPerStep = _AvgRewardPerStep;
         CReward = _CReward;
-        observation.CurrentHealth = attributes.currentHealth;
-        observation.CurrentHunger = attributes.currentHunger;
-        observation.CurrentThirst = attributes.currentThirst;
-        observation.CurrentStamina = attributes.currentStamina;
-        observation.Position = transform.position;
+        sensor.AddObservation(attributes.currentHealth);
+        sensor.AddObservation(attributes.currentHunger);
+        sensor.AddObservation(attributes.currentThirst);
+        sensor.AddObservation(attributes.currentStamina);
+        sensor.AddObservation(transform.position);
 
         foreach (FieldOfView.VisibleTargetData data in fov.visibleTargets)
         {
-            Entity entity = data.entity;
-            Resource resource = data.resource;
-            if(data.transform != null)
+            Transform target = data.transform;
+            if(target != null)
             {
+                Entity entity = data.entity;
+                Resource resource = data.resource;
+                Water water = data.water;
                 if (entity != null) {
                     observation.ObservationType = ObservationType.Entity;
                     observation.ObservationID = (int)entity.agentType;
@@ -99,10 +96,11 @@ public class Entity : Agent
                 else if (resource != null) {
                     observation.ObservationType = ObservationType.Resource;
                     observation.ObservationID = (int)resource.resourceType;
-                    if(resource.resourceType == ResourceType.Water) 
-                    { 
-                        observation.ObservationType = ObservationType.Water;
-                    }
+                }
+                else if (water != null)
+                {
+                    observation.ObservationType = ObservationType.Water;
+                    observation.ObservationID = (int)ResourceType.Water;
                 }
                 Vector2 direction = (target.position - transform.position);
                 float distance = Vector2.Distance(transform.position, target.position);
@@ -119,11 +117,6 @@ public class Entity : Agent
         if(observation.ObservationID < 0) { return; }
         sensor.AddObservation((int)observation.ObservationType);
         sensor.AddObservation(observation.ObservationID);
-        sensor.AddObservation(observation.CurrentHealth);
-        sensor.AddObservation(observation.CurrentHunger);
-        sensor.AddObservation(observation.CurrentThirst);
-        sensor.AddObservation(observation.CurrentStamina);
-        sensor.AddObservation(observation.Position);
         sensor.AddObservation(observation.TargetPosition);
     }
 

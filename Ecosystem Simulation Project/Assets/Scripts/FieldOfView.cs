@@ -46,6 +46,7 @@ public class FieldOfView : MonoBehaviour
         public Transform transform;
         public Entity entity;
         public Resource resource;
+        public Water water;
     }
     public List<VisibleTargetData> visibleTargets = new List<VisibleTargetData>();
 
@@ -79,25 +80,30 @@ public class FieldOfView : MonoBehaviour
             var gameObject = targetsInViewRadius[i].gameObject;
             Entity entity = gameObject.GetComponent<Entity>();
             Resource resource = gameObject.GetComponent<Resource>();
+            Water water = gameObject.GetComponent<Water>();
             Transform target = targetsInViewRadius[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             float dstToTarget = Vector3.Distance(transform.position, target.position);
             if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
             {
-
+                VisibleTargetData data = new();
                 if (resource != null)
                 {
 
-                    VisibleTargetData data = new();
                     data.transform = target;
                     data.resource = resource;
                     visibleTargets.Add(data);
                 }
                 if (entity != null)
                 {
-                    VisibleTargetData data = new();
                     data.transform = target;
                     data.entity = entity;
+                    visibleTargets.Add(data);
+                }
+                if (water != null)
+                {
+                    data.transform = target;
+                    data.water = water;
                     visibleTargets.Add(data);
                 }
             }
