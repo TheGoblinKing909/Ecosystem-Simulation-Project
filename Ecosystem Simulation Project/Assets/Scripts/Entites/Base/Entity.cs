@@ -5,6 +5,7 @@ using Unity.MLAgents.Integrations.Match3;
 using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using UnityEngine;
+using weather.effects;
 
 public enum AgentType
 {
@@ -39,7 +40,7 @@ public class Observation
 
 public class Entity : Agent
 {
-    public  AgentType agentType = AgentType.None;
+    public AgentType agentType = AgentType.None;
     public float AvgRewardsPerStep;
     public float CReward;
     private float _AvgRewardPerStep { get => (GetCumulativeReward() / StepCount); set{ } }
@@ -126,12 +127,40 @@ public class Entity : Agent
         attributes.EpisodeBegin();
         actions.EpisodeBegin();
     }
+
     public override void OnActionReceived(ActionBuffers input)
     {
         actions.OnActionsRecieved(input);
     }
+
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         actions.Heuristic(actionsOut);
     }
+
+    public void ApplyWeatherEffects(AttributeEffects effects)
+    {
+        if (attributes == null)
+        {
+            Debug.LogError("Attributes component not found on entity.");
+            return;
+        }
+
+        attributes.currentHealth += effects.HealthEffect;
+        attributes.currentStamina += effects.StaminaEffect;
+        attributes.currentHunger += effects.HungerEffect;
+        attributes.currentThirst += effects.ThirstEffect;
+        attributes.agility += effects.AgilityEffect;
+
+        attributes.hungerDecayRate += effects.HungerDecayRateEffect;
+        attributes.thirstDecayRate += effects.ThirstDecayRateEffect;
+
+        attributes.currentHealth = Mathf.Clamp(attributes.currentHealth, 0, attributes.maxHealth);
+        attributes.currentStamina = Mathf.Clamp(attributes.currentStamina, 0, attributes.maxStamina);
+        attributes.currentHunger = Mathf.Clamp(attributes.currentHunger, 0, attributes.maxHunger);
+        attributes.currentThirst = Mathf.Clamp(attributes.currentThirst, 0, attributes.maxThirst);
+
+        Debug.Log($"Weather effects applied to Entity: {effects.HealthEffect} Health, {effects.StaminaEffect} Stamina.");
+    }
+
 }

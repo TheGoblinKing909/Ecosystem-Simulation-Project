@@ -338,7 +338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2263030192826731352}
   - component: {fileID: 411178171154377570}
-  - component: {fileID: 2298315059625814257}
+  - component: {fileID: 7431373545467942718}
   - component: {fileID: 367208634923936692}
   - component: {fileID: -2462140999466573146}
   m_Layer: 17
@@ -416,8 +416,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2298315059625814257
-BoxCollider2D:
+--- !u!70 &7431373545467942718
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -448,19 +448,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.92, y: 1.92}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: -0.4}
+  m_Size: {x: 1.5, y: 0.6}
+  m_Direction: 1
 --- !u!114 &367208634923936692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,13 +464,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceType: 0
-  AmountPerHarvest: 10
-  HarvestMax: 100
-  HealthMax: 100
-  HarvestRemaining: 0
+  AmountPerHarvest: 5
+  HealthMax: 500
+  HarvestMax: 50
   HealthRemaining: 0
-  HarvestRecovery: 2
-  HealthRecovery: 2
+  HarvestRemaining: 0
+  HealthRecovery: 5
+  HarvestRecovery: 1
   Thermo_min: 0.45
   Thermo_max: 0.75
   spriteRenderer: {fileID: 411178171154377570}

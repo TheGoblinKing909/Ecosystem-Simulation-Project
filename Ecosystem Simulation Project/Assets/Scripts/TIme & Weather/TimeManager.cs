@@ -16,7 +16,7 @@ public class TimeManager : MonoBehaviour
     [Range(0, 6)]
     public int minutes;
 
-    private DateTime DateTime;
+    public DateTime DateTime;
     public Slider slider; // Assign the Slider reference manually in the prefab
     public Text text; // Assign the Text reference manually in the prefab
 
@@ -171,6 +171,18 @@ public struct DateTime
 
         weeksInYear = 48;
         weeksInMonth = 4;
+    }
+
+    public void SetTime(int minutes, int hour, int day, int dayOfMonth, int week, int month, int season, int year)
+    {
+        Minutes = minutes;
+        Hour = hour;
+        Day = (Days)day;
+        DayOfMonth = dayOfMonth;
+        Week = week;
+        Month = (Months)month;
+        Season = (Season)season;
+        Year = year;
     }
 
     public string DateToString()

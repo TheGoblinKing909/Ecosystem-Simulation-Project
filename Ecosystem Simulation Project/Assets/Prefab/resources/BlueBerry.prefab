@@ -306,7 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2263030192826731352}
   - component: {fileID: 411178171154377570}
-  - component: {fileID: 2298315059625814257}
+  - component: {fileID: 7464025806670938581}
   - component: {fileID: 6452167524560980998}
   m_Layer: 17
   m_Name: BlueBerry
@@ -383,8 +383,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2298315059625814257
-BoxCollider2D:
+--- !u!70 &7464025806670938581
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -415,19 +415,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2.0666666}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: -0.5}
+  m_Size: {x: 2, y: 1}
+  m_Direction: 1
 --- !u!114 &6452167524560980998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,13 +431,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceType: 1
-  AmountPerHarvest: 2
-  HarvestMax: 300
-  HealthMax: 100
-  HarvestRemaining: 0
+  AmountPerHarvest: 10
+  HealthMax: 250
+  HarvestMax: 250
   HealthRemaining: 0
-  HarvestRecovery: 2
-  HealthRecovery: 2
+  HarvestRemaining: 0
+  HealthRecovery: 1
+  HarvestRecovery: 1
   Thermo_min: 0.45
   Thermo_max: 0.75
   spriteRenderer: {fileID: 0}

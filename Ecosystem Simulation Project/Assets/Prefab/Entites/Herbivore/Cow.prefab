@@ -400,8 +400,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.25}
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 0.6, y: 0.15}
   m_Direction: 1
 --- !u!114 &1341764872971762633
 MonoBehaviour:
@@ -535,8 +535,8 @@ MonoBehaviour:
   maxAge: 100
   primeAge: 50
   ageDelay: 10
-  hungerDecayRate: 2
-  thirstDecayRate: 2
+  hungerDecayRate: 1
+  thirstDecayRate: 1
   maxHealth: 100
   maxStamina: 100
   maxHunger: 100

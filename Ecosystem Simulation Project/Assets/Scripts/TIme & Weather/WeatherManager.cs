@@ -1,16 +1,47 @@
 using UnityEngine;
 using System;
 using TMPro;
+using weather.effects;
 
 public class WeatherManager : MonoBehaviour
 {
+    public GameManager gameManager;
     public TimeManager timeManager;
     public TextMeshProUGUI Temperature;
     private int lastHour = -1;
     private int temperature;
+    public WeatherEvent currentWeatherEvent;
+
+    private WeatherEvent[] springEvents;
+    private WeatherEvent[] summerEvents;
+    private WeatherEvent[] autumnEvents;
+    private WeatherEvent[] winterEvents;
+
+    [System.Serializable]
+    public class WeatherEvent
+    {
+        public string Name;
+        public float TemperatureOffset;
+        public AttributeEffects EntityEffects;
+        public AttributeEffects ResourceEffects;
+
+        public WeatherEvent(string name, float temperatureOffset, AttributeEffects entityEffects, AttributeEffects resourceEffects)
+        {
+            Name = name;
+            TemperatureOffset = temperatureOffset;
+            EntityEffects = entityEffects;
+            ResourceEffects = resourceEffects;
+        }
+    }
 
     private void Start()
     {
+
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+        }
+
         if (timeManager == null)
         {
             Debug.LogError("TimeManager reference not assigned!");
@@ -18,6 +49,43 @@ public class WeatherManager : MonoBehaviour
         }
 
         TimeManager.OnDateTimeChanged += HandleTimeChanged;
+        InitializeWeatherEvents();
+    }
+
+    void InitializeWeatherEvents()
+    {
+        springEvents = new WeatherEvent[]
+        {
+            new WeatherEvent("Sunny", 5f, new AttributeEffects(0.5f, 0.5f, -0.1f, -0.1f, 0.5f, 0, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
+            new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0f, 0f, 0f), new AttributeEffects(-5, 0, 0, 0, 0, -5, 0, 0))
+            
+        };
+        summerEvents = new WeatherEvent[]
+        {
+            new WeatherEvent("Sunny", 5f, new AttributeEffects(0.5f, 0.5f, -0.1f, -0.1f, 0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, 10, 0, 0)),
+            new WeatherEvent("Heatwave", 10f, new AttributeEffects(-1, -1, 0.2f, 0.2f, -0.5f, 0f, 0f, 0f), new AttributeEffects(-5, 0, 0, 0, 0, -5, 0, 0))
+            
+        };
+        autumnEvents = new WeatherEvent[]
+        {
+            new WeatherEvent("Snow", -10f, new AttributeEffects(-1, -1, 0.1f, 0.1f, -0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -10, 0, 0)),
+            new WeatherEvent("Blizzard", -15f, new AttributeEffects(-2, -2, 0.2f, 0.2f, -1f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -15, 0, 0))
+            
+        };
+        winterEvents = new WeatherEvent[]
+        {
+            new WeatherEvent("Snow", -10f, new AttributeEffects(-1, -1, 0.1f, 0.1f, -0.5f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -10, 0, 0)),
+            new WeatherEvent("Blizzard", -15f, new AttributeEffects(-2, -2, 0.2f, 0.2f, -1f, 0f, 0f, 0f), new AttributeEffects(0, 0, 0, 0, 0, -15, 0, 0))
+            
+        };
+        currentWeatherEvent = springEvents[0];
+        //currentWeatherEvent = springEvents[1];
+        //currentWeatherEvent = summerEvents[0];
+        //currentWeatherEvent = summerEvents[1];
+        //currentWeatherEvent = autumnEvents[0];
+        //currentWeatherEvent = autumnEvents[1];
+        //currentWeatherEvent = winterEvents[0];
+        //currentWeatherEvent = winterEvents[1];
     }
 
     public int GetCurrentTemperature()
@@ -27,23 +95,32 @@ public class WeatherManager : MonoBehaviour
 
     private void HandleTimeChanged(DateTime currentDateTime)
     {
-        // Check if the hour has changed since the last update
+
         if (currentDateTime.Hour != lastHour)
         {
-            lastHour = currentDateTime.Hour; // Update the lastHour to the current hour
-            float currentTemperature = CalculateCurrentTemperature(currentDateTime);
-            // Debug.Log($"Current Temperature: {currentTemperature}°F");
+            lastHour = currentDateTime.Hour;
+            float currentTemperature = CalculateCurrentTemperature(currentDateTime, currentWeatherEvent.TemperatureOffset);
 
             if (Temperature != null)
             {
-                // Round the temperature for display
                 int roundedTemperature = Mathf.RoundToInt(currentTemperature);
-                Temperature.text = roundedTemperature.ToString() + "°F"; // Append "°F" for clarity
+                Temperature.text = roundedTemperature.ToString() + "°F";
             }
+
+            if (UnityEngine.Random.value <= 0.10)
+            {
+                ChangeWeatherEvent(currentDateTime.Season);
+            }
+            Debug.Log($"Current Weather Event: {currentWeatherEvent.Name}.");
+
         }
+
+        ApplyWeatherEffectsToEntities(currentWeatherEvent.EntityEffects);
+        ApplyWeatherEffectsToResources(currentWeatherEvent.ResourceEffects);
+
     }
 
-    float CalculateCurrentTemperature(DateTime dateTime)
+    float CalculateCurrentTemperature(DateTime dateTime, float weatherOffset)
     {
         float temperature = 0f;
         switch (dateTime.Hour)
@@ -122,27 +199,75 @@ public class WeatherManager : MonoBehaviour
                 break;
         }
 
-        // Apply the seasonal offset
-        temperature += GetSeasonalOffset(timeManager.GetCurrentDateTime().Season);
+        temperature += GetSeasonalOffset(timeManager.GetCurrentDateTime().Season) + weatherOffset;
 
         return temperature;
     }
 
-    // Helper method to determine the seasonal offset
     float GetSeasonalOffset(Season season)
     {
         switch (season)
         {
             case Season.Spring:
-                return 5f; // Spring serves as a baseline with +5 offset
+                return 5f;
             case Season.Summer:
-                return 20f; // Summer with +20 offset
+                return 20f;
             case Season.Autumn:
-                return 10f; // Autumn with +10 offset
+                return 10f;
             case Season.Winter:
-                return -20f; // Winter with -20 offset
+                return -20f;
             default:
-                return 0f; // No offset if the season is somehow unspecified
+                return 0f;
+        }
+    }
+
+    void ChangeWeatherEvent(Season season)
+    {
+        switch (season)
+        {
+            case Season.Spring:
+                currentWeatherEvent = springEvents[UnityEngine.Random.Range(0, springEvents.Length)];
+                break;
+            case Season.Summer:
+                currentWeatherEvent = summerEvents[UnityEngine.Random.Range(0, summerEvents.Length)];
+                break;
+            case Season.Autumn:
+                currentWeatherEvent = autumnEvents[UnityEngine.Random.Range(0, autumnEvents.Length)];
+                break;
+            case Season.Winter:
+                currentWeatherEvent = winterEvents[UnityEngine.Random.Range(0, winterEvents.Length)];
+                break;
+        }
+    }
+
+    private void ApplyWeatherEffectsToEntities(AttributeEffects effects)
+    {
+
+        foreach (Transform entityTransform in gameManager.entitySpawner.transform)
+        {
+            Entity entity = entityTransform.GetComponent<Entity>();
+            if (entity != null)
+            {
+                entity.ApplyWeatherEffects(currentWeatherEvent.EntityEffects);
+            }
+        }
+
+        /* foreach (Transform resourceTransform in gameManager.resourceSpawner.transform)
+        {
+            Resource resource = resourceTransform.GetComponent<Resource>();
+            if (resource != null)
+            {
+                resource.ApplyWeatherEffects(currentWeatherEvent.ResourceEffects);
+            }
+        } */
+
+    }
+
+    private void ApplyWeatherEffectsToResources(AttributeEffects effects)
+    {
+        foreach (var resource in FindObjectsOfType<Resource>())
+        {
+            resource.ApplyWeatherEffects(effects);
         }
     }
 

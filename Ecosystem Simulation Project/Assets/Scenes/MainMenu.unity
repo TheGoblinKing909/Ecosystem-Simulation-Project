@@ -626,6 +626,8 @@ MonoBehaviour:
   userLacunarity: {fileID: 270664819}
   userResDensity: {fileID: 1092368630}
   userEntDensity: {fileID: 2136356567}
+  userWorldName: {fileID: 170754864}
+  userLoadWorld: {fileID: 1040337591}
   inputFields:
   - {fileID: 689314126}
   - {fileID: 1934850073}
@@ -676,6 +678,7 @@ MonoBehaviour:
   - 2.5
   - 0.01
   - 0.005
+  worldNotFound: {fileID: 1826179111}
 --- !u!4 &69277086
 Transform:
   m_ObjectHideFlags: 0

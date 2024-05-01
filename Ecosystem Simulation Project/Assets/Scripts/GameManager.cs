@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,23 +57,24 @@ public class GameManager : MonoBehaviour
     public float inputScale, inputPersistence, inputLacunarity, inputResDensity, inputEntDensity;
     public bool loadWorld;
     public string worldName;
+    private string[] args;
+    private int argLen, mlagentsId;
+    public List<GameObject> initialModels;
 
     void Start()
     {
         if (Application.isEditor)
         {
-            // loadWorld = MainMenuController.loadWorld;
-            // worldName = MainMenuController.WorldName;
-            loadWorld = false;
-            worldName = "TestWorld";
+            loadWorld = MainMenuController.loadWorld;
+            worldName = MainMenuController.worldName;
         }
         else
         {
-            // string[] args = System.Environment.GetCommandLineArgs();
-            // loadWorld = bool.Parse(args[0]);
-            // worldName = args[1];
-            loadWorld = false;
-            worldName = "TestWorld";
+            args = System.Environment.GetCommandLineArgs();
+            argLen = args.Length;
+            loadWorld = bool.Parse(args[argLen-3]);
+            worldName = args[argLen-2];
+            mlagentsId = int.Parse(args[argLen-1]);
         }
 
         if (!loadWorld)
@@ -87,29 +90,18 @@ public class GameManager : MonoBehaviour
                 inputLacunarity = MainMenuController.inputLacunarity;
                 inputResDensity = MainMenuController.inputResDensity;
                 inputEntDensity = MainMenuController.inputEntDensity;
-                // inputWidth = 100;
-                // inputHeight = 100;
-                // inputSeed = 123;
-                // inputOctaves = 3;
-                // inputScale = 75f;
-                // inputPersistence = .3f;
-                // inputLacunarity = 3f;
-                // inputResDensity = .005f;
-                // inputEntDensity = .003f;
             }
             else
             {
-                string[] args = System.Environment.GetCommandLineArgs();
-                int argLen = args.Length;
-                inputWidth = int.Parse(args[argLen-9]);
-                inputHeight = int.Parse(args[argLen-8]);
-                inputSeed = int.Parse(args[argLen-7]);
-                inputOctaves = int.Parse(args[argLen-6]);
-                inputScale = float.Parse(args[argLen-5]);
-                inputPersistence = float.Parse(args[argLen-4]);
-                inputLacunarity = float.Parse(args[argLen-3]);
-                inputResDensity = float.Parse(args[argLen-2]);
-                inputEntDensity = float.Parse(args[argLen-1]);
+                inputWidth = int.Parse(args[argLen-12]);
+                inputHeight = int.Parse(args[argLen-11]);
+                inputSeed = int.Parse(args[argLen-10]);
+                inputOctaves = int.Parse(args[argLen-9]);
+                inputScale = float.Parse(args[argLen-8]);
+                inputPersistence = float.Parse(args[argLen-7]);
+                inputLacunarity = float.Parse(args[argLen-6]);
+                inputResDensity = float.Parse(args[argLen-5]);
+                inputEntDensity = float.Parse(args[argLen-4]);
 
                 // DisplayTensorboard();
             }
@@ -119,6 +111,7 @@ public class GameManager : MonoBehaviour
             resourceMax = resourceSpawner.PlaceResources();
             entitySpawner.OnInstantiate();
             entityMax = entitySpawner.PlaceEntities();
+            initialModels = entitySpawner.InitializeModels();
         }
         else
         {
@@ -128,7 +121,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (++frameCount > 20) {
+        if (++frameCount > 10) {
             frameCount = 0;
 
             totalResourceCount = resourceSpawner.GetChildCount();
@@ -143,7 +136,10 @@ public class GameManager : MonoBehaviour
             if (entitySpawnAmount > 0) {
                 entitySpawner.SpawnEntities(entitySpawnAmount);
             }
-            // Save();
+            if (initialModels.Count > 0)
+            {
+                entitySpawner.RemoveModels(initialModels);
+            }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -177,38 +173,34 @@ public class GameManager : MonoBehaviour
         tensorboardProcess.Start();
 
         tensorboardProcess.StandardInput.WriteLine("conda activate build-env");
-        tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results");
+        tensorboardProcess.StandardInput.WriteLine("tensorboard --logdir=results/" + worldName);
 
         Application.OpenURL("http://localhost:6006/");
     }
+
+    internal const int CTRL_C_EVENT = 0;
+    [DllImport("kernel32.dll")]
+    internal static extern bool GenerateConsoleCtrlEvent(uint dwCtrlEvent, uint dwProcessGroupId);
+    [DllImport("kernel32.dll", SetLastError = true)]
+    internal static extern bool AttachConsole(uint dwProcessId);
+    [DllImport("kernel32.dll")]
+    static extern bool SetConsoleCtrlHandler(ConsoleCtrlDelegate HandlerRoutine, bool Add);
+    delegate bool ConsoleCtrlDelegate(uint CtrlType);
 
     void SaveAndExit()
     {
         Save();
         if (!Application.isEditor)
         {
-            Process[] processes = Process.GetProcessesByName("mlagents-learn");
-            foreach (Process process in processes)
+            if (AttachConsole((uint) mlagentsId))
             {
-                process.Kill();
-                process.WaitForExit();
-                process.Dispose();
+                SetConsoleCtrlHandler(null, true);
+                GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0);
             }
-            processes = Process.GetProcessesByName("tensorboard");
-            foreach (Process process in processes)
-            {
-                process.Kill();
-                process.WaitForExit();
-                process.Dispose();
-            }
-            processes = Process.GetProcessesByName("cmd");
-            foreach (Process process in processes)
-            {
-                process.Kill();
-                process.WaitForExit();
-                process.Dispose();
-            }
-            Application.Quit();
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 
@@ -248,43 +240,25 @@ public class GameManager : MonoBehaviour
             EntityData entData = new EntityData();
             entData.position = child.position;
             entData.layer = child.gameObject.layer;
-            if (child.GetComponent<Carnivore>() != null)
-            {
-                Carnivore ent = child.GetComponent<Carnivore>();
-                entData.health = ent.currentHealth;
-                entData.stamina = ent.currentStamina;
-                entData.hunger = ent.currentHunger;
-                entData.thirst = ent.currentThirst;
-                entData.age = ent.currentAge;
-                entData.ageTime = ent.ageTime;
-                entData.index = ent.prefabIndex;
-                saveData.entities.Add(entData);
-            }
-            else if (child.GetComponent<Omnivore>() != null)
-            {
-                Omnivore ent = child.GetComponent<Omnivore>();
-                entData.health = ent.currentHealth;
-                entData.stamina = ent.currentStamina;
-                entData.hunger = ent.currentHunger;
-                entData.thirst = ent.currentThirst;
-                entData.age = ent.currentAge;
-                entData.ageTime = ent.ageTime;
-                entData.index = ent.prefabIndex;
-                saveData.entities.Add(entData);
-            }
-            else
-            {
-                Herbivore ent = child.GetComponent<Herbivore>();
-                entData.health = ent.currentHealth;
-                entData.stamina = ent.currentStamina;
-                entData.hunger = ent.currentHunger;
-                entData.thirst = ent.currentThirst;
-                entData.age = ent.currentAge;
-                entData.ageTime = ent.ageTime;
-                entData.index = ent.prefabIndex;
-                saveData.entities.Add(entData);
-            }
+            Attributes ent = child.GetComponent<Attributes>();
+            entData.health = ent.currentHealth;
+            entData.stamina = ent.currentStamina;
+            entData.hunger = ent.currentHunger;
+            entData.thirst = ent.currentThirst;
+            entData.age = ent.currentAge;
+            entData.ageTime = ent.ageTime;
+            entData.index = ent.prefabIndex;
+            saveData.entities.Add(entData);
         }
+
+        saveData.minutes = timeManager.DateTime.Minutes;
+        saveData.hour = timeManager.DateTime.Hour;
+        saveData.day = (int) timeManager.DateTime.Day;
+        saveData.dayOfMonth = timeManager.DateTime.DayOfMonth;
+        saveData.week = timeManager.DateTime.Week;
+        saveData.month = (int) timeManager.DateTime.Month;
+        saveData.season = (int) timeManager.DateTime.Season;
+        saveData.year = timeManager.DateTime.Year;
 
         string saveDataString = JsonUtility.ToJson(saveData);
         System.IO.File.WriteAllText(savePath, saveDataString);
@@ -334,44 +308,19 @@ public class GameManager : MonoBehaviour
             instantiatedEntity.layer = entData.layer;
             Movement movementScript = instantiatedEntity.GetComponent<Movement>();
             movementScript.OnInstantiate();
-
-            if (instantiatedEntity.GetComponent<Carnivore>() != null)
-            {
-                Carnivore ent = instantiatedEntity.GetComponent<Carnivore>();
-                ent.currentHealth = entData.health;
-                ent.currentStamina = entData.stamina;
-                ent.currentHunger = entData.hunger;
-                ent.currentThirst = entData.thirst;
-                ent.currentAge = entData.age;
-                ent.ageTime = entData.ageTime;
-                ent.prefabIndex = entData.index;
-                ent.isLoaded = true;
-            }
-            else if (instantiatedEntity.GetComponent<Omnivore>() != null)
-            {
-                Omnivore ent = instantiatedEntity.GetComponent<Omnivore>();
-                ent.currentHealth = entData.health;
-                ent.currentStamina = entData.stamina;
-                ent.currentHunger = entData.hunger;
-                ent.currentThirst = entData.thirst;
-                ent.currentAge = entData.age;
-                ent.ageTime = entData.ageTime;
-                ent.prefabIndex = entData.index;
-                ent.isLoaded = true;
-            }
-            else
-            {
-                Herbivore ent = instantiatedEntity.GetComponent<Herbivore>();
-                ent.currentHealth = entData.health;
-                ent.currentStamina = entData.stamina;
-                ent.currentHunger = entData.hunger;
-                ent.currentThirst = entData.thirst;
-                ent.currentAge = entData.age;
-                ent.ageTime = entData.ageTime;
-                ent.prefabIndex = entData.index;
-                ent.isLoaded = true;
-            }
+            Attributes ent = instantiatedEntity.GetComponent<Attributes>();
+            ent.currentHealth = entData.health;
+            ent.currentStamina = entData.stamina;
+            ent.currentHunger = entData.hunger;
+            ent.currentThirst = entData.thirst;
+            ent.currentAge = entData.age;
+            ent.ageTime = entData.ageTime;
+            ent.prefabIndex = entData.index;
+            ent.isLoaded = true;
         }
+
+        timeManager.DateTime.SetTime(saveData.minutes, saveData.hour, saveData.day, saveData.dayOfMonth, saveData.week, saveData.month, saveData.season, saveData.year);
+        TimeManager.OnDateTimeChanged?.Invoke(timeManager.DateTime);
 
         UnityEngine.Debug.Log("Loaded from " + savePath);
     }
@@ -392,6 +341,14 @@ public class SaveData
     public float entDensity;
     public List<ResourceData> resources = new List<ResourceData>();
     public List<EntityData> entities = new List<EntityData>();
+    public int minutes;
+    public int hour;
+    public int day;
+    public int dayOfMonth;
+    public int week;
+    public int month;
+    public int season;
+    public int year;
 }
 
 [System.Serializable]
