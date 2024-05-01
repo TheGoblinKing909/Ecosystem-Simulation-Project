@@ -10,25 +10,25 @@ public class Rewards : MonoBehaviour
     [SerializeField] private float minHealthGainReward = 0.01f;
 
     [SerializeField] private float maxHealthLossPunishment = -1.0f;
-    [SerializeField] private float minHealthLossPunishment = -0.01f;
+    [SerializeField] private float minHealthLossPunishment = 0;
 
-    [SerializeField] private float maxHungerGainReward = 2.0f;
+    [SerializeField] private float maxHungerGainReward = 1.0f;
     [SerializeField] private float minHungerGainReward = 0.01f;
 
-    [SerializeField] private float maxHungerLossPunishment = -1.0f;
-    [SerializeField] private float minHungerLossPunishment = -0.01f;
+    [SerializeField] private float maxHungerLossPunishment = 0;
+    [SerializeField] private float minHungerLossPunishment = 0;
 
-    [SerializeField] private float maxThirstGainReward = 0.7f;
+    [SerializeField] private float maxThirstGainReward = 1.0f;
     [SerializeField] private float minThirstGainReward = 0.01f;
 
-    [SerializeField] private float maxThirstLossPunishment = -1.0f;
-    [SerializeField] private float minThirstLossPunishment = -0.01f;
+    [SerializeField] private float maxThirstLossPunishment = 0;
+    [SerializeField] private float minThirstLossPunishment = 0;
 
-    [SerializeField] private float maxAttackReward = 0.01f;
+    [SerializeField] private float maxAttackReward = 1.0f;
     [SerializeField] private float minAttackReward = 0.01f;
 
-    [SerializeField] private float maxAttackPunishment = -0.01f;
-    [SerializeField] private float minAttackPunishment = -0.01f;
+    [SerializeField] private float maxAttackPunishment = 0;
+    [SerializeField] private float minAttackPunishment = 0;
 
 
     protected void OnAwake()

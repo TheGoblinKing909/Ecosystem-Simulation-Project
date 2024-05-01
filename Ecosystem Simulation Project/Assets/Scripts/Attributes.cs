@@ -123,7 +123,7 @@ public class Attributes : MonoBehaviour
             ModifyHealth(5f * Time.deltaTime * (2 - thermocomfortEffect));
         }
 
-        ModifyStamina(2 * Time.deltaTime * (2 - thermocomfortEffect));
+        ModifyStamina(50 * Time.deltaTime * (2 - thermocomfortEffect));
 
         ageTime += Time.deltaTime;
         if (ageTime > ageDelay) 
@@ -206,7 +206,7 @@ public class Attributes : MonoBehaviour
         currentHunger += amount;
         if (currentHunger > maxHunger)
         {
-            float hungerGained = currentHunger - maxHunger;
+            float hungerGained = maxHunger - currentHunger;
             agent.AddReward(rewards.GetHungerGainedReward(hungerGained));
             currentHunger = maxHunger;
             return;
@@ -337,7 +337,7 @@ public class Attributes : MonoBehaviour
         }
 
         Destroy(gameObject);
-        agent.AddReward(-10f);
+        agent.AddReward(-1f);
     }
 
 }

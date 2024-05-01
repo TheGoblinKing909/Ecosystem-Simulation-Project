@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4151978680767860636}
   - component: {fileID: 8925231870516245754}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: StaminaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 8362467143469060376}
   - component: {fileID: 4246751760923655106}
   - component: {fileID: 8075231918389965358}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 1769730389803314570}
   - component: {fileID: 7431031927254270750}
   - component: {fileID: 4629009051846730309}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: AgeNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 7617848876019780080}
   - component: {fileID: 6567588244517450986}
   - component: {fileID: 6831305230518264491}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Cow
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 4
+    VectorObservationSize: 60
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -481,7 +481,7 @@ MonoBehaviour:
   _viewAngle: 90
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524240
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
@@ -617,7 +617,7 @@ GameObject:
   - component: {fileID: 5049415055923680003}
   - component: {fileID: 1487806422006968213}
   - component: {fileID: 74571802167523969}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 8694783221073311657}
   - component: {fileID: 1467744022687759991}
   - component: {fileID: 3285839619970149148}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +814,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7564187443479165699}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   - component: {fileID: 5882025862852791759}
   - component: {fileID: 7018813091755429809}
   - component: {fileID: 1059174719510391783}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3637475140659607905}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -963,7 +963,7 @@ GameObject:
   - component: {fileID: 2638318859654253445}
   - component: {fileID: 9060329302590397561}
   - component: {fileID: 8191642964710840755}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1038,7 +1038,7 @@ GameObject:
   - component: {fileID: 8371586866948376521}
   - component: {fileID: 3690921991014279156}
   - component: {fileID: 4786613893054940850}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,7 +1112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2802829795168127058}
   - component: {fileID: 6083969948578488326}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1202,7 +1202,7 @@ GameObject:
   - component: {fileID: 1052175707557476669}
   - component: {fileID: 7397469972453561338}
   - component: {fileID: 5103536170238948653}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1275,7 +1275,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 818972216365092331}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1312,7 +1312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1600483432743464033}
   - component: {fileID: 5799002441339402373}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: ThirstBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1402,7 +1402,7 @@ GameObject:
   - component: {fileID: 2176558518756142376}
   - component: {fileID: 9149143077339204776}
   - component: {fileID: 3389971818823128972}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1477,7 +1477,7 @@ GameObject:
   - component: {fileID: 2210028475790850907}
   - component: {fileID: 4168621508469708303}
   - component: {fileID: 3838108988169215514}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1551,7 +1551,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3682884063225224349}
   - component: {fileID: 8676910051092937561}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: HungerBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1639,7 +1639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2019465527438299742}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1676,7 +1676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2279276111376089645}
   - component: {fileID: 5385948993566447694}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -5,7 +5,8 @@ using UnityEngine;
 public enum ResourceType
 {
     None = 0,
-    BlueBerry = 1,
+    Water = 1,
+    BlueBerry = 2,
     BlueFlower,
     BushBerry,
     Grass,
@@ -27,6 +28,8 @@ public class Resource : MonoBehaviour {
 
     public float HarvestRecovery = 2f;
     public float HealthRecovery = 2f;
+
+    public float DeadEnitityTimer = 0;
 
     // Thermocomfort attributes similar to the Attributes script
     public float Thermo_min = 0.45f;
@@ -53,6 +56,17 @@ public class Resource : MonoBehaviour {
 
         resourceBar = GetComponentInChildren<ResourceBar>();
         if (resourceBar == null) { throw new System.Exception("Resource Bar not set in attributes"); }
+        if (resourceType == ResourceType.DeadEntity)
+        {
+            StartCoroutine(SelfDestruct());
+        }
+    }
+
+
+    IEnumerator SelfDestruct()
+    {
+        yield return new WaitForSeconds(60f);
+        Destroy(gameObject);
     }
 
     private void FixedUpdate() {

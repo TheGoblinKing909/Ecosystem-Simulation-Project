@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6733954446268355409}
   - component: {fileID: 1761835373296496443}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 7552751604215570737}
   - component: {fileID: 1573959882439540631}
   - component: {fileID: 7864595831595979457}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 5971892430169765398}
   - component: {fileID: 7958278492579562595}
   - component: {fileID: 2054702474414075075}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 411178171154377570}
   - component: {fileID: 2298315059625814257}
   - component: {fileID: 6274734185525448624}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RedBerry
   m_TagString: Resource
   m_Icon: {fileID: 0}
@@ -462,7 +462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1246160855252892918}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -498,7 +498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4054573486383327717}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 5628158703283011273}
   - component: {fileID: 2764256895897673668}
   - component: {fileID: 6669687188257673927}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 5747547801445273220}
   - component: {fileID: 6989612354214302321}
   - component: {fileID: 474475788643229263}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 3789723562773863862}
   - component: {fileID: 4724688147066128166}
   - component: {fileID: 5913572000643297406}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,7 +760,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9079101384251618458}
   - component: {fileID: 6380264594821069533}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: HarvestBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

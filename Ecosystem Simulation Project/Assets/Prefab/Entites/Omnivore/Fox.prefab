@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 4
+    VectorObservationSize: 60
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -478,7 +478,7 @@ MonoBehaviour:
   _viewAngle: 90
   targetMask:
     serializedVersion: 2
-    m_Bits: 131008
+    m_Bits: 524240
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0

@@ -9,7 +9,7 @@ public class AIManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private ObjectSpawner resourceManager;
-    [SerializeField] private float maxTimeBeforeReset = 10f;
+    [SerializeField] private float maxTimeBeforeReset = 0f;
     [SerializeField] private float TimeScale = 1.0f;
     public float _TimeScale
     {
@@ -62,12 +62,12 @@ public class AIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime += Time.deltaTime;
-        if (maxTimeBeforeReset == 0) return;
-        if(currentTime > maxTimeBeforeReset)
-        {
-            ResetEpisodes();
-        }
+        //currentTime += Time.deltaTime;
+        //if (maxTimeBeforeReset == 0) return;
+        //if(currentTime > maxTimeBeforeReset)
+        //{
+        //    ResetEpisodes();
+        //}
     }
 
     void ResetEpisodes()

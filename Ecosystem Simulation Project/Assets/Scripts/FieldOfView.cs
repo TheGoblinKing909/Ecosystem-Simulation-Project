@@ -45,6 +45,7 @@ public class FieldOfView : MonoBehaviour
     {
         public Transform transform;
         public Entity entity;
+        public Resource resource;
     }
     public List<VisibleTargetData> visibleTargets = new List<VisibleTargetData>();
 
@@ -76,14 +77,23 @@ public class FieldOfView : MonoBehaviour
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             var gameObject = targetsInViewRadius[i].gameObject;
-            Entity entity= gameObject.GetComponent<Entity>();
+            Entity entity = gameObject.GetComponent<Entity>();
+            Resource resource = gameObject.GetComponent<Resource>();
             Transform target = targetsInViewRadius[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            float dstToTarget = Vector3.Distance(transform.position, target.position);
+            if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
             {
-                float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+                if (resource != null)
+                {
+
+                    VisibleTargetData data = new();
+                    data.transform = target;
+                    data.resource = resource;
+                    visibleTargets.Add(data);
+                }
+                if (entity != null)
                 {
                     VisibleTargetData data = new();
                     data.transform = target;

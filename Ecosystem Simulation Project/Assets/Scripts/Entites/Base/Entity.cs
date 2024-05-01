@@ -21,6 +21,27 @@ public enum AgentType
     Gorilla,
     Oragatan,
 }
+
+public enum ObservationType
+{
+    Entity,
+    Resource,
+    Water,
+}
+
+public class Observation
+{
+    public ObservationType ObservationType;
+    public int ObservationID = -1;
+    public float CurrentThirst = -1;
+    public float CurrentHunger = -1;
+    public float CurrentHealth = -1;
+    public float CurrentStamina = -1;
+    public Vector3 Position; 
+    public Vector3 TargetPosition;
+
+}
+
 public class Entity : Agent
 {
     public  AgentType agentType = AgentType.None;
@@ -31,20 +52,22 @@ public class Entity : Agent
     private float _CReward { get => (this.GetCumulativeReward()); set { } }
     private Attributes attributes;
     private Actions actions;
-    private AIManager manager;
     private FieldOfView fov;
+    private Movement movement;
 
     protected void OnInitalize()
     {
         attributes = GetComponent<Attributes>();
-        if (attributes == null) throw new System.Exception("Attributes not set for human agent");
+        if (attributes == null) throw new System.Exception("Attributes not set for " + agentType  + " agent");
 
         actions = GetComponent<Actions>();
-        manager = FindObjectOfType<AIManager>();
-        if (manager == null) throw new System.Exception("AIManager not set in HumanAgent parent");
 
         fov = GetComponent<FieldOfView>();
-        if (fov == null) throw new System.Exception("fov not set in "+ agentType +" agent parent");
+        if (fov == null) throw new System.Exception("fov not set in "+ agentType +" agent ");
+
+        movement = GetComponent<Movement>();
+        if (movement == null) throw new System.Exception("movment not set in " + agentType + " agent ");
+
     }
 
     public override void Initialize()
@@ -54,35 +77,56 @@ public class Entity : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        Observation observation = new();
         AvgRewardsPerStep = _AvgRewardPerStep;
         CReward = _CReward;
-        sensor.AddObservation(transform.position);
-        sensor.AddObservation(AvgRewardsPerStep);
+        observation.CurrentHealth = attributes.currentHealth;
+        observation.CurrentHunger = attributes.currentHunger;
+        observation.CurrentThirst = attributes.currentThirst;
+        observation.CurrentStamina = attributes.currentStamina;
+        observation.Position = transform.position;
 
         foreach (FieldOfView.VisibleTargetData data in fov.visibleTargets)
         {
-                Entity entity = data.entity;
-                Transform target = data.transform;
-                AgentType agentType = AgentType.None;
-                if (entity != null) { agentType = entity.agentType; }
+            Entity entity = data.entity;
+            Resource resource = data.resource;
+            if(data.transform != null)
+            {
+                if (entity != null) {
+                    observation.ObservationType = ObservationType.Entity;
+                    observation.ObservationID = (int)entity.agentType;
+                }
+                else if (resource != null) {
+                    observation.ObservationType = ObservationType.Resource;
+                    observation.ObservationID = (int)resource.resourceType;
+                    if(resource.resourceType == ResourceType.Water) 
+                    { 
+                        observation.ObservationType = ObservationType.Water;
+                    }
+                }
                 Vector2 direction = (target.position - transform.position);
-                Vector3 entityData = new((float)agentType, direction.x, direction.y);
                 float distance = Vector2.Distance(transform.position, target.position);
-                sensor.AddObservation(entityData);
-                sensor.AddObservation(distance);
-                Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);
-                sensor.AddObservation(resourceObservation);
+                observation.TargetPosition = new Vector3(distance, direction.x, direction.y);
+                SendObservations(observation, sensor);
+
+            }
         }
 
-        //foreach(Transform entites in manager.entites)
-        //{
-        //    sensor.AddObservation(2);
-        //    Vector2 direction = (entites.position - transform.position).normalized;
-        //    float distance = Vector3.Distance(transform.position, entites.position);
-        //    Vector3 entityObservation = new Vector3(distance, direction.x, direction.y);
-        //    sensor.AddObservation(entityObservation);
-        //}
     }
+
+    private void SendObservations(Observation observation, VectorSensor sensor)
+    {
+        if(observation.ObservationID < 0) { return; }
+        sensor.AddObservation((int)observation.ObservationType);
+        sensor.AddObservation(observation.ObservationID);
+        sensor.AddObservation(observation.CurrentHealth);
+        sensor.AddObservation(observation.CurrentHunger);
+        sensor.AddObservation(observation.CurrentThirst);
+        sensor.AddObservation(observation.CurrentStamina);
+        sensor.AddObservation(observation.Position);
+        sensor.AddObservation(observation.TargetPosition);
+    }
+
     public override void OnEpisodeBegin()
     {
         //reset episodes
