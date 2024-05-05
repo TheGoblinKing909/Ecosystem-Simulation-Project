@@ -124,8 +124,8 @@ public class Entity : Agent
     public override void OnEpisodeBegin()
     {
         //reset episodes
-        attributes.EpisodeBegin();
-        actions.EpisodeBegin();
+        // attributes.EpisodeBegin();
+        // actions.EpisodeBegin();
     }
 
     public override void OnActionReceived(ActionBuffers input)
@@ -150,7 +150,7 @@ public class Entity : Agent
         attributes.currentStamina += effects.StaminaEffect;
         attributes.currentHunger += effects.HungerEffect;
         attributes.currentThirst += effects.ThirstEffect;
-        attributes.agility += effects.AgilityEffect;
+        // attributes.agility += effects.AgilityEffect;
 
         attributes.hungerDecayRate += effects.HungerDecayRateEffect;
         attributes.thirstDecayRate += effects.ThirstDecayRateEffect;

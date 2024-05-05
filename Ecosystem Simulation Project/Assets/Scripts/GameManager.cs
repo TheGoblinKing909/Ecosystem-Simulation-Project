@@ -245,8 +245,10 @@ public class GameManager : MonoBehaviour
             entData.stamina = ent.currentStamina;
             entData.hunger = ent.currentHunger;
             entData.thirst = ent.currentThirst;
-            entData.age = ent.currentAge;
-            entData.ageTime = ent.ageTime;
+            AttributeBar entBar = child.GetComponentInChildren<AttributeBar>();
+            entData.ageDay = entBar.ageDay;
+            entData.ageMonth = entBar.ageMonth;
+            entData.ageYear = entBar.ageYear;
             entData.index = ent.prefabIndex;
             saveData.entities.Add(entData);
         }
@@ -313,8 +315,9 @@ public class GameManager : MonoBehaviour
             ent.currentStamina = entData.stamina;
             ent.currentHunger = entData.hunger;
             ent.currentThirst = entData.thirst;
-            ent.currentAge = entData.age;
-            ent.ageTime = entData.ageTime;
+            ent.currentAge = entData.ageYear;
+            AttributeBar entBar = instantiatedEntity.GetComponentInChildren<AttributeBar>();
+            entBar.SetAgeNumber(entData.ageDay, entData.ageMonth, entData.ageYear);
             ent.prefabIndex = entData.index;
             ent.isLoaded = true;
         }
@@ -369,7 +372,8 @@ public class EntityData
     public float stamina;
     public float hunger;
     public float thirst;
-    public float age;
-    public float ageTime;
+    public int ageDay;
+    public int ageMonth;
+    public int ageYear;
     public int index;
 }

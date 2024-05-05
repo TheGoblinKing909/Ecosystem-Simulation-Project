@@ -10,6 +10,9 @@ public class AttributeBar : MonoBehaviour
     public Slider hungerBar;
     public Slider thirstBar;
     public TMPro.TextMeshProUGUI ageNumber;
+    public int ageDay;
+    public int ageMonth;
+    public int ageYear;
 
     public void UpdateHealthBar(float currentValue, float maxValue)
     {
@@ -31,9 +34,27 @@ public class AttributeBar : MonoBehaviour
         thirstBar.value = currentValue / maxValue;
     }
 
-    public void UpdateAgeNumber(float currentValue)
+    public void UpdateAgeNumber()
     {
-        int ageInt = (int) currentValue;
-        ageNumber.text = ageInt.ToString();
+        ageDay++;
+        if (ageDay >= 28)
+        {
+            ageDay = 0;
+            ageMonth++;
+            if (ageMonth >= 12)
+            {
+                ageMonth = 0;
+                ageYear++;
+            }
+        }
+        ageNumber.text = "D:" + ageDay + " M:" + ageMonth + " Y:" + ageYear;
+    }
+
+    public void SetAgeNumber(int day, int month, int year)
+    {
+        ageDay = day;
+        ageMonth = month;
+        ageYear = year;
+        ageNumber.text = "D:" + ageDay + " M:" + ageMonth + " Y:" + ageYear;
     }
 }

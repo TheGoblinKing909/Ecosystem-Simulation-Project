@@ -229,7 +229,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: D:0 M:0 Y:0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -256,8 +256,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -30.043917, y: 0, z: -29.832346, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -555,7 +555,6 @@ MonoBehaviour:
   deathResource: {fileID: 4380840106439738494, guid: 4628e34d0e9b2d949ac3a0830f2dc666, type: 3}
   thermo_min: 0.45
   thermo_max: 0.75
-  ageTime: 0
   entityType: 0
   prefabIndex: 0
   isLoaded: 0
@@ -805,6 +804,9 @@ MonoBehaviour:
   hungerBar: {fileID: 8676910051092937561}
   thirstBar: {fileID: 5799002441339402373}
   ageNumber: {fileID: 4629009051846730309}
+  ageDay: 0
+  ageMonth: 0
+  ageYear: 0
 --- !u!1 &4000400071870541503
 GameObject:
   m_ObjectHideFlags: 0

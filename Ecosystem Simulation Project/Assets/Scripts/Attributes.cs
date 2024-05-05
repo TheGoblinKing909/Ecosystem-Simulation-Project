@@ -46,8 +46,9 @@ public class Attributes : MonoBehaviour
     public float thermo_min = 0.45f;
     public float thermo_max = 0.75f;
     private WeatherManager weatherManager;
+    private TimeManager timeManager;
 
-    public float ageTime;
+    private int lastDay;
 
     public EntityType entityType = EntityType.Diurnal;
 
@@ -67,6 +68,9 @@ public class Attributes : MonoBehaviour
 
         attributeBar = GetComponentInChildren<AttributeBar>();
         if (attributeBar == null) { throw new System.Exception("Attribute Bar not set in attributes"); }
+        
+        timeManager = FindObjectOfType<TimeManager>();
+        if (timeManager == null) { throw new System.Exception("Time Manager not set in attributes"); }
     }
 
     public void Awake()
@@ -78,6 +82,7 @@ public class Attributes : MonoBehaviour
     {
         EpisodeBegin();
         weatherManager = FindObjectOfType<WeatherManager>();
+        TimeManager.OnDateTimeChanged += IncreaseAge;
     }
 
     public void Start()
@@ -101,8 +106,9 @@ public class Attributes : MonoBehaviour
             currentHunger = maxHunger;
             currentThirst = maxThirst;
             currentAge = 0;
-            ageTime = 0;
+            attributeBar.SetAgeNumber(0, 0, 0);
         }
+        lastDay = timeManager.DateTime.DayOfMonth;
     }
 
     public void FixedUpdate()
@@ -123,14 +129,6 @@ public class Attributes : MonoBehaviour
         }
 
         ModifyStamina(3f * Time.deltaTime * thermocomfortEffect);
-
-        ageTime += Time.deltaTime;
-        if (ageTime > ageDelay) 
-        {
-            IncreaseAge();
-            attributeBar.UpdateAgeNumber(currentAge);
-            ageTime = 0;
-        }
 
         if (shelter != null && currentHunger > 0 && currentThirst > 0) {
             float recoveryAmount = shelter.recoveryRate * Time.deltaTime;
@@ -242,39 +240,47 @@ public class Attributes : MonoBehaviour
         }
     }
 
-    private void IncreaseAge()
+    private void IncreaseAge(DateTime currentDateTime)
     {
-        currentAge++;
-        if (currentAge <= primeAge)
+        if (currentDateTime.DayOfMonth != lastDay)
         {
-            float ageScaler = (currentAge * currentAge) / (primeAge * primeAge);
+            lastDay = currentDateTime.DayOfMonth;
+            attributeBar.UpdateAgeNumber();
+            if (currentAge != attributeBar.ageYear)
+            {
+                currentAge = attributeBar.ageYear;
+                if (currentAge <= primeAge)
+                {
+                    float ageScaler = (currentAge * currentAge) / (primeAge * primeAge);
 
-            AgeToPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
-            AgeToPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
-            AgeToPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
-            AgeToPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
+                    AgeToPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
+                    AgeToPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
+                    AgeToPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
+                    AgeToPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
 
-            agility = initialAgility + (initialAgility * ageScaler);
-            attack = initialAttack + (initialAttack * ageScaler);
-            size = initialSize + (initialSize * ageScaler);
-        }
-        else if (currentAge <= maxAge)
-        {
-            float ageScaler = ((currentAge - primeAge) * (currentAge - primeAge)) / ((maxAge - primeAge) * (maxAge - primeAge));
+                    agility = initialAgility + (initialAgility * ageScaler);
+                    attack = initialAttack + (initialAttack * ageScaler);
+                    size = initialSize + (initialSize * ageScaler);
+                }
+                else if (currentAge <= maxAge)
+                {
+                    float ageScaler = ((currentAge - primeAge) * (currentAge - primeAge)) / ((maxAge - primeAge) * (maxAge - primeAge));
 
-            AgePastPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
-            AgePastPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
-            AgePastPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
-            AgePastPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
+                    AgePastPrime(ref currentHealth, ref maxHealth, initialHealth, ageScaler);
+                    AgePastPrime(ref currentStamina, ref maxStamina, initialStamina, ageScaler);
+                    AgePastPrime(ref currentHunger, ref maxHunger, initialHunger, ageScaler);
+                    AgePastPrime(ref currentThirst, ref maxThirst, initialThirst, ageScaler);
 
-            agility = (initialAgility * 2) - (initialAgility * ageScaler);
-            attack = (initialAttack * 2) - (initialAttack * ageScaler);
-            size = (initialSize * 2) - (initialSize * ageScaler);
-        }
-        else
-        {
-            Die();
-        }
+                    agility = (initialAgility * 2) - (initialAgility * ageScaler);
+                    attack = (initialAttack * 2) - (initialAttack * ageScaler);
+                    size = (initialSize * 2) - (initialSize * ageScaler);
+                }
+                else
+                {
+                    Die();
+                }
+            }
+        }   
     }
 
     private void AgeToPrime(ref float current, ref float max, float initial, float scaler)
@@ -313,8 +319,17 @@ public class Attributes : MonoBehaviour
             }
         }
 
+        TimeManager.OnDateTimeChanged -= IncreaseAge;
+
+        if (currentAge <= maxAge)
+        {
+            agent.AddReward(-1f);
+        }
+        else
+        {
+            agent.AddReward(1f);
+        }
         Destroy(gameObject);
-        agent.AddReward(-1f);
     }
 
 }
