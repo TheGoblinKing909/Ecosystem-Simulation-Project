@@ -53,10 +53,6 @@ public class Actions : MonoBehaviour
                 int harvest = actions.DiscreteActions[0];
                 if (harvest == 1)
                 {
-                    if (movement.currentLayer == 1)
-                    {
-                        HarvestWater();
-                    }
                     for (int i = 0; i < movement.collisions.Count; i++)
                     {
                         if (movement.collisions[i] != null)
