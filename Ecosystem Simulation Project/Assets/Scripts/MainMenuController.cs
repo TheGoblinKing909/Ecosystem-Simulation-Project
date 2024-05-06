@@ -111,7 +111,7 @@ public class MainMenuController : MonoBehaviour
             }
 
             mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
-            mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --force --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
+            mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --force --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --time-scale=1 --env-args " +
                 inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " + inputScale.ToString() + " " + inputPersistence.ToString() + " " +
                 inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " + inputEntDensity.ToString() + " " + loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
         }
@@ -154,7 +154,7 @@ public class MainMenuController : MonoBehaviour
                     }
 
                     mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
-                    mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --resume --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
+                    mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --resume --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --time-scale=1 --env-args " +
                         loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
                 }
             }
