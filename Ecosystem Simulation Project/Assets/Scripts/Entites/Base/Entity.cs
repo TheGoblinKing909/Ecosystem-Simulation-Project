@@ -47,6 +47,7 @@ public class Entity : Agent
 
     private float _CReward { get => (this.GetCumulativeReward()); set { } }
     private Attributes attributes;
+    private AttributeBar attributeBar;
     private Actions actions;
     private FieldOfView fov;
     private Movement movement;
@@ -56,6 +57,9 @@ public class Entity : Agent
         attributes = GetComponent<Attributes>();
         if (attributes == null) throw new System.Exception("Attributes not set for " + agentType  + " agent");
 
+        attributeBar = GetComponentInChildren<AttributeBar>();
+        if (attributeBar == null) throw new System.Exception("Attribute Bar not set in " + agentType + " agent ");
+
         actions = GetComponent<Actions>();
 
         fov = GetComponent<FieldOfView>();
@@ -63,7 +67,6 @@ public class Entity : Agent
 
         movement = GetComponent<Movement>();
         if (movement == null) throw new System.Exception("movment not set in " + agentType + " agent ");
-
     }
 
     public override void Initialize()
@@ -76,6 +79,7 @@ public class Entity : Agent
         Observation observation = new();
         AvgRewardsPerStep = _AvgRewardPerStep;
         CReward = _CReward;
+        attributeBar.UpdateAvgReward(AvgRewardsPerStep);
         sensor.AddObservation(attributes.currentHealth);
         sensor.AddObservation(attributes.currentHunger);
         sensor.AddObservation(attributes.currentThirst);

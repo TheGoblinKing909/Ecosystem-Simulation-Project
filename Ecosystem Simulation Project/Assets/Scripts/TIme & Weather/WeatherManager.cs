@@ -9,7 +9,7 @@ public class WeatherManager : MonoBehaviour
     public TimeManager timeManager;
     public TextMeshProUGUI Temperature;
     private int lastHour = -1;
-    private int temperature;
+    private float temperature;
     public WeatherEvent currentWeatherEvent;
 
     private WeatherEvent[] springEvents;
@@ -88,7 +88,7 @@ public class WeatherManager : MonoBehaviour
         //currentWeatherEvent = winterEvents[1];
     }
 
-    public int GetCurrentTemperature()
+    public float GetCurrentTemperature()
     {
         return temperature;
     }
@@ -122,7 +122,7 @@ public class WeatherManager : MonoBehaviour
 
     float CalculateCurrentTemperature(DateTime dateTime, float weatherOffset)
     {
-        float temperature = 0f;
+        temperature = 0f;
         switch (dateTime.Hour)
         {
             case 0:

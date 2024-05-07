@@ -10,6 +10,7 @@ public class AttributeBar : MonoBehaviour
     public Slider hungerBar;
     public Slider thirstBar;
     public TMPro.TextMeshProUGUI ageNumber;
+    public TMPro.TextMeshProUGUI avgReward;
     public int ageDay;
     public int ageMonth;
     public int ageYear;
@@ -56,5 +57,10 @@ public class AttributeBar : MonoBehaviour
         ageMonth = month;
         ageYear = year;
         ageNumber.text = "D:" + ageDay + " M:" + ageMonth + " Y:" + ageYear;
+    }
+
+    public void UpdateAvgReward(float reward)
+    {
+        avgReward.text = "R:" + reward;
     }
 }
