@@ -134,7 +134,12 @@ public class Attributes : MonoBehaviour
             float recoveryAmount = shelter.recoveryRate * Time.deltaTime;
             ModifyHealth(recoveryAmount);
             ModifyStamina(recoveryAmount);
-            agent.AddReward(rewards.GetHealthGainedReward(recoveryAmount));
+            var reward = rewards.GetAttributeReward(recoveryAmount, currentHealth, maxHealth);
+            if (reward > Rewards.Max)
+            {
+                Debug.Log($" Reward = {reward} > MaxReward = {Rewards.Max}");
+            }
+            agent.AddReward(reward);
         }
 
         attributeBar.UpdateHealthBar(currentHealth, maxHealth);
@@ -173,11 +178,18 @@ public class Attributes : MonoBehaviour
 
     public void ModifyHunger(float amount)
     {
+        float premodifiedHunger = currentHunger;
         currentHunger += amount;
+        var reward = rewards.GetAttributeReward(amount, premodifiedHunger, maxHunger);
         if (currentHunger > maxHunger)
         {
             float hungerGained = maxHunger - currentHunger;
-            agent.AddReward(rewards.GetHungerGainedReward(hungerGained));
+            reward = rewards.GetAttributeReward(hungerGained, premodifiedHunger, maxHunger);
+            if (reward > Rewards.Max)
+            {
+                Debug.Log($" Reward = {reward} > MaxReward = {Rewards.Max}");
+            }
+            agent.AddReward(reward);
             currentHunger = maxHunger;
             return;
         }
@@ -186,17 +198,32 @@ public class Attributes : MonoBehaviour
             currentHunger = 0;
             float hungerDamageTaken = -0.5f * Time.deltaTime;
             ModifyHealth(hungerDamageTaken);
+            return;
         }
-        agent.AddReward(rewards.GetHungerGainedReward(amount));
+        if (amount < 0)
+        {
+            if (currentHunger < (maxHunger / 4))
+            {
+                agent.AddReward(reward);
+            }
+            return;
+        }
+        agent.AddReward(reward);
     }
 
     public void ModifyThirst(float amount)
     {
+        var reward = rewards.GetAttributeReward(amount, currentThirst, maxThirst);
         currentThirst += amount;
         if(currentThirst > maxThirst)
         {
             float thirstGained = currentThirst - maxThirst;
-            agent.AddReward(rewards.GetThirstGainedReward(thirstGained));
+            reward = rewards.GetAttributeReward(thirstGained, currentThirst, maxThirst);
+            if (reward > Rewards.Max)
+            {
+                Debug.Log($" Reward = {reward} > MaxReward = {Rewards.Max}");
+            }
+            agent.AddReward(reward);
             currentThirst = maxThirst;
             return;
         }
@@ -205,17 +232,34 @@ public class Attributes : MonoBehaviour
             currentThirst = 0;
             float thirstDamageTaken = -0.5f * Time.deltaTime;
             ModifyHealth(thirstDamageTaken);
+            return;
         }
-        agent.AddReward(rewards.GetThirstGainedReward(amount));
+
+        if (amount < 0)
+        {
+            if (currentThirst < (maxThirst / 4))
+            {
+                agent.AddReward(reward);
+            }
+            return;
+        }
+        agent.AddReward(reward);
     }
 
     public void ModifyHealth(float amount)
     {
+
+        var reward = rewards.GetAttributeReward(amount, currentHealth, maxHealth);
         currentHealth += amount;
         if(currentHealth > maxHealth)
         {
             float healthGained = currentHealth - maxHealth;
-            agent.AddReward(rewards.GetHealthGainedReward(healthGained));
+            reward = rewards.GetAttributeReward(amount, currentHealth, maxHealth);
+            if (reward > Rewards.Max)
+            {
+                Debug.Log($" Reward = {reward} > MaxReward = {Rewards.Max}");
+            }
+            agent.AddReward(reward);
             currentHealth = maxHealth;
             return;
         }
@@ -224,7 +268,18 @@ public class Attributes : MonoBehaviour
             Die();
             return;
         }
-        agent.AddReward(rewards.GetHealthGainedReward(amount));
+
+        if(amount < 0)
+        {
+            if (currentHealth < (maxHealth / 2))
+            {
+                agent.AddReward(reward);
+            }
+            return;
+        }
+        agent.AddReward(reward);
+
+
     }
 
     public void ModifyStamina(float amount)
@@ -323,12 +378,10 @@ public class Attributes : MonoBehaviour
 
         if (currentAge <= maxAge)
         {
-            agent.AddReward(-1f);
+            agent.AddReward(-5f);
         }
-        else
-        {
-            agent.AddReward(1f);
-        }
+
+        agent.EndEpisode();
         Destroy(gameObject);
     }
 
