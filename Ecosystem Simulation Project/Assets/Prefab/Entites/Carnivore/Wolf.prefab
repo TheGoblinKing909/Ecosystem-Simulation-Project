@@ -467,7 +467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 60
+    VectorObservationSize: 62
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -519,22 +519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2edea86db2c4b4bb6d49f7bdfd94fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthGainReward: 1
-  minHealthGainReward: 0.01
-  maxHealthLossPunishment: -1
-  minHealthLossPunishment: -0.01
-  maxHungerGainReward: 2
-  minHungerGainReward: 0.01
-  maxHungerLossPunishment: -1
-  minHungerLossPunishment: -0.01
-  maxThirstGainReward: 0.7
-  minThirstGainReward: 0.01
-  maxThirstLossPunishment: -1
-  minThirstLossPunishment: -0.01
-  maxAttackReward: 0.01
-  minAttackReward: 0.01
-  maxAttackPunishment: -0.01
-  minAttackPunishment: -0.01
 --- !u!114 &7358968020964198116
 MonoBehaviour:
   m_ObjectHideFlags: 0

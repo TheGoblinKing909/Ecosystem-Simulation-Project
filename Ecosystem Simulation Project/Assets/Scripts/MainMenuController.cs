@@ -20,6 +20,8 @@ public class MainMenuController : MonoBehaviour
     public float[] low_values = { 50, 50, 1, 50, 1, 0.1f, 1, 0.001f, 0.001f };
     public float[] med_values = { 125, 125, 128, 100, 3, 0.3f, 3, 0.005f, 0.003f };
     public float[] high_values = { 200, 200, 255, 150, 5, 0.5f, 5, 0.01f, 0.005f };
+    public float[] min_values = { 50, 50, 1, 25, 1, 0.1f, 1, 0.001f, 0.001f };
+    public float[] max_values = { 200, 200, 10000, 150, 5, 0.5f, 5, 0.03f, 0.01f };
     public TMPro.TMP_Text worldNotFound;
 
     void Start()
@@ -42,20 +44,20 @@ public class MainMenuController : MonoBehaviour
                 // Parse input value as float
                 if (float.TryParse(value, out float floatValue))
                 {
-                    if (floatValue >= low_values[index] && floatValue <= high_values[index])
+                    if (floatValue >= min_values[index] && floatValue <= max_values[index])
                     {
                         // Update corresponding slider
                         sliders[index].value = floatValue;
                     }
-                    else if (floatValue < low_values[index])
+                    else if (floatValue < min_values[index])
                     {
-                        sliders[index].value = low_values[index];
-                        inputFields[index].text = low_values[index].ToString();
+                        sliders[index].value = min_values[index];
+                        inputFields[index].text = min_values[index].ToString();
                     }
-                    else if (floatValue > low_values[index])
+                    else if (floatValue > max_values[index])
                     {
-                        sliders[index].value = high_values[index];
-                        inputFields[index].text = high_values[index].ToString();
+                        sliders[index].value = max_values[index];
+                        inputFields[index].text = max_values[index].ToString();
                     }
                 }
             });
@@ -215,7 +217,7 @@ public class MainMenuController : MonoBehaviour
     {
         for (int i = 0; i < inputFields.Length; i++)
         {
-            sliders[i].value = low_values[i];
+            sliders[i].value = min_values[i];
             inputFields[i].text = "";
         }
         userWorldName.text = "";
