@@ -24,24 +24,25 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
-        // Add listeners to sliders
+        // Listeners for if sliders are changed
         for (int i = 0; i < sliders.Length; i++)
         {
-            int index = i; // To capture the current value of i in the lambda
+            int index = i;
             sliders[i].onValueChanged.AddListener((value) => {
                 // Update corresponding input field
                 inputFields[index].text = value.ToString();
             });
         }
-        // Add listeners to input fields
+        // Listeners for if input fields are changed
         for (int i = 0; i < inputFields.Length; i++)
         {
-            int index = i; // To capture the current value of i in the lambda
+            int index = i;
             inputFields[i].onEndEdit.AddListener((value) => {
 
                 // Parse input value as float
                 if (float.TryParse(value, out float floatValue))
                 {
+                    // Correct value if above/below its respective maximum/minimum
                     if (floatValue >= low_values[index] && floatValue <= high_values[index])
                     {
                         // Update corresponding slider
