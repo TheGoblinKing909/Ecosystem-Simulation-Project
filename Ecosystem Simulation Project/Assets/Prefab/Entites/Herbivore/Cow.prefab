@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4151978680767860636}
   - component: {fileID: 8925231870516245754}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: StaminaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,6 +89,140 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &746377696801801613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8462215985651580948}
+  - component: {fileID: 8808417333666181890}
+  - component: {fileID: 6147474303008962640}
+  m_Layer: 18
+  m_Name: AvgReward
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8462215985651580948
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746377696801801613}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7157119429339806482}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 54.999996}
+  m_SizeDelta: {x: 40, y: 15}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8808417333666181890
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746377696801801613}
+  m_CullTransparentMesh: 1
+--- !u!114 &6147474303008962640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746377696801801613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: R:0
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 10
+  m_fontSizeBase: 10
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -29.795746, y: 0, z: -29.997068, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1365890946902795904
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +234,7 @@ GameObject:
   - component: {fileID: 8362467143469060376}
   - component: {fileID: 4246751760923655106}
   - component: {fileID: 8075231918389965358}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +309,7 @@ GameObject:
   - component: {fileID: 1769730389803314570}
   - component: {fileID: 7431031927254270750}
   - component: {fileID: 4629009051846730309}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: AgeNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +363,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: D:0 M:0 Y:0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -256,8 +390,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -292,7 +426,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -30.043917, y: 0, z: -29.832346, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -317,7 +451,7 @@ GameObject:
   - component: {fileID: 7617848876019780080}
   - component: {fileID: 6567588244517450986}
   - component: {fileID: 6831305230518264491}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Cow
   m_TagString: Entity
   m_Icon: {fileID: 0}
@@ -400,8 +534,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.25}
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 0.6, y: 0.15}
   m_Direction: 1
 --- !u!114 &1341764872971762633
 MonoBehaviour:
@@ -445,7 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 4
+    VectorObservationSize: 62
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -481,7 +615,7 @@ MonoBehaviour:
   _viewAngle: 90
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524240
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
@@ -497,22 +631,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2edea86db2c4b4bb6d49f7bdfd94fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthGainReward: 1
-  minHealthGainReward: 0.01
-  maxHealthLossPunishment: -1
-  minHealthLossPunishment: -0.01
-  maxHungerGainReward: 2
-  minHungerGainReward: 0.01
-  maxHungerLossPunishment: -1
-  minHungerLossPunishment: -0.01
-  maxThirstGainReward: 0.7
-  minThirstGainReward: 0.01
-  maxThirstLossPunishment: -1
-  minThirstLossPunishment: -0.01
-  maxAttackReward: 0.01
-  minAttackReward: 0.01
-  maxAttackPunishment: -0.01
-  minAttackPunishment: -0.01
 --- !u!114 &-7709936612222318048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,8 +653,8 @@ MonoBehaviour:
   maxAge: 100
   primeAge: 50
   ageDelay: 10
-  hungerDecayRate: 2
-  thirstDecayRate: 2
+  hungerDecayRate: 1
+  thirstDecayRate: 1
   maxHealth: 100
   maxStamina: 100
   maxHunger: 100
@@ -555,7 +673,6 @@ MonoBehaviour:
   deathResource: {fileID: 4380840106439738494, guid: 4628e34d0e9b2d949ac3a0830f2dc666, type: 3}
   thermo_min: 0.45
   thermo_max: 0.75
-  ageTime: 0
   entityType: 0
   prefabIndex: 0
   isLoaded: 0
@@ -617,7 +734,7 @@ GameObject:
   - component: {fileID: 5049415055923680003}
   - component: {fileID: 1487806422006968213}
   - component: {fileID: 74571802167523969}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +811,7 @@ GameObject:
   - component: {fileID: 8694783221073311657}
   - component: {fileID: 1467744022687759991}
   - component: {fileID: 3285839619970149148}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -718,6 +835,7 @@ RectTransform:
   - {fileID: 3682884063225224349}
   - {fileID: 1600483432743464033}
   - {fileID: 1769730389803314570}
+  - {fileID: 8462215985651580948}
   m_Father: {fileID: 3516989761660300103}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -805,6 +923,10 @@ MonoBehaviour:
   hungerBar: {fileID: 8676910051092937561}
   thirstBar: {fileID: 5799002441339402373}
   ageNumber: {fileID: 4629009051846730309}
+  avgReward: {fileID: 6147474303008962640}
+  ageDay: 0
+  ageMonth: 0
+  ageYear: 0
 --- !u!1 &4000400071870541503
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,7 +936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7564187443479165699}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +974,7 @@ GameObject:
   - component: {fileID: 5882025862852791759}
   - component: {fileID: 7018813091755429809}
   - component: {fileID: 1059174719510391783}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +1047,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3637475140659607905}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -963,7 +1085,7 @@ GameObject:
   - component: {fileID: 2638318859654253445}
   - component: {fileID: 9060329302590397561}
   - component: {fileID: 8191642964710840755}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1038,7 +1160,7 @@ GameObject:
   - component: {fileID: 8371586866948376521}
   - component: {fileID: 3690921991014279156}
   - component: {fileID: 4786613893054940850}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,7 +1234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2802829795168127058}
   - component: {fileID: 6083969948578488326}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1202,7 +1324,7 @@ GameObject:
   - component: {fileID: 1052175707557476669}
   - component: {fileID: 7397469972453561338}
   - component: {fileID: 5103536170238948653}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1275,7 +1397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 818972216365092331}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1312,7 +1434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1600483432743464033}
   - component: {fileID: 5799002441339402373}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: ThirstBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1402,7 +1524,7 @@ GameObject:
   - component: {fileID: 2176558518756142376}
   - component: {fileID: 9149143077339204776}
   - component: {fileID: 3389971818823128972}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1477,7 +1599,7 @@ GameObject:
   - component: {fileID: 2210028475790850907}
   - component: {fileID: 4168621508469708303}
   - component: {fileID: 3838108988169215514}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1551,7 +1673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3682884063225224349}
   - component: {fileID: 8676910051092937561}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: HungerBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1639,7 +1761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2019465527438299742}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1676,7 +1798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2279276111376089645}
   - component: {fileID: 5385948993566447694}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

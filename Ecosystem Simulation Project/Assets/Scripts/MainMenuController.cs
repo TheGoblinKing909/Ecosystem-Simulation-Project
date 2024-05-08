@@ -20,43 +20,44 @@ public class MainMenuController : MonoBehaviour
     public float[] low_values = { 50, 50, 1, 50, 1, 0.1f, 1, 0.001f, 0.001f };
     public float[] med_values = { 125, 125, 128, 100, 3, 0.3f, 3, 0.005f, 0.003f };
     public float[] high_values = { 200, 200, 255, 150, 5, 0.5f, 5, 0.01f, 0.005f };
+    public float[] min_values = { 50, 50, 1, 25, 1, 0.1f, 1, 0.001f, 0.001f };
+    public float[] max_values = { 200, 200, 10000, 150, 5, 0.5f, 5, 0.03f, 0.01f };
     public TMPro.TMP_Text worldNotFound;
 
     void Start()
     {
-        // Listeners for if sliders are changed
+        // Add listeners to sliders
         for (int i = 0; i < sliders.Length; i++)
         {
-            int index = i;
+            int index = i; // To capture the current value of i in the lambda
             sliders[i].onValueChanged.AddListener((value) => {
                 // Update corresponding input field
                 inputFields[index].text = value.ToString();
             });
         }
-        // Listeners for if input fields are changed
+        // Add listeners to input fields
         for (int i = 0; i < inputFields.Length; i++)
         {
-            int index = i;
+            int index = i; // To capture the current value of i in the lambda
             inputFields[i].onEndEdit.AddListener((value) => {
 
                 // Parse input value as float
                 if (float.TryParse(value, out float floatValue))
                 {
-                    // Correct value if above/below its respective maximum/minimum
-                    if (floatValue >= low_values[index] && floatValue <= high_values[index])
+                    if (floatValue >= min_values[index] && floatValue <= max_values[index])
                     {
                         // Update corresponding slider
                         sliders[index].value = floatValue;
                     }
-                    else if (floatValue < low_values[index])
+                    else if (floatValue < min_values[index])
                     {
-                        sliders[index].value = low_values[index];
-                        inputFields[index].text = low_values[index].ToString();
+                        sliders[index].value = min_values[index];
+                        inputFields[index].text = min_values[index].ToString();
                     }
-                    else if (floatValue > low_values[index])
+                    else if (floatValue > max_values[index])
                     {
-                        sliders[index].value = high_values[index];
-                        inputFields[index].text = high_values[index].ToString();
+                        sliders[index].value = max_values[index];
+                        inputFields[index].text = max_values[index].ToString();
                     }
                 }
             });
@@ -112,7 +113,7 @@ public class MainMenuController : MonoBehaviour
             }
 
             mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
-            mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --force --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
+            mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --force --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --time-scale=1 --env-args " +
                 inputWidth.ToString() + " " + inputHeight.ToString() + " " + inputSeed.ToString() + " " + inputOctaves.ToString() + " " + inputScale.ToString() + " " + inputPersistence.ToString() + " " +
                 inputLacunarity.ToString() + " " + inputResDensity.ToString() + " " + inputEntDensity.ToString() + " " + loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
         }
@@ -155,7 +156,7 @@ public class MainMenuController : MonoBehaviour
                     }
 
                     mlagentsProcess.StandardInput.WriteLine("conda activate build-env");
-                    mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --resume --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --env-args " +
+                    mlagentsProcess.StandardInput.WriteLine("mlagents-learn trainer_config.yaml --run-id=" + worldName + @" --resume --env=""Simulation\Ecosystem Simulation Project.exe"" --width=1920 --height=1080 --time-scale=1 --env-args " +
                         loadWorld.ToString() + " " + worldName + " " + mlagentsProcess.Id.ToString());
                 }
             }
@@ -216,7 +217,7 @@ public class MainMenuController : MonoBehaviour
     {
         for (int i = 0; i < inputFields.Length; i++)
         {
-            sliders[i].value = low_values[i];
+            sliders[i].value = min_values[i];
             inputFields[i].text = "";
         }
         userWorldName.text = "";

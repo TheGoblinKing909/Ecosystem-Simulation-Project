@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6733954446268355409}
   - component: {fileID: 1761835373296496443}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 7552751604215570737}
   - component: {fileID: 1573959882439540631}
   - component: {fileID: 7864595831595979457}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 5971892430169765398}
   - component: {fileID: 7958278492579562595}
   - component: {fileID: 2054702474414075075}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,9 +306,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2263030192826731352}
   - component: {fileID: 411178171154377570}
-  - component: {fileID: 2298315059625814257}
+  - component: {fileID: 717653496427660451}
   - component: {fileID: 6274734185525448624}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: PinkFlower
   m_TagString: Resource
   m_Icon: {fileID: 0}
@@ -383,8 +383,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2298315059625814257
-BoxCollider2D:
+--- !u!70 &717653496427660451
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -415,19 +415,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4, y: 2.1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: -0.3}
+  m_Size: {x: 1.4, y: 1.5}
+  m_Direction: 0
 --- !u!114 &6274734185525448624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,13 +431,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceType: 7
-  AmountPerHarvest: 5
-  HarvestMax: 100
+  AmountPerHarvest: 22
   HealthMax: 100
-  HarvestRemaining: 0
+  HarvestMax: 75
   HealthRemaining: 0
-  HarvestRecovery: 2
+  HarvestRemaining: 0
   HealthRecovery: 2
+  HarvestRecovery: 2
   Thermo_min: 0.45
   Thermo_max: 0.75
   spriteRenderer: {fileID: 0}
@@ -462,7 +452,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1246160855252892918}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -498,7 +488,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4054573486383327717}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -536,7 +526,7 @@ GameObject:
   - component: {fileID: 5628158703283011273}
   - component: {fileID: 2764256895897673668}
   - component: {fileID: 6669687188257673927}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +601,7 @@ GameObject:
   - component: {fileID: 5747547801445273220}
   - component: {fileID: 6989612354214302321}
   - component: {fileID: 474475788643229263}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +676,7 @@ GameObject:
   - component: {fileID: 3789723562773863862}
   - component: {fileID: 4724688147066128166}
   - component: {fileID: 5913572000643297406}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,7 +750,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9079101384251618458}
   - component: {fileID: 6380264594821069533}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: HarvestBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

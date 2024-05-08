@@ -95,7 +95,7 @@ public class ObjectSpawner : MonoBehaviour {
                 layerNumber = tilemaps.Count - 1;
                 tile = null;
 
-                while ( layerNumber > -1 ) {
+                while ( layerNumber > 1 ) {
 
                     tile = tilemaps[layerNumber].GetTile(grid_xyz_pos);
                     if (tile == null) {
@@ -188,7 +188,7 @@ public class ObjectSpawner : MonoBehaviour {
             layerNumber = tilemaps.Count - 1;
             tile = null;
 
-            while ( layerNumber > -1 && spawnAmount > 0 ) {
+            while ( layerNumber > 1 && spawnAmount > 0 ) {
 
                 tile = tilemaps[layerNumber].GetTile(grid_xyz_pos);
 
@@ -268,7 +268,7 @@ public class ObjectSpawner : MonoBehaviour {
                 layerNumber = tilemaps.Count - 1;
                 tile = null;
 
-                while ( layerNumber > -1 ) {
+                while ( layerNumber > 1 ) {
 
                     tile = tilemaps[layerNumber].GetTile(grid_xyz_pos);
                     if (tile == null) {
@@ -310,22 +310,8 @@ public class ObjectSpawner : MonoBehaviour {
                                         instantiatedEntity.layer = layerNumber + 6;
                                         Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                                         movementScript.OnInstantiate();
-
-                                        if (instantiatedEntity.GetComponent<Carnivore>() != null)
-                                        {
-                                            Carnivore ent = instantiatedEntity.GetComponent<Carnivore>();
-                                            ent.prefabIndex = i;
-                                        }
-                                        else if (instantiatedEntity.GetComponent<Omnivore>() != null)
-                                        {
-                                            Omnivore ent = instantiatedEntity.GetComponent<Omnivore>();
-                                            ent.prefabIndex = i;
-                                        }
-                                        else
-                                        {
-                                            Herbivore ent = instantiatedEntity.GetComponent<Herbivore>();
-                                            ent.prefabIndex = i;
-                                        }
+                                        Attributes entityAttributes = instantiatedEntity.GetComponent<Attributes>();
+                                        entityAttributes.prefabIndex = i;
                                     
                                         totalEntityCount++;
 
@@ -358,6 +344,34 @@ public class ObjectSpawner : MonoBehaviour {
 
     }
 
+    public List<GameObject> InitializeModels()
+    {
+        List<GameObject> initialModels = new List<GameObject>();
+        Vector3 spawnPosition = new Vector3(0, 0, -10);
+        for (int i = 0; i < entityPrefabs.Count; i++)
+        {
+            GameObject instantiatedEntity = Instantiate(entityPrefabs[i], spawnPosition, Quaternion.identity, transform);
+            instantiatedEntity.layer = 16;
+            Movement movementScript = instantiatedEntity.GetComponent<Movement>();
+            movementScript.OnInstantiate();
+            Attributes entityAttributes = instantiatedEntity.GetComponent<Attributes>();
+            entityAttributes.prefabIndex = i;
+            initialModels.Add(instantiatedEntity);
+        }
+        UnityEngine.Debug.Log("initialized models");
+        return initialModels;
+    }
+
+    public void RemoveModels(List<GameObject> initialModels)
+    {
+        foreach (GameObject instantiatedEntity in initialModels)
+        {
+            Destroy(instantiatedEntity.gameObject);
+        }
+        initialModels.Clear();
+        UnityEngine.Debug.Log("removed models");
+    }
+
     public void SpawnEntities ( int spawnAmount ) {
 
         int layerNumber;
@@ -377,7 +391,7 @@ public class ObjectSpawner : MonoBehaviour {
             layerNumber = tilemaps.Count - 1;
             tile = null;
 
-            while ( layerNumber > -1 && spawnAmount > 0 ) {
+            while ( layerNumber > 1 && spawnAmount > 0 ) {
 
                 tile = tilemaps[layerNumber].GetTile(grid_xyz_pos);
 
@@ -415,22 +429,8 @@ public class ObjectSpawner : MonoBehaviour {
                             instantiatedEntity.layer = layerNumber + 6;
                             Movement movementScript = instantiatedEntity.GetComponent<Movement>();
                             movementScript.OnInstantiate();
-
-                            if (instantiatedEntity.GetComponent<Carnivore>() != null)
-                            {
-                                Carnivore ent = instantiatedEntity.GetComponent<Carnivore>();
-                                ent.prefabIndex = i;
-                            }
-                            else if (instantiatedEntity.GetComponent<Omnivore>() != null)
-                            {
-                                Omnivore ent = instantiatedEntity.GetComponent<Omnivore>();
-                                ent.prefabIndex = i;
-                            }
-                            else
-                            {
-                                Herbivore ent = instantiatedEntity.GetComponent<Herbivore>();
-                                ent.prefabIndex = i;
-                            }
+                            Attributes entityAttributes = instantiatedEntity.GetComponent<Attributes>();
+                            entityAttributes.prefabIndex = i;
 
                             spawned = true;
                             spawnAmount--;

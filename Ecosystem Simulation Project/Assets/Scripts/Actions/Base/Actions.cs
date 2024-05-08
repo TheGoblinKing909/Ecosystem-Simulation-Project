@@ -55,9 +55,12 @@ public class Actions : MonoBehaviour
                 {
                     for (int i = 0; i < movement.collisions.Count; i++)
                     {
-                        if (movement.collisions[i] != null && (movement.collisions[i].CompareTag("Resource") || movement.collisions[i].CompareTag("Shelter")))
+                        if (movement.collisions[i] != null)
                         {
-                            HarvestResource(movement.collisions[i]);
+                            if (movement.collisions[i].CompareTag("Resource") || movement.collisions[i].CompareTag("Shelter"))
+                            {
+                                HarvestResource(movement.collisions[i]);
+                            }
                         }
                     }
                     actionDelay = 0;

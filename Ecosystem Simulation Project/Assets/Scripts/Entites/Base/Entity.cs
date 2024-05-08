@@ -23,6 +23,21 @@ public enum AgentType
     Oragatan,
 }
 
+public enum ObservationType
+{
+    Entity,
+    Resource,
+    Water,
+}
+
+public class Observation
+{
+    public ObservationType ObservationType;
+    public int ObservationID = -1;
+    public Vector3 TargetPosition;
+
+}
+
 public class Entity : Agent
 {
     public AgentType agentType = AgentType.None;
@@ -32,21 +47,26 @@ public class Entity : Agent
 
     private float _CReward { get => (this.GetCumulativeReward()); set { } }
     private Attributes attributes;
+    private AttributeBar attributeBar;
     private Actions actions;
-    private AIManager manager;
     private FieldOfView fov;
+    private Movement movement;
 
     protected void OnInitalize()
     {
         attributes = GetComponent<Attributes>();
-        if (attributes == null) throw new System.Exception("Attributes not set for human agent");
+        if (attributes == null) throw new System.Exception("Attributes not set for " + agentType  + " agent");
+
+        attributeBar = GetComponentInChildren<AttributeBar>();
+        if (attributeBar == null) throw new System.Exception("Attribute Bar not set in " + agentType + " agent ");
 
         actions = GetComponent<Actions>();
-        manager = FindObjectOfType<AIManager>();
-        if (manager == null) throw new System.Exception("AIManager not set in HumanAgent parent");
 
         fov = GetComponent<FieldOfView>();
-        if (fov == null) throw new System.Exception("fov not set in "+ agentType +" agent parent");
+        if (fov == null) throw new System.Exception("fov not set in "+ agentType +" agent ");
+
+        movement = GetComponent<Movement>();
+        if (movement == null) throw new System.Exception("movment not set in " + agentType + " agent ");
     }
 
     public override void Initialize()
@@ -56,41 +76,66 @@ public class Entity : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        Observation observation = new();
         AvgRewardsPerStep = _AvgRewardPerStep;
         CReward = _CReward;
+        attributeBar.UpdateAvgReward(AvgRewardsPerStep);
+        sensor.AddObservation(attributes.currentHealth);
+        sensor.AddObservation(attributes.currentHunger);
+        sensor.AddObservation(attributes.currentThirst);
+        sensor.AddObservation(attributes.currentStamina);
         sensor.AddObservation(transform.position);
-        sensor.AddObservation(AvgRewardsPerStep);
 
         foreach (FieldOfView.VisibleTargetData data in fov.visibleTargets)
         {
+            Transform target = data.transform;
+            if(target != null)
+            {
                 Entity entity = data.entity;
-                Transform target = data.transform;
-                AgentType agentType = AgentType.None;
-                if (entity != null) { agentType = entity.agentType; }
-                Vector2 direction = (target.position - transform.position);
-                Vector3 entityData = new((float)agentType, direction.x, direction.y);
-                float distance = Vector2.Distance(transform.position, target.position);
-                sensor.AddObservation(entityData);
-                sensor.AddObservation(distance);
-                Vector3 resourceObservation = new Vector3(distance, direction.x, direction.y);
-                sensor.AddObservation(resourceObservation);
+                Resource resource = data.resource;
+                Water water = data.water;
+                Vector3 targetPosition = target.position;
+                if (entity != null) {
+                    observation.ObservationType = ObservationType.Entity;
+                    observation.ObservationID = (int)entity.agentType;
+                }
+                else if (resource != null) {
+                    observation.ObservationType = ObservationType.Resource;
+                    observation.ObservationID = (int)resource.resourceType;
+                }
+                else if (water != null)
+                {
+                    observation.ObservationType = ObservationType.Water;
+                    observation.ObservationID = (int)ResourceType.Water;
+                    targetPosition = data.waterPosition;
+                }
+                Vector2 transformPos2 = new Vector2(transform.position.x, transform.position.y);
+                Vector2 targetPos2 = new Vector2(targetPosition.x, targetPosition.y);
+                Vector2 direction = (targetPos2 - transformPos2).normalized;
+                float distance = Vector2.Distance(transformPos2, targetPos2);
+                observation.TargetPosition = new Vector3(distance, direction.x, direction.y);
+                if (distance != 0)
+                {
+                    SendObservations(observation, sensor);
+                }
+            }
         }
 
-        //foreach(Transform entites in manager.entites)
-        //{
-        //    sensor.AddObservation(2);
-        //    Vector2 direction = (entites.position - transform.position).normalized;
-        //    float distance = Vector3.Distance(transform.position, entites.position);
-        //    Vector3 entityObservation = new Vector3(distance, direction.x, direction.y);
-        //    sensor.AddObservation(entityObservation);
-        //}
+    }
+
+    private void SendObservations(Observation observation, VectorSensor sensor)
+    {
+        if(observation.ObservationID < 0) { return; }
+        sensor.AddObservation((int)observation.ObservationType);
+        sensor.AddObservation(observation.ObservationID);
+        sensor.AddObservation(observation.TargetPosition);
     }
 
     public override void OnEpisodeBegin()
     {
         //reset episodes
-        attributes.EpisodeBegin();
-        actions.EpisodeBegin();
+        // attributes.EpisodeBegin();
+        // actions.EpisodeBegin();
     }
 
     public override void OnActionReceived(ActionBuffers input)
@@ -115,7 +160,7 @@ public class Entity : Agent
         attributes.currentStamina += effects.StaminaEffect;
         attributes.currentHunger += effects.HungerEffect;
         attributes.currentThirst += effects.ThirstEffect;
-        attributes.agility += effects.AgilityEffect;
+        // attributes.agility += effects.AgilityEffect;
 
         attributes.hungerDecayRate += effects.HungerDecayRateEffect;
         attributes.thirstDecayRate += effects.ThirstDecayRateEffect;
