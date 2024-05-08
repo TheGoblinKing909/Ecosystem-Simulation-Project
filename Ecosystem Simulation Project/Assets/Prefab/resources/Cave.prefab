@@ -469,8 +469,9 @@ MonoBehaviour:
   HarvestMax: 50
   HealthRemaining: 0
   HarvestRemaining: 0
-  HealthRecovery: 5
-  HarvestRecovery: 1
+  HealthRecovery: 0.5
+  HarvestRecovery: 0.5
+  DeadEnitityTimer: 0
   Thermo_min: 0.45
   Thermo_max: 0.75
   spriteRenderer: {fileID: 411178171154377570}

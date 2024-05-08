@@ -183,7 +183,7 @@ public class Attributes : MonoBehaviour
         var reward = rewards.GetAttributeReward(amount, premodifiedHunger, maxHunger);
         if (currentHunger > maxHunger)
         {
-            float hungerGained = maxHunger - currentHunger;
+            float hungerGained = maxHunger - premodifiedHunger;
             reward = rewards.GetAttributeReward(hungerGained, premodifiedHunger, maxHunger);
             if (reward > Rewards.Max)
             {
@@ -214,11 +214,12 @@ public class Attributes : MonoBehaviour
     public void ModifyThirst(float amount)
     {
         var reward = rewards.GetAttributeReward(amount, currentThirst, maxThirst);
+        float premodifiedThirst = currentThirst;
         currentThirst += amount;
         if(currentThirst > maxThirst)
         {
-            float thirstGained = currentThirst - maxThirst;
-            reward = rewards.GetAttributeReward(thirstGained, currentThirst, maxThirst);
+            float thirstGained = maxThirst - premodifiedThirst;
+            reward = rewards.GetAttributeReward(thirstGained, premodifiedThirst, maxThirst);
             if (reward > Rewards.Max)
             {
                 Debug.Log($" Reward = {reward} > MaxReward = {Rewards.Max}");
@@ -250,11 +251,12 @@ public class Attributes : MonoBehaviour
     {
 
         var reward = rewards.GetAttributeReward(amount, currentHealth, maxHealth);
+        float premodifiedHealth = currentHealth;
         currentHealth += amount;
         if(currentHealth > maxHealth)
         {
-            float healthGained = currentHealth - maxHealth;
-            reward = rewards.GetAttributeReward(amount, currentHealth, maxHealth);
+            float healthGained = maxHealth - premodifiedHealth;
+            reward = rewards.GetAttributeReward(healthGained, premodifiedHealth, maxHealth);
             if (reward > Rewards.Max)
             {
                 Debug.Log($" Reward = {reward} > MaxReward = {Rewards.Max}");

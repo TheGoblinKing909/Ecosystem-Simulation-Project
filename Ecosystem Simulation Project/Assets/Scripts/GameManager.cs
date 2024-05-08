@@ -109,8 +109,16 @@ public class GameManager : MonoBehaviour
             WorldGenerator.PlaceTiles(inputWidth, inputHeight, noiseMap, grid, tilemaps, tileList);
             resourceSpawner.OnInstantiate();
             resourceMax = resourceSpawner.PlaceResources();
+            if (resourceMax < 1)
+            {
+                resourceMax = 1;
+            }
             entitySpawner.OnInstantiate();
             entityMax = entitySpawner.PlaceEntities();
+            if (entityMax < 1)
+            {
+                entityMax = 1;
+            }
             initialModels = entitySpawner.InitializeModels();
         }
         else
@@ -223,6 +231,8 @@ public class GameManager : MonoBehaviour
         saveData.lacunarity = inputLacunarity;
         saveData.resDensity = inputResDensity;
         saveData.entDensity = inputEntDensity;
+        saveData.resMax = resourceMax;
+        saveData.entMax = entityMax;
 
         foreach (Transform child in resourceSpawner.transform)
         {
@@ -289,6 +299,8 @@ public class GameManager : MonoBehaviour
         inputLacunarity = saveData.lacunarity;
         inputResDensity = saveData.resDensity;
         inputEntDensity = saveData.entDensity;
+        resourceMax = saveData.resMax;
+        entityMax = saveData.entMax;
 
         float[,] noiseMap = WorldGenerator.GenerateNoiseMap(inputWidth, inputHeight, inputSeed, inputScale, inputOctaves, inputPersistence, inputLacunarity, offset);
         WorldGenerator.PlaceTiles(inputWidth, inputHeight, noiseMap, grid, tilemaps, tileList);
@@ -342,6 +354,8 @@ public class SaveData
     public float lacunarity;
     public float resDensity;
     public float entDensity;
+    public float resMax;
+    public float entMax;
     public List<ResourceData> resources = new List<ResourceData>();
     public List<EntityData> entities = new List<EntityData>();
     public int minutes;

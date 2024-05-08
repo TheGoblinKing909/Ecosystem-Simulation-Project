@@ -94,6 +94,7 @@ public class Entity : Agent
                 Entity entity = data.entity;
                 Resource resource = data.resource;
                 Water water = data.water;
+                Vector3 targetPosition = target.position;
                 if (entity != null) {
                     observation.ObservationType = ObservationType.Entity;
                     observation.ObservationID = (int)entity.agentType;
@@ -106,12 +107,17 @@ public class Entity : Agent
                 {
                     observation.ObservationType = ObservationType.Water;
                     observation.ObservationID = (int)ResourceType.Water;
+                    targetPosition = data.waterPosition;
                 }
-                Vector2 direction = (target.position - transform.position);
-                float distance = Vector2.Distance(transform.position, target.position);
+                Vector2 transformPos2 = new Vector2(transform.position.x, transform.position.y);
+                Vector2 targetPos2 = new Vector2(targetPosition.x, targetPosition.y);
+                Vector2 direction = (targetPos2 - transformPos2).normalized;
+                float distance = Vector2.Distance(transformPos2, targetPos2);
                 observation.TargetPosition = new Vector3(distance, direction.x, direction.y);
-                SendObservations(observation, sensor);
-
+                if (distance != 0)
+                {
+                    SendObservations(observation, sensor);
+                }
             }
         }
 
