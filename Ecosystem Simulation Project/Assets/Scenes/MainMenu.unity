@@ -15728,7 +15728,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Load/Delete World
+  m_text: Load World
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0ca5f65dc53dfd84d8a99f307f067f91, type: 2}
   m_sharedMaterial: {fileID: 2119896563553147675, guid: 0ca5f65dc53dfd84d8a99f307f067f91, type: 2}

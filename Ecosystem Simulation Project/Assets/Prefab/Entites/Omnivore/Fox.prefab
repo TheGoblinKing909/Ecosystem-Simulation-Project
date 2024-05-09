@@ -507,12 +507,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialHealth: 100
-  initialStamina: 100
+  initialStamina: 110
   initialHunger: 100
   initialThirst: 100
-  initialAgility: 2
-  initialAttack: 15
-  initialSize: 5
+  initialAgility: 2.5
+  initialAttack: 20
+  initialSize: 6
   maxAge: 100
   primeAge: 50
   ageDelay: 10

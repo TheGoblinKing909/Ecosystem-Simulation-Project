@@ -531,13 +531,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9920cb47b37882439ac6202dd9c6e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHealth: 100
-  initialStamina: 100
+  initialHealth: 120
+  initialStamina: 95
   initialHunger: 100
   initialThirst: 100
-  initialAgility: 2
-  initialAttack: 20
-  initialSize: 5
+  initialAgility: 2.4
+  initialAttack: 30
+  initialSize: 7
   maxAge: 100
   primeAge: 50
   ageDelay: 10
